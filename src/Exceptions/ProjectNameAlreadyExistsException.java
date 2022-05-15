@@ -1,5 +1,6 @@
 package Exceptions;
 
+@SuppressWarnings("serial")
 public class ProjectNameAlreadyExistsException extends Exception{
 	
 	private static final String MESSAGE = "%s project already exists.";
