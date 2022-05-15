@@ -1,5 +1,6 @@
 package Exceptions;
 
+@SuppressWarnings("serial")
 public class ProjectNotManagedByUserException extends Exception{
 
 	private static final String MESSAGE = "%s is managed by %s.";
