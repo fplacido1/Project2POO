@@ -1,5 +1,8 @@
 import java.util.*;
 
+import System.VCSystem;
+import System.VCSystemClass;
+
 public class Main {
 	
 	private static final String BYE = "Bye!";
