@@ -2,9 +2,6 @@ import java.util.*;
 import VCSystem.*;
 import Exceptions.*;
 
-import System.VCSystem;
-import System.VCSystemClass;
-
 public class Main {
 	
 	private static final String BYE = "Bye!";
@@ -107,7 +104,7 @@ public class Main {
 	}
 	
 	
-	//TODO dúvida try catch
+	//TODO dï¿½vida try catch
 	private static void getAllUsers(VCSystem vc) {
 		if(vc.numUsers() == 0) {
 			System.out.println(NO_USERS);
@@ -117,7 +114,7 @@ public class Main {
 		//TODO ciclo while
 	}
 
-	//TODO dúvida project Type
+	//TODO dï¿½vida project Type
 	private static void createNewProject(VCSystem vc, Scanner in) {
 		String projMng = in.next();
 		String type = in.next();
