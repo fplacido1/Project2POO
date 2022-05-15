@@ -10,6 +10,9 @@ public class Main {
 	private static final String ADDED_USER = "User %s was registered as %s %s with clearance level %d.\n";
 	private static final String DEV = "developer";
 	private static final String MNG = "manager";
+	private static final String NO_USERS = "No users registered.";
+	private static final String INHOUSE = "inhouse";
+	private static final String OUTSRC = "outsourced";
 	
 	
 	
@@ -86,7 +89,7 @@ public class Main {
 				System.out.printf(ADDED_USER, name, DEV, jobPosition, clearanceLvl);
 			}
 			else {
-				System.out.printf(ADDED_USER, name,  MNG,jobPosition, clearanceLvl);
+				System.out.printf(ADDED_USER, name, MNG, jobPosition, clearanceLvl);
 			}
 		}
 		catch(UnknowJobPositionException e) {
@@ -101,16 +104,28 @@ public class Main {
 	}
 	
 	
-	
+	//TODO dúvida try catch
 	private static void getAllUsers(VCSystem vc) {
-		// TODO Auto-generated method stub
-		
+		if(vc.numUsers() == 0) {
+			System.out.println(NO_USERS);
+		}
+		else {
+			Iterator<Users> it = vc.getAllUsers();
+		//TODO ciclo while
 	}
 
-	
+	//TODO dúvida project Type
 	private static void createNewProject(VCSystem vc, Scanner in) {
-		// TODO Auto-generated method stub
-		
+		String projMng = in.next();
+		String type = in.next();
+		String projName = in.nextLine();
+		int numKeyWords = in.nextInt();
+		List<String> keyWords = new ArrayList<>(numKeyWords);
+		for(int i = 0; i< numKeyWords; i++) {
+			keyWords.add(in.next());
+		}
+		in.nextLine();
+	
 	}
 
 
