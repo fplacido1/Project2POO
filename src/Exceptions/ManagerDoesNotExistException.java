@@ -5,7 +5,7 @@ public class ManagerDoesNotExistException extends Exception {
 
 	private static final String MESSAGE = "Project manager %s does not exists.\n";
 	
-	public ManagerDoesNotExistException() {
-		super(MESSAGE);
+	public ManagerDoesNotExistException(String param) {
+		super(String.format(MESSAGE, param));
 	}
 }

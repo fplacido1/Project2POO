@@ -51,21 +51,21 @@ public class Main {
 
 	private static void chooseCommand(Command command, Scanner in, VCSystem vc) {
 		switch(command) {
-		case REGISTER: registerUser(vc, in); break;
-		case USERS: in.nextLine(); getAllUsers(vc); break;
-		case CREATE: createNewProject(vc, in); break;
-		case PROJECTS: getAllProjects(vc, in); break;
-		case TEAM: addTeamMembers(vc, in); break;
-		case ARTEFACTS: addArtefact(vc, in); break;
-		case PROJECT: getInHouseDetails(vc, in); break;
-		case REVISION: reviseArtefact(vc, in); break;
-		case MANAGED: getAllManaged(vc, in); break;
-		case KEYWORD: filterByKeyword(vc, in); break;
-		case CONFIDENTIALITY: filterByConfidentiality(vc, in); break;
-		case WORKAHOLICS: getWorkaholics(vc, in); break;
-		case COMMON: moreProjectsInCommon(vc, in); break;
-		case HELP: help(); break;
-		default: break;
+		case REGISTER:        registerUser(vc, in);           break;
+		case USERS:           in.nextLine(); getAllUsers(vc); break;
+		case CREATE:          createNewProject(vc, in);       break;
+		case PROJECTS:        getAllProjects(vc, in);         break;
+		case TEAM:            addTeamMembers(vc, in);         break;
+		case ARTEFACTS:       addArtefact(vc, in);            break;
+		case PROJECT:         getInHouseDetails(vc, in);      break;
+		case REVISION:        reviseArtefact(vc, in);         break;
+		case MANAGED:         getAllManaged(vc, in);          break;
+		case KEYWORD:         filterByKeyword(vc, in);        break;
+		case CONFIDENTIALITY: filterByConfidentiality(vc, in);break;
+		case WORKAHOLICS:     getWorkaholics(vc, in);         break;
+		case COMMON:          moreProjectsInCommon(vc, in);   break;
+		case HELP:            help();                         break;
+		default:                                              break;
 		}
 		
 	}
@@ -115,7 +115,6 @@ public class Main {
 		}
 	}
 
-	//TODO duvida project Type
 	private static void createNewProject(VCSystem vc, Scanner in) {
 		String projMng = in.next();
 		String type = in.next();
@@ -125,9 +124,13 @@ public class Main {
 		for(int i = 0; i< numKeyWords; i++) {
 			keyWords.add(in.next());
 		}
+		in.nextLine();
 		try {
 			vc.checkProjType(type);
-			//continuar
+			switch(type) {
+			case INHOUSE: createInHouse(vc, projMng, projName, keyWords, in);   break;
+			case OUTSRC:  createOutSourced(vc, projMng, projName, keyWords, in);break;
+			}
 		}
 		catch(UnknownProjectTypeException e){
 			System.out.println(e.getMessage());
@@ -138,12 +141,35 @@ public class Main {
 	}
 
 
+	private static void createOutSourced(VCSystem vc, String projMng, String projName, List<String> keyWords, Scanner in) {
+		String companyName = in.nextLine().trim();
+		vc.createNewOutSourcedProj(projMng, projName, keyWords, companyName);
+	}
+
+
+	private static void createInHouse(VCSystem vc, String projMng, String projName, List<String> keyWords, Scanner in) {
+		int confLvl = in.nextInt();
+		vc.createNewInHouseProj(projMng, projName, keyWords, confLvl);
+	}
+
+	
+	
+	
+
 	private static void getAllProjects(VCSystem vc, Scanner in) {
 		// TODO Auto-generated method stub
 		
 	}
 
-
+	/**
+	 * This method creates a new project
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+	 */
 	private static void addTeamMembers(VCSystem vc, Scanner in) {
 		String mngName = in.next();
 		String projectName = in.nextLine().trim();
@@ -152,18 +178,20 @@ public class Main {
 		for(int i = 0; i < numUsers; i++) {
 			names.add(in.next());
 		}
-		for(int j = 0; j < numUsers; j++) {
-			try {
-				vc.addUserToProj(mngName, projectName, names.get(j));
-				System.out.printf(ADDED_TO_TEAM, names.get(j));
+		try {
+			vc.checkProjAndMng(mngName, projectName);
+			for(int j = 0; j < numUsers; j++) {
+				try {
+					vc.addUserToProj(mngName, projectName, names.get(j));
+					System.out.printf(ADDED_TO_TEAM, names.get(j));
+				}
+				catch (UserDoesNotExistException | AlreadyTeamMemberException | InsufficientClearanceLevelException e) {
+					System.out.printf(e.getMessage(), names.get(j));
+				}
 			}
-			catch (ManagerDoesNotExistException | ProjectNameDoesNotExistsException | ProjectNotManagedByUserException e){
-				System.out.printf(e.getMessage(), names.get(j));
-				break;
-			}
-			catch (UserDoesNotExistException | AlreadyTeamMemberException | InsufficientClearanceLevelException e) {
-				System.out.printf(e.getMessage(), names.get(j));
-			}
+		}
+		catch(ManagerDoesNotExistException | ProjectNameDoesNotExistsException | ProjectNotManagedByUserException e){
+			System.out.println(e.getMessage());
 		}
 		in.nextLine();
 	}

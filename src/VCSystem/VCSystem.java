@@ -1,6 +1,5 @@
 package VCSystem;
-import java.util.Iterator;
-
+import java.util.*;
 import Exceptions.*;
 
 public interface VCSystem {
@@ -21,5 +20,13 @@ public interface VCSystem {
 																				 InsufficientClearanceLevelException;
 
 	void checkProjType(String type) throws UnknownProjectTypeException;
+
+	void createNewInHouseProj(String projMng, String projName, List<String> keyWords, int confLvl);
+
+	void createNewOutSourcedProj(String projMng, String projName, List<String> keyWords, String companyName);
+
+	void checkProjAndMng(String mngName, String projectName) throws ManagerDoesNotExistException,
+																	ProjectNameDoesNotExistsException,
+																	ProjectNotManagedByUserException;
 
 }
