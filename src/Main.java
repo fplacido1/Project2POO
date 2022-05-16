@@ -13,6 +13,7 @@ public class Main {
 	private static final String NO_USERS = "No users registered.";
 	private static final String INHOUSE = "inhouse";
 	private static final String OUTSRC = "outsourced";
+	private static final String ADDED_TO_TEAM = "%s: added to team.\n";
 	
 	
 	
@@ -104,17 +105,18 @@ public class Main {
 	}
 	
 	
-	//TODO d�vida try catch
+	//TODO duvida try catch
 	private static void getAllUsers(VCSystem vc) {
 		if(vc.numUsers() == 0) {
 			System.out.println(NO_USERS);
 		}
 		else {
-			Iterator<Users> it = vc.getAllUsers();
+//			Iterator<Users> it = vc.getAllUsers();
 		//TODO ciclo while
+		}
 	}
 
-	//TODO d�vida project Type
+	//TODO duvida project Type
 	private static void createNewProject(VCSystem vc, Scanner in) {
 		String projMng = in.next();
 		String type = in.next();
@@ -136,8 +138,27 @@ public class Main {
 
 
 	private static void addTeamMembers(VCSystem vc, Scanner in) {
-		// TODO Auto-generated method stub
-		
+		String mngName = in.next();
+		String projectName = in.nextLine().trim();
+		int numUsers = in.nextInt();
+		List<String> names = new ArrayList<>(numUsers);
+		for(int i = 0; i < numUsers; i++) {
+			names.add(in.next());
+		}
+		for(int j = 0; j < numUsers; j++) {
+			try {
+				vc.addUserToProj(mngName, projectName, names.get(j));
+				System.out.printf(ADDED_TO_TEAM, names.get(j));
+			}
+			catch (ManagerDoesNotExistException | ProjectNameDoesNotExistsException | ProjectNotManagedByUserException e){
+				System.out.printf(e.getMessage(), names.get(j));
+				break;
+			}
+			catch (UserDoesNotExistException | AlreadyTeamMemberException | InsufficientClearanceLevelException e) {
+				System.out.printf(e.getMessage(), names.get(j));
+			}
+		}
+		in.nextLine();
 	}
 
 

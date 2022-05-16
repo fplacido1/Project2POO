@@ -9,8 +9,15 @@ public interface VCSystem {
 																		   UserAlreadyExistsException,
 																		   ProjectManagerDoesNotExistsException;
 
-	Iterator<Users> getAllUsers();
+//	Iterator<Users> getAllUsers();
 
 	int numUsers();
+
+	void addUserToProj(String mngName, String projectName, String string) throws ManagerDoesNotExistException,
+																				 ProjectNameDoesNotExistsException,
+																				 ProjectNotManagedByUserException,
+																				 UserDoesNotExistException,
+																				 AlreadyTeamMemberException,
+																				 InsufficientClearanceLevelException;
 
 }
