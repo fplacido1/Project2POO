@@ -20,4 +20,6 @@ public interface VCSystem {
 																				 AlreadyTeamMemberException,
 																				 InsufficientClearanceLevelException;
 
+	void checkProjType(String type) throws UnknownProjectTypeException;
+
 }

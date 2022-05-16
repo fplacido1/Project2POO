@@ -105,7 +105,6 @@ public class Main {
 	}
 	
 	
-	//TODO duvida try catch
 	private static void getAllUsers(VCSystem vc) {
 		if(vc.numUsers() == 0) {
 			System.out.println(NO_USERS);
@@ -126,8 +125,16 @@ public class Main {
 		for(int i = 0; i< numKeyWords; i++) {
 			keyWords.add(in.next());
 		}
-		in.nextLine();
-	
+		try {
+			vc.checkProjType(type);
+			//continuar
+		}
+		catch(UnknownProjectTypeException e){
+			System.out.println(e.getMessage());
+		}
+		finally {
+			in.nextLine();
+		}	
 	}
 
 
