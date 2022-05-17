@@ -5,8 +5,8 @@ public class UserDoesNotExistException extends Exception{
 	
 	private static final String MESSAGE = "%s: does not exist.";
 	
-	public UserDoesNotExistException() {
-		super(MESSAGE);
+	public UserDoesNotExistException(String param) {
+		super(String.format(MESSAGE, param));
 	}
 	
 
