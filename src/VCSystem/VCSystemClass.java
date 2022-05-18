@@ -1,11 +1,18 @@
 package VCSystem;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import Exceptions.*;
 
 public class VCSystemClass implements VCSystem {
+	
+	private Map<String, User> Users;
+	private Map<String, Projects> Projects;
+	
+	public VCSystemClass() {
+		Users = new HashMap<>();
+		Projects = new HashMap<>();
+	}
 
 	@Override
 	public void addUser(String jobPosition, String name, int clearanceLvl)
@@ -15,7 +22,7 @@ public class VCSystemClass implements VCSystem {
 	}
 
 	@Override
-	public Iterator<Users> getAllUsers() {
+	public Iterator<User> getAllUsers() {
 		// TODO Auto-generated method stub
 		return null;
 	}
