@@ -7,10 +7,14 @@ public class Main {
 	private static final String BYE = "Bye!";
 	private static final String UNKNOWN_COMMAND = "Unknown command. Type help to see available commands.";
 	private static final String FORMAT_HELP = "%s - %s\n";
-	private static final String ADDED_USER = "User %s was registered as %s %s with clearance level %d.\n";
+	private static final String ADDED_DEV = "User %s was registered as software developer with clearance level %d.\n";
+	private static final String ADDED_MNG = "User %s was registered as project manager with clearance level %d.\n";
 	private static final String DEV = "developer";
 	private static final String MNG = "manager";
 	private static final String NO_USERS = "No users registered.";
+	private static final String ALL_USERS = "All registered users:";
+	private static final String DEV_REG = "developer %s is managed by %s [%d]\n";
+	private static final String MNG_REG = "manager %s [%d ,%d , %d]\n";
 	private static final String INHOUSE = "inhouse";
 	private static final String OUTSRC = "outsourced";
 	private static final String ADDED_TO_TEAM = "%s: added to team.\n";
@@ -52,18 +56,18 @@ public class Main {
 	private static void chooseCommand(Command command, Scanner in, VCSystem vc) {
 		switch(command) {
 		case REGISTER:        registerUser(vc, in);           break;
-		case USERS:           in.nextLine(); getAllUsers(vc); break;
-		case CREATE:          createNewProject(vc, in);       break;
-		case PROJECTS:        getAllProjects(vc, in);         break;
-		case TEAM:            addTeamMembers(vc, in);         break;
-		case ARTEFACTS:       addArtefact(vc, in);            break;
-		case PROJECT:         getInHouseDetails(vc, in);      break;
-		case REVISION:        reviseArtefact(vc, in);         break;
-		case MANAGED:         getAllManaged(vc, in);          break;
-		case KEYWORD:         filterByKeyword(vc, in);        break;
-		case CONFIDENTIALITY: filterByConfidentiality(vc, in);break;
-		case WORKAHOLICS:     getWorkaholics(vc, in);         break;
-		case COMMON:          moreProjectsInCommon(vc, in);   break;
+		case USERS:           in.nextLine(); getAllUsers(vc); break;//TODO
+		case CREATE:          createNewProject(vc, in);       break;//TODO
+		case PROJECTS:        getAllProjects(vc, in);         break;//TODO
+		case TEAM:            addTeamMembers(vc, in);         break;//TODO
+		case ARTEFACTS:       addArtefact(vc, in);            break;//TODO
+		case PROJECT:         getInHouseDetails(vc, in);      break;//TODO
+		case REVISION:        reviseArtefact(vc, in);         break;//TODO
+		case MANAGED:         getAllManaged(vc, in);          break;//TODO
+		case KEYWORD:         filterByKeyword(vc, in);        break;//TODO
+		case CONFIDENTIALITY: filterByConfidentiality(vc, in);break;//TODO
+		case WORKAHOLICS:     getWorkaholics(vc, in);         break;//TODO
+		case COMMON:          moreProjectsInCommon(vc, in);   break;//TODO
 		case HELP:            help();                         break;
 		default:                                              break;
 		}
@@ -83,38 +87,88 @@ public class Main {
 	private static void registerUser(VCSystem vc, Scanner in) {
 		String jobPosition = in.next();
 		String name = in.next();
-		int clearanceLvl = in.nextInt();
 		try {
-			vc.addUser(jobPosition, name, clearanceLvl);
-			if(jobPosition.equals(DEV)) {
-				System.out.printf(ADDED_USER, name, DEV, jobPosition, clearanceLvl);
+			vc.checkJobPos(jobPosition);
+			switch(jobPosition) {
+			case MNG:
+				int clearanceLvl = in.nextInt();
+				addManager(name, clearanceLvl, vc); break;
+			case DEV:
+				String manager = in.next();
+				int clearLvl = in.nextInt();
+				addDeveloper(name, manager, clearLvl, vc);
 			}
-			else {
-				System.out.printf(ADDED_USER, name, MNG, jobPosition, clearanceLvl);
-			}
-		}
-		catch(UnknowJobPositionException e) {
+		}catch(UnknowJobPositionException e) {
 			System.out.println(e.getMessage());
 		}
-		catch(UserAlreadyExistsException | ProjectManagerDoesNotExistsException e) {
-			System.out.printf(e.getMessage(), name);
+		in.nextLine();
+	}
+	
+	/**
+	 * This method registers a manager
+	 * to the system
+	 * @param name, name of the manager
+	 * @param clearanceLvl, clearance
+	 * level of the manager
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 */
+	private static void addManager(String name, int clearanceLvl, VCSystem vc) {
+		try {
+			User u = vc.addManager(name, clearanceLvl);
+			System.out.printf(ADDED_MNG, u.getName(), u.getClearanceLvl());
 		}
-		finally {
-			in.nextLine();
+		catch(UserAlreadyExistsException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 	
+	/**
+	 * This method registers a developer
+	 * to the system
+	 * @param name, name of the developer
+	 * @param mng, name of the manager
+	 * @param clearanceLvl, clearance
+	 * level of the manager
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 */
+	private static void addDeveloper(String name, String mng, int clearanceLvl,VCSystem vc) {
+		try {
+			User u = vc.addDeveloper(name, mng, clearanceLvl);
+			System.out.printf(ADDED_DEV, u.getName(), u.getClearanceLvl());
+		}
+		catch(UserAlreadyExistsException | ManagerDoesNotExistException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 	
+	//TODO: DÚVIDA RELATIVA AO FACTO DE OS MANAGERS TAMBEM SEREM DEVS DE PROJETOS(getNumProjsAsDev).
 	private static void getAllUsers(VCSystem vc) {
-		if(vc.numUsers() == 0) {
+		Iterator<User> it = vc.getAllUsers();
+		if(!it.hasNext()) {
 			System.out.println(NO_USERS);
 		}
 		else {
-//			Iterator<Users> it = vc.getAllUsers();
-		//TODO ciclo while
+			System.out.println(ALL_USERS);
+			while(it.hasNext()) {
+				User u = it.next();
+				if(u instanceof Manager) {
+					System.out.printf(MNG_REG, u.getName(), ((Manager) u).getNumManagedDevs(), 
+							                 u.getNumProjs(), ((Manager) u).getNumProjsAsDev() );
+				}
+				else {
+					System.out.printf(DEV_REG, u.getName(), ((Developer) u).getManager(), ((Developer) u).getNumProjs());
+				}
+			}
 		}
 	}
 
+	
+	
+	
 	private static void createNewProject(VCSystem vc, Scanner in) {
 		String projMng = in.next();
 		String type = in.next();

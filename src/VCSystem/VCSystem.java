@@ -4,11 +4,12 @@ import Exceptions.*;
 
 public interface VCSystem {
 
-	void addUser(String jobPosition, String name, int clearanceLvl) throws UnknowJobPositionException,
-																		   UserAlreadyExistsException,
-																		   ProjectManagerDoesNotExistsException;
-
-//	Iterator<Users> getAllUsers();
+	User addManager(String name, int clearanceLvl) throws UserAlreadyExistsException;
+	
+	User addDeveloper(String name, String mng, int clearanceLvl) throws UserAlreadyExistsException,
+																		ManagerDoesNotExistException;
+	
+	Iterator<User> getAllUsers();
 
 	int numUsers();
 
@@ -29,4 +30,5 @@ public interface VCSystem {
 																	ProjectNameDoesNotExistsException,
 																	ProjectNotManagedByUserException;
 
+	void checkJobPos(String jobPosition) throws UnknowJobPositionException;
 }
