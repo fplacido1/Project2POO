@@ -40,5 +40,7 @@ public interface VCSystem {
 																	UserDoesNotBelongToTeamException;
 	
 	void addArtefect(Artefacts e, String projectName) throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException;
+
+	Iterator<Projects> getProjsByKeyword(String keyWord);
 	
 }

@@ -189,4 +189,9 @@ public class VCSystemClass implements VCSystem {
 	public Iterator<Projects> getAllProjects(){
 		return projects.values().iterator();
 	}
+
+	@Override
+	public Iterator<Projects> getProjsByKeyword(String keyWord) {
+		return projsByKeyWord.get(keyWord).iterator();
+	}
 }

@@ -1,5 +1,6 @@
 package VCSystem;
 
+import java.time.LocalTime;
 import java.util.*;
 
 public class InHouseClass extends AbstractProject implements InHouse{
@@ -38,6 +39,11 @@ public class InHouseClass extends AbstractProject implements InHouse{
 	@Override
 	public int getNumRevisions() {
 		return numRevisions;
+	}
+
+	@Override
+	public LocalTime getLastRevisionDate() {
+		return null;
 	}
 	
 	

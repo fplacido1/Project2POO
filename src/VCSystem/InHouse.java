@@ -1,4 +1,5 @@
 package VCSystem;
+import java.time.*;
 
 public interface InHouse {
 	
@@ -11,5 +12,7 @@ public interface InHouse {
 	int getNumArtefacts();
 	
 	int getNumRevisions();
+
+	LocalTime getLastRevisionDate();
 
 }

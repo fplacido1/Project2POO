@@ -27,6 +27,10 @@ public class Main {
 	private static final String ALL_PROJECTS = "All projects:";
 	private static final String INHOUSE_REG = "in-house %s is managed by %s [%d, %d, %d, %d]\n";
 	private static final String OUTSOURCED_REG = "outsourced %s is managed by %s and developed by %s\n";
+	private static final String NO_PROJS_KW = "No projects with keyword %s.\n";
+	private static final String ALL_PROJS_WITH_KW = "All projects with keyword %s:\n";
+	private static final String OUTSRC_BY_KW = "outsourced %s is managed by %s and developed by %s\n";
+	private static final String INHOUSE_BY_KW = "in-house %s is managed by %s [%d, %d, %d, %d, %s]\n";
 	
 	private enum Command{
 		
@@ -71,7 +75,7 @@ public class Main {
 		case PROJECT:         getInHouseDetails(vc, in);      break;//TODO
 		case REVISION:        reviseArtefact(vc, in);         break;//TODO
 		case MANAGED:         getAllManaged(vc, in);          break;//TODO
-		case KEYWORD:         filterByKeyword(vc, in);        break;//TODO
+		case KEYWORD:         filterByKeyword(vc, in);        break;
 		case CONFIDENTIALITY: filterByConfidentiality(vc, in);break;//TODO
 		case WORKAHOLICS:     getWorkaholics(vc, in);         break;//TODO
 		case COMMON:          moreProjectsInCommon(vc, in);   break;//TODO
@@ -372,7 +376,25 @@ public class Main {
 
 
 	private static void filterByKeyword(VCSystem vc, Scanner in) {
-		// TODO Auto-generated method stub
+		String keyWord = in.next();
+		Iterator<Projects> it = vc.getProjsByKeyword(keyWord);
+		if(!it.hasNext()) {
+			System.out.printf(NO_PROJS_KW, keyWord);
+		}
+		else {
+			System.out.println(ALL_PROJS_WITH_KW);
+			while(it.hasNext()) {
+				Projects p = it.next();
+				if(p instanceof InHouse) {
+					System.out.printf(INHOUSE_BY_KW, p.getProjName(), p.getManager().getName(), ((InHouse) p).getConfLvl(),
+													 p.getNumDevs(), ((InHouse) p).getNumArtefacts(), ((InHouse) p).getNumRevisions(),
+													 ((InHouse) p).getLastRevisionDate());
+				}
+				else {
+					System.out.printf(OUTSRC_BY_KW, p.getProjName(), p.getManager().getName(), ((OutSourced) p).getCompany() );
+				}
+			}
+		}
 		
 	}
 
