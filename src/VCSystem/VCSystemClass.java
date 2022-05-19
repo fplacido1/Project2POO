@@ -1,9 +1,7 @@
 package VCSystem;
 
 import java.util.*;
-
-import Exceptions.*;
-
+import VCSystem.exceptions.*;
 
 public class VCSystemClass implements VCSystem {
 	
