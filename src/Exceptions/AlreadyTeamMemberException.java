@@ -5,7 +5,7 @@ public class AlreadyTeamMemberException extends Exception {
 
 	private static final String MESSAGE = "%s: already a member.\n";
 	
-	public AlreadyTeamMemberException() {
-		super(MESSAGE);
+	public AlreadyTeamMemberException(String param) {
+		super(String.format(MESSAGE, param));
 	}
 }

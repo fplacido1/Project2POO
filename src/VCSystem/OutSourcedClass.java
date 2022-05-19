@@ -11,4 +11,9 @@ public class OutSourcedClass extends AbstractProject implements OutSourced{
 		this.companyName = companyName;
 	}
 
+	@Override
+	public String getCompany() {
+		return companyName;
+	}
+
 }

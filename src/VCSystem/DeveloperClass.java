@@ -2,15 +2,15 @@ package VCSystem;
 
 public class DeveloperClass extends AbstractUser implements Developer {
 	
-	private String mng;
+	private Manager mng;
 	
-	public DeveloperClass(String name, String mng, int clearanceLvl) {
+	public DeveloperClass(String name, Manager m, int clearanceLvl) {
 		super(name, clearanceLvl);
-		this.mng = mng;
+		mng = m;
 	}
 
 	@Override
 	public String getManager() {
-		return mng;
+		return mng.getName();
 	}
 }

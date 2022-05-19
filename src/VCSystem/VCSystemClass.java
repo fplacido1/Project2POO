@@ -62,7 +62,7 @@ public class VCSystemClass implements VCSystem {
 			throw new ManagerDoesNotExistException(mng);
 		}
 		else {
-			Developer d = new DeveloperClass(name, mng, clearanceLvl);
+			Developer d = new DeveloperClass(name, m, clearanceLvl);
 			users.put(name, d);
 			m.addManagedDev(name, d);
 			return d;
@@ -89,7 +89,7 @@ public class VCSystemClass implements VCSystem {
 	@Override
 	public void addUserToProj(String mngName, String projectName, String string)
 			throws ManagerDoesNotExistException, ProjectNameDoesNotExistsException, ProjectNotManagedByUserException,
-			UserDoesNotExistException, AlreadyTeamMemberException, InsufficientClearanceLevelException {
+			UsernameDoesNotExistException, AlreadyTeamMemberException, InsufficientClearanceLevelException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -158,5 +158,35 @@ public class VCSystemClass implements VCSystem {
 			throws ManagerDoesNotExistException, ProjectNameDoesNotExistsException, ProjectNotManagedByUserException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void checkUserBelongsToTeam(String user, String project)// falta um else
+			throws UserDoesNotExistException, ProjectNameDoesNotExistsException, UserDoesNotBelongToTeamException {
+		if(!users.containsKey(user)) {
+			throw new UserDoesNotExistException(user);
+		}else if(!projects.containsKey(project)) {
+			throw new ProjectNameDoesNotExistsException(project);
+		}
+		
+	}
+
+	@Override
+	public void addArtefect(Artefacts e, String projectName) 
+			throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException {
+		InHouse tmp = (InHouse)projects.get(projectName);
+		if(tmp.containsArtefact(e)) {// TODO é objeto ou nome?
+			throw new ArtefactAlreadyInProjectException(e.getName());
+		}else if(tmp.getConfLvl() < e.getConfidentialityLevel()) {
+			throw new ExceedsProjectConfidentialityLevelException(e.getName());
+		}else {
+			tmp.addArtefact(e);
+		}
+		
+	}
+
+	@Override
+	public Iterator<Projects> getAllProjects(){
+		return projects.values().iterator();
 	}
 }

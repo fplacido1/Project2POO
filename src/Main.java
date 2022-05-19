@@ -1,6 +1,8 @@
 import java.util.*;
 import VCSystem.*;
 import Exceptions.*;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class Main {
 	
@@ -12,6 +14,7 @@ public class Main {
 	private static final String DEV = "developer";
 	private static final String MNG = "manager";
 	private static final String NO_USERS = "No users registered.";
+	private static final String NO_PROJECTS = "No projects added.";
 	private static final String ALL_USERS = "All registered users:";
 	private static final String DEV_REG = "developer %s is managed by %s [%d]\n";
 	private static final String MNG_REG = "manager %s [%d ,%d , %d]\n";
@@ -19,8 +22,11 @@ public class Main {
 	private static final String OUTSRC = "outsourced";
 	private static final String ADDED_TO_TEAM = "%s: added to team.\n";
 	private static final String WAS_CREATED = "%s was created.\n";
-	
-	
+	private static final String ARTEFACT_ADDED_PROJECT = "%s: added to the project.\n";
+	private static final String ARTEFACT_MSG = "Latest project artefacts:";
+	private static final String ALL_PROJECTS = "All projects:";
+	private static final String INHOUSE_REG = "in-house %s is managed by %s [%d, %d, %d, %d]\n";
+	private static final String OUTSOURCED_REG = "outsourced %s is managed by %s and developed by %s\n";
 	
 	private enum Command{
 		
@@ -59,9 +65,9 @@ public class Main {
 		case REGISTER:        registerUser(vc, in);           break;
 		case USERS:           in.nextLine(); getAllUsers(vc); break;//TODO
 		case CREATE:          createNewProject(vc, in);       break;
-		case PROJECTS:        getAllProjects(vc, in);         break;//TODO
+		case PROJECTS:        getAllProjects(vc);         	  break;
 		case TEAM:            addTeamMembers(vc, in);         break;//TODO
-		case ARTEFACTS:       addArtefact(vc, in);            break;//TODO
+		case ARTEFACTS:       addArtefact(vc, in);            break;
 		case PROJECT:         getInHouseDetails(vc, in);      break;//TODO
 		case REVISION:        reviseArtefact(vc, in);         break;//TODO
 		case MANAGED:         getAllManaged(vc, in);          break;//TODO
@@ -146,7 +152,7 @@ public class Main {
 		}
 	}
 	
-	//TODO: DÚVIDA RELATIVA AO FACTO DE OS MANAGERS TAMBEM SEREM DEVS DE PROJETOS(getNumProjsAsDev).
+	//TODO: Dï¿½VIDA RELATIVA AO FACTO DE OS MANAGERS TAMBEM SEREM DEVS DE PROJETOS(getNumProjsAsDev).
 	private static void getAllUsers(VCSystem vc) {
 		Iterator<User> it = vc.getAllUsers();
 		if(!it.hasNext()) {
@@ -254,9 +260,22 @@ public class Main {
 	}
 
 
-	private static void getAllProjects(VCSystem vc, Scanner in) {
-		// TODO Auto-generated method stub
-		
+	private static void getAllProjects(VCSystem vc) {
+		Iterator<Projects> it = vc.getAllProjects();
+		if(!it.hasNext()) {
+			System.out.println(NO_PROJECTS);
+		}else {
+			System.out.println(ALL_PROJECTS);
+			while(it.hasNext()) {
+				Projects u = it.next();
+				if(u instanceof InHouse) {
+					System.out.printf(INHOUSE_REG, u.getProjName(), u.getManager().getName(), ((InHouse)u).getConfLvl(),
+												   u.getNumDevs(), ((InHouse)u).getNumArtefacts(), ((InHouse)u).getNumRevisions());
+				}else {
+					System.out.printf(OUTSOURCED_REG, u.getProjName(), u.getManager().getName(), ((OutSourced)u).getCompany());
+				}
+			}
+		}
 	}
 
 	/**
@@ -283,7 +302,7 @@ public class Main {
 					vc.addUserToProj(mngName, projectName, names.get(j));
 					System.out.printf(ADDED_TO_TEAM, names.get(j));
 				}
-				catch (UserDoesNotExistException | AlreadyTeamMemberException | InsufficientClearanceLevelException e) {
+				catch (UsernameDoesNotExistException | AlreadyTeamMemberException | InsufficientClearanceLevelException e) {
 					System.out.printf(e.getMessage(), names.get(j));
 				}
 			}
@@ -296,9 +315,38 @@ public class Main {
 
 
 
-	private static void addArtefact(VCSystem vc, Scanner in) {
-		// TODO Auto-generated method stub
+	private static void addArtefact(VCSystem vc, Scanner in) { // rever
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		
+		String userName = in.next();
+		String projectName = in.nextLine().trim();
+		String date = in.nextLine();
+		LocalDate artefactDate = LocalDate.parse(date, format);
+		int num = in.nextInt();
+		in.nextLine();
+		List<Artefacts> artefactsToAdd = new ArrayList<>();
+		
+		for(int i = 0; i < num; i++) {
+			String artefactName = in.next();
+			int confidentialityLevel = in.nextInt();
+			String description = in.nextLine().trim();
+			artefactsToAdd.add(new ArtefactsClass(artefactName, confidentialityLevel, description));//TODO duvida
+		}
+		
+		try {
+			vc.checkUserBelongsToTeam(userName, projectName);
+			System.out.println(ARTEFACT_MSG);
+			for(int i = 0; i < num; i++) {
+				try {
+					vc.addArtefect(artefactsToAdd.get(i), projectName);
+					System.out.printf(ARTEFACT_ADDED_PROJECT, artefactsToAdd.get(i).getName());
+				}catch(ArtefactAlreadyInProjectException | ExceedsProjectConfidentialityLevelException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+		}catch(UserDoesNotExistException | ProjectNameDoesNotExistsException | UserDoesNotBelongToTeamException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 

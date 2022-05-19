@@ -10,13 +10,15 @@ public interface VCSystem {
 																		ManagerDoesNotExistException;
 	
 	Iterator<User> getAllUsers();
+	
+	Iterator<Projects> getAllProjects();
 
 	int numUsers();
 
 	void addUserToProj(String mngName, String projectName, String string) throws ManagerDoesNotExistException,
 																				 ProjectNameDoesNotExistsException,
 																				 ProjectNotManagedByUserException,
-																				 UserDoesNotExistException,
+																				 UsernameDoesNotExistException,
 																				 AlreadyTeamMemberException,
 																				 InsufficientClearanceLevelException;
 
@@ -32,4 +34,11 @@ public interface VCSystem {
 																	ProjectNotManagedByUserException;
 
 	void checkJobPos(String jobPosition) throws UnknowJobPositionException;
+	
+	void checkUserBelongsToTeam(String user, String project) throws UserDoesNotExistException,
+																	ProjectNameDoesNotExistsException,
+																	UserDoesNotBelongToTeamException;
+	
+	void addArtefect(Artefacts e, String projectName) throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException;
+	
 }
