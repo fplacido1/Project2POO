@@ -16,10 +16,7 @@ public interface VCSystem {
 
 	int numUsers();
 
-	void addUserToProj(String mngName, String projectName, String string) throws ManagerDoesNotExistException,
-																				 ProjectNameDoesNotExistsException,
-																				 ProjectNotManagedByUserException,
-																				 UsernameDoesNotExistException,
+	void addUserToProj(String projectName, String userName) throws UsernameDoesNotExistException,
 																				 AlreadyTeamMemberException,
 																				 InsufficientClearanceLevelException;
 

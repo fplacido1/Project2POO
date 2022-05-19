@@ -2,18 +2,22 @@ package VCSystem;
 
 import java.time.LocalTime;
 import java.util.*;
+import VCSystem.exceptions.*;
 
 public class InHouseClass extends AbstractProject implements InHouse{
 	
 	private List<Artefacts> artefacts;
 	private int confLvl;
 	private int numRevisions;
+    private Map<String, User> devs;
+
 	
 	public InHouseClass(Manager mng, String projName, int confLvl, List<String> keywords) {
 		super(mng, projName, keywords);
 		this.confLvl = confLvl;
 		artefacts = new LinkedList<>();
 		numRevisions = 0;
+		this.devs = new HashMap<>();
 	}
 
 	@Override
@@ -46,6 +50,24 @@ public class InHouseClass extends AbstractProject implements InHouse{
 		return null;
 	}
 	
+	@Override
+	public int getNumDevs() {
+		return devs.size();
+	}
+	
+	@Override
+	public void addUser(User u) throws AlreadyTeamMemberException, InsufficientClearanceLevelException {
+		if(devs.containsKey(u.getName())) {
+			throw new AlreadyTeamMemberException(u.getName());
+		}
+		else if(u.getClearanceLvl() < confLvl) {
+			throw new InsufficientClearanceLevelException(u.getName());
+		}
+		else {
+			devs.put(u.getName(), u);
+		}
+	}
+		
 	
 
 

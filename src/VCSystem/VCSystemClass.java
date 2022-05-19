@@ -85,11 +85,14 @@ public class VCSystemClass implements VCSystem {
 	}
 
 	@Override
-	public void addUserToProj(String mngName, String projectName, String string)
-			throws ManagerDoesNotExistException, ProjectNameDoesNotExistsException, ProjectNotManagedByUserException,
-			UsernameDoesNotExistException, AlreadyTeamMemberException, InsufficientClearanceLevelException {
-		// TODO Auto-generated method stub
-		
+	public void addUserToProj(String projectName, String userName)
+			throws UsernameDoesNotExistException, AlreadyTeamMemberException, InsufficientClearanceLevelException {
+		Projects p = projects.get(projectName);
+		User u = users.get(userName);
+		if(u == null) {
+			throw new UsernameDoesNotExistException(userName);
+		}
+		((InHouse) p).addUser(u);
 	}
 
 	@Override
@@ -154,8 +157,17 @@ public class VCSystemClass implements VCSystem {
 	@Override
 	public void checkProjAndMng(String mngName, String projectName)
 			throws ManagerDoesNotExistException, ProjectNameDoesNotExistsException, ProjectNotManagedByUserException {
-		// TODO Auto-generated method stub
-		
+		Manager mng = managers.get(mngName);
+		Projects p = projects.get(projectName);
+		if(mng == null) {
+			throw new ManagerDoesNotExistException(mngName);
+		}
+		else if(p == null) {
+			throw new ProjectNameDoesNotExistsException(projectName);
+		}
+		else if(!p.getManager().getName().equals(mngName)) {
+			throw new ProjectNotManagedByUserException(projectName, p.getManager().getName());
+		}
 	}
 
 	@Override

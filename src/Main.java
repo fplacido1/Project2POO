@@ -70,7 +70,7 @@ public class Main {
 		case USERS:           in.nextLine(); getAllUsers(vc); break;//TODO
 		case CREATE:          createNewProject(vc, in);       break;
 		case PROJECTS:        getAllProjects(vc);         	  break;
-		case TEAM:            addTeamMembers(vc, in);         break;//TODO
+		case TEAM:            addTeamMembers(vc, in);         break;
 		case ARTEFACTS:       addArtefact(vc, in);            break;
 		case PROJECT:         getInHouseDetails(vc, in);      break;//TODO
 		case REVISION:        reviseArtefact(vc, in);         break;//TODO
@@ -273,8 +273,9 @@ public class Main {
 			while(it.hasNext()) {
 				Projects u = it.next();
 				if(u instanceof InHouse) {
-					System.out.printf(INHOUSE_REG, u.getProjName(), u.getManager().getName(), ((InHouse)u).getConfLvl(),
-												   u.getNumDevs(), ((InHouse)u).getNumArtefacts(), ((InHouse)u).getNumRevisions());
+					System.out.printf(INHOUSE_REG, u.getProjName(), u.getManager().getName(), ((InHouse) u).getConfLvl(),
+												   ((InHouse) u).getNumDevs(), ((InHouse) u).getNumArtefacts(),
+												   ((InHouse) u).getNumRevisions());
 				}else {
 					System.out.printf(OUTSOURCED_REG, u.getProjName(), u.getManager().getName(), ((OutSourced)u).getCompany());
 				}
@@ -303,7 +304,7 @@ public class Main {
 			vc.checkProjAndMng(mngName, projectName);
 			for(int j = 0; j < numUsers; j++) {
 				try {
-					vc.addUserToProj(mngName, projectName, names.get(j));
+					vc.addUserToProj(projectName, names.get(j));
 					System.out.printf(ADDED_TO_TEAM, names.get(j));
 				}
 				catch (UsernameDoesNotExistException | AlreadyTeamMemberException | InsufficientClearanceLevelException e) {
@@ -387,8 +388,8 @@ public class Main {
 				Projects p = it.next();
 				if(p instanceof InHouse) {
 					System.out.printf(INHOUSE_BY_KW, p.getProjName(), p.getManager().getName(), ((InHouse) p).getConfLvl(),
-													 p.getNumDevs(), ((InHouse) p).getNumArtefacts(), ((InHouse) p).getNumRevisions(),
-													 ((InHouse) p).getLastRevisionDate());
+													 ((InHouse) p).getNumDevs(), ((InHouse) p).getNumArtefacts(),
+													 ((InHouse) p).getNumRevisions(), ((InHouse) p).getLastRevisionDate());
 				}
 				else {
 					System.out.printf(OUTSRC_BY_KW, p.getProjName(), p.getManager().getName(), ((OutSourced) p).getCompany() );
