@@ -22,9 +22,10 @@ public interface VCSystem {
 
 	void checkProjType(String type) throws UnknownProjectTypeException;
 
-	void createNewInHouseProj(String projMng, String projName, List<String> keyWords, int confLvl);
+	void createNewInHouseProj(String projMng, String projName, List<String> keyWords, int confLvl) throws ManagerDoesNotExistException,
+																										  ManagerInsufficientClearanceLevelException;
 
-	void createNewOutSourcedProj(String projMng, String projName, List<String> keyWords, String companyName);
+	void createNewOutSourcedProj(String projMng, String projName, List<String> keyWords, String companyName) throws ManagerDoesNotExistException;
 
 	void checkProjAndMng(String mngName, String projectName) throws ManagerDoesNotExistException,
 																	ProjectNameDoesNotExistsException,

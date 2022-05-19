@@ -18,6 +18,7 @@ public class Main {
 	private static final String INHOUSE = "inhouse";
 	private static final String OUTSRC = "outsourced";
 	private static final String ADDED_TO_TEAM = "%s: added to team.\n";
+	private static final String WAS_CREATED = "%s was created.\n";
 	
 	
 	
@@ -57,7 +58,7 @@ public class Main {
 		switch(command) {
 		case REGISTER:        registerUser(vc, in);           break;
 		case USERS:           in.nextLine(); getAllUsers(vc); break;//TODO
-		case CREATE:          createNewProject(vc, in);       break;//TODO
+		case CREATE:          createNewProject(vc, in);       break;
 		case PROJECTS:        getAllProjects(vc, in);         break;//TODO
 		case TEAM:            addTeamMembers(vc, in);         break;//TODO
 		case ARTEFACTS:       addArtefact(vc, in);            break;//TODO
@@ -166,13 +167,19 @@ public class Main {
 		}
 	}
 
-	
-	
-	
+	/**
+	 * This method creates a new project
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+	 */
 	private static void createNewProject(VCSystem vc, Scanner in) {
 		String projMng = in.next();
 		String type = in.next();
-		String projName = in.nextLine();
+		String projName = in.nextLine().trim();
 		int numKeyWords = in.nextInt();
 		List<String> keyWords = new ArrayList<>(numKeyWords);
 		for(int i = 0; i< numKeyWords; i++) {
@@ -193,22 +200,59 @@ public class Main {
 			in.nextLine();
 		}	
 	}
-
-
+	
+	/**
+	 * This method creates a new OutSourced
+	 * project
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 * @param projMng, name of the project
+	 * manager
+	 * @param projName, name of the project
+	 * @param keyWords, keywords of the
+	 * project
+	 * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+	 */
 	private static void createOutSourced(VCSystem vc, String projMng, String projName, List<String> keyWords, Scanner in) {
-		String companyName = in.nextLine().trim();
-		vc.createNewOutSourcedProj(projMng, projName, keyWords, companyName);
+		try {
+			String companyName = in.nextLine().trim();
+			vc.createNewOutSourcedProj(projMng, projName, keyWords, companyName);
+			System.out.printf(WAS_CREATED, projName);
+		}
+		catch(ManagerDoesNotExistException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
-
+	/**
+	 * This method creates a new InHouse
+	 * project
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 * @param projMng, name of the project
+	 * manager
+	 * @param projName, name of the project
+	 * @param keyWords, keywords of the
+	 * project
+	 * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+	 */
 	private static void createInHouse(VCSystem vc, String projMng, String projName, List<String> keyWords, Scanner in) {
-		int confLvl = in.nextInt();
-		vc.createNewInHouseProj(projMng, projName, keyWords, confLvl);
+		try {
+			int confLvl = in.nextInt();
+			vc.createNewInHouseProj(projMng, projName, keyWords, confLvl);
+			System.out.printf(WAS_CREATED, projName);
+		}
+		catch(ManagerDoesNotExistException | ManagerInsufficientClearanceLevelException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
-	
-	
-	
 
 	private static void getAllProjects(VCSystem vc, Scanner in) {
 		// TODO Auto-generated method stub
