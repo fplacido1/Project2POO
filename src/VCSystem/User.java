@@ -8,4 +8,6 @@ public interface User {
 	
 	int getNumProjs();
 
+	void addProj(InHouse p);
+
 }

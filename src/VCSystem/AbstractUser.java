@@ -3,7 +3,7 @@ import java.util.*;
 
 public abstract class AbstractUser implements User {
 
-	protected Map<String, Projects> projects;
+	protected Map<String, InHouse> projects;
 	private int clearanceLvl;
 	private String name;
 	
@@ -23,5 +23,9 @@ public abstract class AbstractUser implements User {
 	
 	public int getNumProjs() {
 		return projects.size();
+	}
+	
+	public void addProj(InHouse p) {
+		projects.put(p.getProjName(), p);
 	}
 }

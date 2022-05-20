@@ -95,6 +95,7 @@ public class VCSystemClass implements VCSystem {
 			throw new UsernameDoesNotExistException(userName);
 		}
 		p.addUser(u);
+		u.addProj(p);
 	}
 
 	@Override
