@@ -1,6 +1,6 @@
 package VCSystem;
 
-public interface OutSourced {
+public interface OutSourced extends Projects {
 
 	String getCompany();
 	

@@ -2,7 +2,7 @@ package VCSystem;
 import java.time.*;
 import VCSystem.exceptions.*;
 
-public interface InHouse {
+public interface InHouse extends Projects {
 	
 	int getConfLvl();
 	

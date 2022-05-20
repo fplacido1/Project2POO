@@ -8,6 +8,7 @@ public class VCSystemClass implements VCSystem {
 	private Map<String, User> users;
 	private Map<String, Manager> managers;
 	private Map<String, Projects> projects;
+	private Map<String, InHouse> inHouseProjs;
 	private Map<String, List<Projects>> projsByKeyWord;
 	
 	private enum JobType{
@@ -34,6 +35,7 @@ public class VCSystemClass implements VCSystem {
 		users = new TreeMap<>();
 		projects = new HashMap<>();
 		managers = new HashMap<>();
+		inHouseProjs = new HashMap<>();
 		projsByKeyWord = new HashMap<>();
 	}
 
@@ -87,12 +89,12 @@ public class VCSystemClass implements VCSystem {
 	@Override
 	public void addUserToProj(String projectName, String userName)
 			throws UsernameDoesNotExistException, AlreadyTeamMemberException, InsufficientClearanceLevelException {
-		Projects p = projects.get(projectName);
+		InHouse p = inHouseProjs.get(projectName);
 		User u = users.get(userName);
 		if(u == null) {
 			throw new UsernameDoesNotExistException(userName);
 		}
-		((InHouse) p).addUser(u);
+		p.addUser(u);
 	}
 
 	@Override
@@ -115,8 +117,10 @@ public class VCSystemClass implements VCSystem {
 			throw new ManagerInsufficientClearanceLevelException(mng.getName(), mng.getClearanceLvl());
 		}
 		else {
-			Projects inHouse = new InHouseClass(mng, projName, confLvl, keyWords);
+			InHouse inHouse = new InHouseClass(mng, projName, confLvl, keyWords);
 			projects.put(projName, inHouse);
+			inHouseProjs.put(projName, inHouse);
+			mng.addToManagedProjs(inHouse);
 			for(int i = 0; i < keyWords.size(); i++) {
 				if(!projsByKeyWord.containsKey(keyWords.get(i))) {
 					List<Projects> projs = new ArrayList<>();
@@ -141,6 +145,7 @@ public class VCSystemClass implements VCSystem {
 		else {
 			Projects out = new OutSourcedClass(mng, projName, companyName, keyWords);
 			projects.put(projName, out);
+			mng.addToManagedProjs(out);
 			for(int i = 0; i < keyWords.size(); i++) {
 				if(!projsByKeyWord.containsKey(keyWords.get(i))) {
 					List<Projects> projs = new ArrayList<>();
@@ -184,7 +189,7 @@ public class VCSystemClass implements VCSystem {
 	@Override
 	public void addArtefect(Artefacts e, String projectName) 
 			throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException {
-		InHouse tmp = (InHouse)projects.get(projectName);
+		InHouse tmp = inHouseProjs.get(projectName);
 		if(tmp.containsArtefact(e)) {// TODO é objeto ou nome?
 			throw new ArtefactAlreadyInProjectException(e.getName());
 		}else if(tmp.getConfLvl() < e.getConfidentialityLevel()) {
@@ -203,5 +208,23 @@ public class VCSystemClass implements VCSystem {
 	@Override
 	public Iterator<Projects> getProjsByKeyword(String keyWord) {
 		return projsByKeyWord.get(keyWord).iterator();
+	}
+
+	@Override
+	public Iterator<User> getAllProjUsers(String projName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterator<Artefacts> getAllProjArtefacts(String projName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void checkInHouseProj() throws ProjectNameDoesNotExistsException, ProjectIsOutsourcedException {
+		// TODO Auto-generated method stub
+		
 	}
 }

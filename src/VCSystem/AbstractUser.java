@@ -3,7 +3,7 @@ import java.util.*;
 
 public abstract class AbstractUser implements User {
 
-	private Map<String, Projects> projects;
+	protected Map<String, Projects> projects;
 	private int clearanceLvl;
 	private String name;
 	

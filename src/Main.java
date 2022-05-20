@@ -356,8 +356,15 @@ public class Main {
 
 
 	private static void getInHouseDetails(VCSystem vc, Scanner in) {
-		// TODO Auto-generated method stub
-		
+		String projName = in.nextLine().trim();
+		try {
+			vc.checkInHouseProj();
+			Iterator<User> itUsers = vc.getAllProjUsers(projName);
+			Iterator<Artefacts>itArtefacts = vc.getAllProjArtefacts(projName);
+		}
+		catch(ProjectNameDoesNotExistsException | ProjectIsOutsourcedException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 

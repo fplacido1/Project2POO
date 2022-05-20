@@ -40,5 +40,11 @@ public interface VCSystem {
 	void addArtefect(Artefacts e, String projectName) throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException;
 
 	Iterator<Projects> getProjsByKeyword(String keyWord);
+
+	Iterator<User> getAllProjUsers(String projName);
+
+	Iterator<Artefacts> getAllProjArtefacts(String projName);
+
+	void checkInHouseProj() throws ProjectNameDoesNotExistsException, ProjectIsOutsourcedException;
 	
 }

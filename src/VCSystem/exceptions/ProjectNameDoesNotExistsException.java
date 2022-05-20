@@ -1,4 +1,4 @@
-package Exceptions;
+package VCSystem.exceptions;
 
 @SuppressWarnings("serial")
 public class ProjectNameDoesNotExistsException extends Exception{
