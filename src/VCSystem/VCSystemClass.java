@@ -40,7 +40,7 @@ public class VCSystemClass implements VCSystem {
 	}
 
 	@Override
-	public User addManager(String name, int clearanceLvl) throws UserAlreadyExistsException {
+	public void addManager(String name, int clearanceLvl) throws UserAlreadyExistsException {
 		if(managers.containsKey(name)) {
 			throw new UserAlreadyExistsException(name);
 		}
@@ -48,7 +48,6 @@ public class VCSystemClass implements VCSystem {
 			Manager m = new ManagerClass(name, clearanceLvl);
 			users.put(name, m);
 			managers.put(name, m);
-			return m;
 		}
 	}
 
@@ -188,10 +187,10 @@ public class VCSystemClass implements VCSystem {
 	}
 
 	@Override
-	public void addArtefect(Artefacts e, String projectName) 
+	public void addArtefact(Artefacts e, String projectName) 
 			throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException {
 		InHouse tmp = inHouseProjs.get(projectName);
-		if(tmp.containsArtefact(e)) {// TODO é objeto ou nome?
+		if(tmp.containsArtefact(e)) {// TODO objeto ou nome?
 			throw new ArtefactAlreadyInProjectException(e.getName());
 		}else if(tmp.getConfLvl() < e.getConfidentialityLevel()) {
 			throw new ExceedsProjectConfidentialityLevelException(e.getName());
@@ -212,20 +211,26 @@ public class VCSystemClass implements VCSystem {
 	}
 
 	@Override
-	public Iterator<User> getAllProjUsers(String projName) {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterator<User> getAllProjUsers(InHouse proj) {
+		return proj.getAllUsers();
 	}
 
 	@Override
-	public Iterator<Artefacts> getAllProjArtefacts(String projName) {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterator<Artefacts> getAllProjArtefacts(InHouse proj) {
+		return proj.getAllArtefacts();
 	}
 
 	@Override
-	public void checkInHouseProj() throws ProjectNameDoesNotExistsException, ProjectIsOutsourcedException {
-		// TODO Auto-generated method stub
+	public InHouse getInHouseProj(String projName) throws ProjectNameDoesNotExistsException, ProjectIsOutsourcedException {
+		if(!projects.containsKey(projName)) {
+			throw new ProjectNameDoesNotExistsException(projName);
+		}
+		else if(!inHouseProjs.containsKey(projName)) {
+			throw new ProjectIsOutsourcedException(projName);
+		}
+		else {
+			return inHouseProjs.get(projName);
+		}
 		
 	}
 }

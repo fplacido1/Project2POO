@@ -1,15 +1,22 @@
 package VCSystem;
 
-public class ArtefactsClass implements Artefacts{
+import java.time.LocalDate;
+import java.util.*;
+
+public class ArtefactsClass implements Artefacts {
 	
+	private List<Revision> revisions;
 	private String name;
 	private int confidentialityLevel;
 	private String description;
+	private LocalDate revisionDate;
 	
-	public ArtefactsClass(String name, int confidentialityLevel, String description) {
+	public ArtefactsClass(String name, int confidentialityLevel, String description, LocalDate date) {
 		this.name = name;
 		this.confidentialityLevel = confidentialityLevel;
 		this.description = description;
+		revisionDate = date;
+		revisions = new LinkedList<>();
 	}
 
 	@Override
@@ -27,4 +34,25 @@ public class ArtefactsClass implements Artefacts{
 		return description;
 	}
 
+	@Override
+	public Iterator<Revision> getAllRevision() {
+		return revisions.iterator();
+	}
+
+	@Override
+	public LocalDate getLastRevDate() {
+		return revisionDate;
+	}
+	
+	@Override
+	public int compareTo(Artefacts o) {
+		int result = revisionDate.compareTo(o.getLastRevDate());
+		if(result != 0) {
+			return result;
+		}
+		else {
+			result = name.compareTo(o.getName());
+		}
+		return result;
+	}
 }

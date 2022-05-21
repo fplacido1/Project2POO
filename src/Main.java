@@ -31,6 +31,10 @@ public class Main {
 	private static final String ALL_PROJS_WITH_KW = "All projects with keyword %s:\n";
 	private static final String OUTSRC_BY_KW = "outsourced %s is managed by %s and developed by %s\n";
 	private static final String INHOUSE_BY_KW = "in-house %s is managed by %s [%d, %d, %d, %d, %s]\n";
+	private static final String IN_HOUSE_DETAILS = "%s [%d] managed by %s [%d]:\n";
+	private static final String USER_DETAILS = "%s [%d]\n";
+	private static final String ART_DETAILS = "%s [%d]: %s\n";
+	private static final String REV_DETAILS = "revision %d %s %s %s\n";
 	
 	private enum Command{
 		
@@ -67,12 +71,12 @@ public class Main {
 	private static void chooseCommand(Command command, Scanner in, VCSystem vc) {
 		switch(command) {
 		case REGISTER:        registerUser(vc, in);           break;
-		case USERS:           in.nextLine(); getAllUsers(vc); break;//TODO
+		case USERS:           in.nextLine(); getAllUsers(vc); break;
 		case CREATE:          createNewProject(vc, in);       break;
 		case PROJECTS:        getAllProjects(vc);         	  break;
 		case TEAM:            addTeamMembers(vc, in);         break;
 		case ARTEFACTS:       addArtefact(vc, in);            break;
-		case PROJECT:         getInHouseDetails(vc, in);      break;//TODO
+		case PROJECT:         getInHouseDetails(vc, in);      break;
 		case REVISION:        reviseArtefact(vc, in);         break;//TODO
 		case MANAGED:         getAllManaged(vc, in);          break;//TODO
 		case KEYWORD:         filterByKeyword(vc, in);        break;
@@ -127,8 +131,8 @@ public class Main {
 	 */
 	private static void addManager(String name, int clearanceLvl, VCSystem vc) {
 		try {
-			User u = vc.addManager(name, clearanceLvl);
-			System.out.printf(ADDED_MNG, u.getName(), u.getClearanceLvl());
+			vc.addManager(name, clearanceLvl);
+			System.out.printf(ADDED_MNG, name, clearanceLvl);
 		}
 		catch(UserAlreadyExistsException e) {
 			System.out.println(e.getMessage());
@@ -319,8 +323,8 @@ public class Main {
 	}
 
 
-
-	private static void addArtefact(VCSystem vc, Scanner in) { // rever
+	//TODO REVER COMANDO
+	private static void addArtefact(VCSystem vc, Scanner in) {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		
 		String userName = in.next();
@@ -335,7 +339,7 @@ public class Main {
 			String artefactName = in.next();
 			int confidentialityLevel = in.nextInt();
 			String description = in.nextLine().trim();
-			artefactsToAdd.add(new ArtefactsClass(artefactName, confidentialityLevel, description));//TODO duvida
+			artefactsToAdd.add(new ArtefactsClass(artefactName, confidentialityLevel, description, artefactDate));//TODO duvida
 		}
 		
 		try {
@@ -343,7 +347,7 @@ public class Main {
 			System.out.println(ARTEFACT_MSG);
 			for(int i = 0; i < num; i++) {
 				try {
-					vc.addArtefect(artefactsToAdd.get(i), projectName);
+					vc.addArtefact(artefactsToAdd.get(i), projectName);
 					System.out.printf(ARTEFACT_ADDED_PROJECT, artefactsToAdd.get(i).getName());
 				}catch(ArtefactAlreadyInProjectException | ExceedsProjectConfidentialityLevelException e) {
 					System.out.println(e.getMessage());
@@ -358,17 +362,33 @@ public class Main {
 	private static void getInHouseDetails(VCSystem vc, Scanner in) {
 		String projName = in.nextLine().trim();
 		try {
-			vc.checkInHouseProj();
-			Iterator<User> itUsers = vc.getAllProjUsers(projName);
-			Iterator<Artefacts>itArtefacts = vc.getAllProjArtefacts(projName);
+			InHouse p = vc.getInHouseProj(projName);
+			Iterator<User> itUsers = vc.getAllProjUsers(p);
+			Iterator<Artefacts>itArtefacts = vc.getAllProjArtefacts(p);
+			System.out.printf(IN_HOUSE_DETAILS, projName, p.getConfLvl(), p.getManager().getName(),
+												p.getManager().getClearanceLvl() );
+			while(itUsers.hasNext()) {
+				User u = itUsers.next();
+				System.out.printf(USER_DETAILS, u.getName(), u.getClearanceLvl());
+			}
+			while(itArtefacts.hasNext()) {
+				Artefacts a = itArtefacts.next();
+				System.out.printf(ART_DETAILS, a.getName(), a.getConfidentialityLevel(), a.getDescription());
+				Iterator<Revision> itRev = a.getAllRevision();
+				printRevisions(itRev);
+			}
 		}
 		catch(ProjectNameDoesNotExistsException | ProjectIsOutsourcedException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
-
-
+	private static void printRevisions(Iterator<Revision> itRev) {
+		while(itRev.hasNext()) {
+			Revision rev = itRev.next();
+			System.out.printf(REV_DETAILS, rev.getNum(), rev.getAuthor(), rev.getDate(), rev.getComment());
+		}
+	}
 
 
 	private static void reviseArtefact(VCSystem vc, Scanner in) {

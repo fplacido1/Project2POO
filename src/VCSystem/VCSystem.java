@@ -5,7 +5,7 @@ import VCSystem.exceptions.*;
 
 public interface VCSystem {
 
-	User addManager(String name, int clearanceLvl) throws UserAlreadyExistsException;
+	void addManager(String name, int clearanceLvl) throws UserAlreadyExistsException;
 	
 	User addDeveloper(String name, String mng, int clearanceLvl) throws UserAlreadyExistsException,
 																		ManagerDoesNotExistException;
@@ -37,14 +37,14 @@ public interface VCSystem {
 																	ProjectNameDoesNotExistsException,
 																	UserDoesNotBelongToTeamException;
 	
-	void addArtefect(Artefacts e, String projectName) throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException;
+	void addArtefact(Artefacts e, String projectName) throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException;
 
 	Iterator<Projects> getProjsByKeyword(String keyWord);
 
-	Iterator<User> getAllProjUsers(String projName);
+	Iterator<User> getAllProjUsers(InHouse proj);
 
-	Iterator<Artefacts> getAllProjArtefacts(String projName);
+	Iterator<Artefacts> getAllProjArtefacts(InHouse proj);
 
-	void checkInHouseProj() throws ProjectNameDoesNotExistsException, ProjectIsOutsourcedException;
+	InHouse getInHouseProj(String projName) throws ProjectNameDoesNotExistsException, ProjectIsOutsourcedException;
 	
 }

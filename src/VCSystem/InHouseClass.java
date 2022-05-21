@@ -6,7 +6,7 @@ import VCSystem.exceptions.*;
 
 public class InHouseClass extends AbstractProject implements InHouse{
 	
-	private List<Artefacts> artefacts;
+	private Map<String, Artefacts> artefacts;
 	private int confLvl;
 	private int numRevisions;
     private Map<String, User> devs;
@@ -15,7 +15,7 @@ public class InHouseClass extends AbstractProject implements InHouse{
 	public InHouseClass(Manager mng, String projName, int confLvl, List<String> keywords) {
 		super(mng, projName, keywords);
 		this.confLvl = confLvl;
-		artefacts = new LinkedList<>();
+		artefacts = new TreeMap<>();
 		numRevisions = 0;
 		this.devs = new HashMap<>();
 	}
@@ -27,12 +27,12 @@ public class InHouseClass extends AbstractProject implements InHouse{
 
 	@Override
 	public void addArtefact(Artefacts e) {
-		artefacts.add(e);
+		artefacts.put(e.getName(), e);
 	}
 
 	@Override
 	public boolean containsArtefact(Artefacts e) {
-		return artefacts.contains(e);
+		return artefacts.containsValue(e);
 	}
 
 	@Override
@@ -66,6 +66,16 @@ public class InHouseClass extends AbstractProject implements InHouse{
 		else {
 			devs.put(u.getName(), u);
 		}
+	}
+
+	@Override
+	public Iterator<User> getAllUsers() {
+		return devs.values().iterator();
+	}
+
+	@Override
+	public Iterator<Artefacts> getAllArtefacts() {
+		return artefacts.values().iterator();
 	}
 		
 	

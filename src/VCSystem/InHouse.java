@@ -1,5 +1,7 @@
 package VCSystem;
 import java.time.*;
+import java.util.Iterator;
+
 import VCSystem.exceptions.*;
 
 public interface InHouse extends Projects {
@@ -19,5 +21,9 @@ public interface InHouse extends Projects {
 	int getNumDevs();
 
 	void addUser(User u) throws AlreadyTeamMemberException, InsufficientClearanceLevelException;
+
+	Iterator<User> getAllUsers();
+
+	Iterator<Artefacts> getAllArtefacts();
 
 }
