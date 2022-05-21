@@ -1,29 +1,45 @@
 package VCSystem;
 
+import java.time.LocalDate;
+
 public class RevisionClass implements Revision {
+	
+	private User author;
+	private Artefacts artefact;
+	private LocalDate revisionDate;
+	private String comment;
+	private int revisionNum;
+
+	public RevisionClass(User u, Artefacts a, LocalDate revisionDate, String comment, int numRevisions) {
+		author = u;
+		artefact = a;
+		this.revisionDate = revisionDate;
+		this.comment = comment;
+		revisionNum = numRevisions;
+	}
 
 	@Override
 	public int getNum() {
-		// TODO Auto-generated method stub
-		return 0;
+		return revisionNum;
 	}
 
 	@Override
 	public String getAuthor() {
-		// TODO Auto-generated method stub
-		return null;
+		return author.getName();
 	}
 
 	@Override
-	public String getDate() {
-		// TODO Auto-generated method stub
-		return null;
+	public LocalDate getDate() {
+		return revisionDate;
 	}
 
 	@Override
 	public String getComment() {
-		// TODO Auto-generated method stub
-		return null;
+		return comment;
 	}
 
+	@Override
+	public Artefacts getArtefact() {
+		return artefact;
+	}
 }

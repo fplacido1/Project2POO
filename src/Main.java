@@ -35,6 +35,8 @@ public class Main {
 	private static final String USER_DETAILS = "%s [%d]\n";
 	private static final String ART_DETAILS = "%s [%d]: %s\n";
 	private static final String REV_DETAILS = "revision %d %s %s %s\n";
+	private static final String DATE_FORMAT = "dd-MM-yyyy";
+	private static final String REVISION_DONE  = "Revision %d of artefact %s was submitted.\n";
 	
 	private enum Command{
 		
@@ -77,7 +79,7 @@ public class Main {
 		case TEAM:            addTeamMembers(vc, in);         break;
 		case ARTEFACTS:       addArtefact(vc, in);            break;
 		case PROJECT:         getInHouseDetails(vc, in);      break;
-		case REVISION:        reviseArtefact(vc, in);         break;//TODO
+		case REVISION:        reviseArtefact(vc, in);         break;
 		case MANAGED:         getAllManaged(vc, in);          break;//TODO
 		case KEYWORD:         filterByKeyword(vc, in);        break;
 		case CONFIDENTIALITY: filterByConfidentiality(vc, in);break;//TODO
@@ -160,7 +162,13 @@ public class Main {
 		}
 	}
 	
-	//TODO: D�VIDA RELATIVA AO FACTO DE OS MANAGERS TAMBEM SEREM DEVS DE PROJETOS(getNumProjsAsDev).
+	/**
+	 * This method lists all registered
+	 * users
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 */
 	private static void getAllUsers(VCSystem vc) {
 		Iterator<User> it = vc.getAllUsers();
 		if(!it.hasNext()) {
@@ -267,7 +275,13 @@ public class Main {
 		}
 	}
 
-
+	/**
+	 * This method lists all
+	 * projects
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 */
 	private static void getAllProjects(VCSystem vc) {
 		Iterator<Projects> it = vc.getAllProjects();
 		if(!it.hasNext()) {
@@ -322,10 +336,19 @@ public class Main {
 		in.nextLine();
 	}
 
-
+	/**
+	 * This method adds artefacts
+	 * to a project
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+	 */
 	//TODO REVER COMANDO
 	private static void addArtefact(VCSystem vc, Scanner in) {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		DateTimeFormatter format = DateTimeFormatter.ofPattern(DATE_FORMAT);
 		
 		String userName = in.next();
 		String projectName = in.nextLine().trim();
@@ -358,7 +381,17 @@ public class Main {
 		}
 	}
 
-
+	/**
+	 * This method shows the detailed
+	 * information of an in-house
+	 * project
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+	 */
 	private static void getInHouseDetails(VCSystem vc, Scanner in) {
 		String projName = in.nextLine().trim();
 		try {
@@ -383,6 +416,13 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * This method prints all the
+	 * revisions of an artefact
+	 * @param itRev, iterator of
+	 * all the revisions from an
+	 * artefact
+	 */
 	private static void printRevisions(Iterator<Revision> itRev) {
 		while(itRev.hasNext()) {
 			Revision rev = itRev.next();
@@ -390,19 +430,60 @@ public class Main {
 		}
 	}
 
-
+	/**
+	 * This method revises an
+	 * artefact
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+	 */
 	private static void reviseArtefact(VCSystem vc, Scanner in) {
-		// TODO Auto-generated method stub
-		
+		String userName = in.next();
+		String projectName = in.nextLine().trim();
+		String artefactName = in.next();
+		String date = in.nextLine();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern(DATE_FORMAT);
+		LocalDate revisionDate = LocalDate.parse(date, format);
+		String comment = in.nextLine().trim();
+		try {
+			Revision r = vc.reviseArtefact(userName, projectName, artefactName, revisionDate, comment);
+			System.out.printf(REVISION_DONE, r.getNum(), r.getArtefact().getName());
+		}
+		catch(UserDoesNotExistException | ProjectNameDoesNotExistsException | ArtefactDoesNotExistsException |
+			  UserDoesNotBelongToTeamException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
-
+	/**
+	 * This method shows the detailed
+	 * information about the developers
+	 * supervised by a given manager
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+	 */
 	private static void getAllManaged(VCSystem vc, Scanner in) {
 		// TODO Auto-generated method stub
 		
 	}
 
-
+	/**
+	 * This method filters projects
+	 * by keywords
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+	 */
 	private static void filterByKeyword(VCSystem vc, Scanner in) {
 		String keyWord = in.next();
 		Iterator<Projects> it = vc.getProjsByKeyword(keyWord);
@@ -426,27 +507,55 @@ public class Main {
 		
 	}
 
-
-
+	/**
+	 * This method filters in-house
+	 * projects by confidentiality level
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+	 */
 	private static void filterByConfidentiality(VCSystem vc, Scanner in) {
 		// TODO Auto-generated method stub
 		
 	}
 
-
+    /**
+     * This method determines the 3
+     * employees with more artefacts
+     * updates
+     * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+     * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+     */
 	private static void getWorkaholics(VCSystem vc, Scanner in) {
 		// TODO Auto-generated method stub
 		
 	}
 	
-
-
+	/**
+	 * This method determines the two employees
+	 * that have more projects in common
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+     * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+	 */
 	private static void moreProjectsInCommon(VCSystem vc, Scanner in) {
 		// TODO Auto-generated method stub
 		
 	}
 	
-
+	/**
+	 * This method shows the available commands
+	 */
 	private static void help() {
 		for(Command c: Command.values()) {
 			if(c != Command.UNKNOWN) {
@@ -455,14 +564,33 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * This method prints a message that warns
+	 * the user that the command he wrote is unknown
+	 */
 	private static void unknownCom() {
 		System.out.println(UNKNOWN_COMMAND);
 	}
 	
+	/**
+	 * This method terminates the execution of the
+	 * program with the message: <code>Bye!</code>
+	 */
 	private static void exit() {
 		System.out.println(BYE);
 	}
-
+	
+	/**
+	 * This method reads the commands,
+	 * wrote by the user
+	 * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+	 * @return the command, if it
+	 * matches an existing on or
+	 * the command <code>UNKNOWN</code>
+	 * if not
+	 */
 	private static Command getCom(Scanner in) {
 		String comm = in.next().toUpperCase();
 		try {

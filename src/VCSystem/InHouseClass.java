@@ -1,5 +1,6 @@
 package VCSystem;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 import VCSystem.exceptions.*;
@@ -76,6 +77,24 @@ public class InHouseClass extends AbstractProject implements InHouse{
 	@Override
 	public Iterator<Artefacts> getAllArtefacts() {
 		return artefacts.values().iterator();
+	}
+
+	@Override
+	public Revision reviseArtefact(User u, String artefactName, LocalDate revisionDate, String comment)
+			throws ArtefactDoesNotExistsException, UserDoesNotBelongToTeamException {
+		Artefacts a = artefacts.get(artefactName);
+		if(a == null) {
+			throw new ArtefactDoesNotExistsException();
+		}
+		else if(!devs.containsValue(u)) {
+			throw new UserDoesNotBelongToTeamException(u.getName(), projName);
+		}
+		else {
+			numRevisions++;
+			Revision r = new RevisionClass(u, a, revisionDate, comment, numRevisions);
+			a.revise(r);
+			return r;
+		}
 	}
 		
 	

@@ -1,13 +1,16 @@
 package VCSystem;
 
+import java.time.LocalDate;
+
 public interface Revision {
 
 	int getNum();
 
 	String getAuthor();
 
-	String getDate();
+	LocalDate getDate();
 
 	String getComment();
 
+	Artefacts getArtefact();
 }

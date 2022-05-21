@@ -5,14 +5,16 @@ import java.util.Iterator;
 
 public interface Artefacts extends Comparable<Artefacts> {
 	
-	public String getName();
+	String getName();
 	
-	public int getConfidentialityLevel();
+	int getConfidentialityLevel();
 	
-	public String getDescription();
+	String getDescription();
 	
-	public Iterator<Revision> getAllRevision();
+	Iterator<Revision> getAllRevision();
 
-	public LocalDate getLastRevDate();
+	LocalDate getLastRevDate();
+
+	void revise(Revision r);
 
 }

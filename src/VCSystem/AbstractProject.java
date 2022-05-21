@@ -4,7 +4,7 @@ import java.util.*;
 public abstract class AbstractProject implements Projects {
 	
 	private Manager mng;
-    private String projName;
+    protected String projName;
     private List<String> keyWords;
 
 	public AbstractProject(Manager mng, String projName, List<String> keyWords) {

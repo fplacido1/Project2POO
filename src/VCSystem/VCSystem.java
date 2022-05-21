@@ -1,4 +1,5 @@
 package VCSystem;
+import java.time.LocalDate;
 import java.util.*;
 import VCSystem.exceptions.*;
 
@@ -37,7 +38,8 @@ public interface VCSystem {
 																	ProjectNameDoesNotExistsException,
 																	UserDoesNotBelongToTeamException;
 	
-	void addArtefact(Artefacts e, String projectName) throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException;
+	void addArtefact(Artefacts e, String projectName) throws ArtefactAlreadyInProjectException,
+															 ExceedsProjectConfidentialityLevelException;
 
 	Iterator<Projects> getProjsByKeyword(String keyWord);
 
@@ -46,5 +48,11 @@ public interface VCSystem {
 	Iterator<Artefacts> getAllProjArtefacts(InHouse proj);
 
 	InHouse getInHouseProj(String projName) throws ProjectNameDoesNotExistsException, ProjectIsOutsourcedException;
+
+	Revision reviseArtefact(String userName, String projectName,
+			                String artefactName, LocalDate revisionDate, String comment) throws UserDoesNotExistException,
+																							    ProjectNameDoesNotExistsException,
+																							    ArtefactDoesNotExistsException,
+																							    UserDoesNotBelongToTeamException;
 	
 }

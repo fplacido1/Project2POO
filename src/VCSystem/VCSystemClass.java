@@ -1,5 +1,6 @@
 package VCSystem;
 
+import java.time.LocalDate;
 import java.util.*;
 import VCSystem.exceptions.*;
 
@@ -232,5 +233,24 @@ public class VCSystemClass implements VCSystem {
 			return inHouseProjs.get(projName);
 		}
 		
+	}
+
+	@Override
+	public Revision reviseArtefact(String userName, String projectName, String artefactName, LocalDate revisionDate, String comment)
+			throws UserDoesNotExistException, ProjectNameDoesNotExistsException,
+			ArtefactDoesNotExistsException, UserDoesNotBelongToTeamException{
+
+		User u = users.get(userName);
+		InHouse p = inHouseProjs.get(projectName);
+		if(u == null) {
+			throw new UserDoesNotExistException(userName);
+		}
+		else if(p == null) {
+			throw new ProjectNameDoesNotExistsException(projectName);
+		}
+		else {
+			u.incArtefactsRevised();
+			return p.reviseArtefact(u, artefactName, revisionDate, comment);
+		}
 	}
 }

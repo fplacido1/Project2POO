@@ -1,11 +1,11 @@
 package VCSystem.exceptions;
 
 @SuppressWarnings("serial")
-public class UserCannotAcessArtefectException extends Exception{
+public class UserCannotAcessArtefactException extends Exception{
 	
 	private static final String MESSAGE = "User %s cannot access artefact.";
 	
-	public UserCannotAcessArtefectException(String param) {
+	public UserCannotAcessArtefactException(String param) {
 		super(String.format(MESSAGE, param));
 	}
 

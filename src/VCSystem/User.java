@@ -10,4 +10,6 @@ public interface User {
 
 	void addProj(InHouse p);
 
+	void incArtefactsRevised();
+
 }

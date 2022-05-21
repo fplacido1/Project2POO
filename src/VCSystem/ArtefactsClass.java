@@ -55,4 +55,10 @@ public class ArtefactsClass implements Artefacts {
 		}
 		return result;
 	}
+
+	@Override
+	public void revise(Revision r) {
+		revisions.add(r);
+		revisionDate = r.getDate();
+	}
 }
