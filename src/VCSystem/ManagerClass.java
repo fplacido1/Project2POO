@@ -13,11 +13,6 @@ public class ManagerClass extends AbstractUser implements Manager {
 	}
 
 	@Override
-	public int getNumProjsAsDev() {
-		return projects.size();
-	}
-
-	@Override
 	public int getNumManagedDevs() {
 		return managedUsers.size();
 	}

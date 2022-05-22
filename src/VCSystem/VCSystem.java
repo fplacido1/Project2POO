@@ -24,9 +24,11 @@ public interface VCSystem {
 	void checkProjType(String type) throws UnknownProjectTypeException;
 
 	void createNewInHouseProj(String projMng, String projName, List<String> keyWords, int confLvl) throws ManagerDoesNotExistException,
-																										  ManagerInsufficientClearanceLevelException;
+																										  ManagerInsufficientClearanceLevelException,
+																										  ProjectNameAlreadyExistsException;
 
-	void createNewOutSourcedProj(String projMng, String projName, List<String> keyWords, String companyName) throws ManagerDoesNotExistException;
+	void createNewOutSourcedProj(String projMng, String projName, List<String> keyWords, String companyName) throws ManagerDoesNotExistException,
+																													ProjectNameAlreadyExistsException;
 
 	void checkProjAndMng(String mngName, String projectName) throws ManagerDoesNotExistException,
 																	ProjectNameDoesNotExistsException,
@@ -34,12 +36,13 @@ public interface VCSystem {
 
 	void checkJobPos(String jobPosition) throws UnknowJobPositionException;
 	
-	void checkUserBelongsToTeam(String user, String project) throws UserDoesNotExistException,
-																	ProjectNameDoesNotExistsException,
-																	UserDoesNotBelongToTeamException;
+	void checkUserAndProj(String user, String project) throws UserDoesNotExistException,
+															  ProjectNameDoesNotExistsException,
+															  UserDoesNotBelongToTeamException;
 	
 	void addArtefact(Artefacts e, String projectName) throws ArtefactAlreadyInProjectException,
-															 ExceedsProjectConfidentialityLevelException;
+															 ExceedsProjectConfidentialityLevelException,
+															 UserDoesNotBelongToTeamException;
 
 	Iterator<Projects> getProjsByKeyword(String keyWord);
 

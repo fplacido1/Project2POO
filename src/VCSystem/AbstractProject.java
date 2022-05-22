@@ -3,7 +3,7 @@ import java.util.*;
 
 public abstract class AbstractProject implements Projects {
 	
-	private Manager mng;
+	protected Manager mng;
     protected String projName;
     private List<String> keyWords;
 

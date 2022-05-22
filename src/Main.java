@@ -17,11 +17,11 @@ public class Main {
 	private static final String NO_PROJECTS = "No projects added.";
 	private static final String ALL_USERS = "All registered users:";
 	private static final String DEV_REG = "developer %s is managed by %s [%d]\n";
-	private static final String MNG_REG = "manager %s [%d ,%d , %d]\n";
+	private static final String MNG_REG = "manager %s [%d, %d, %d]\n";
 	private static final String INHOUSE = "inhouse";
 	private static final String OUTSRC = "outsourced";
-	private static final String ADDED_TO_TEAM = "%s: added to team.\n";
-	private static final String WAS_CREATED = "%s was created.\n";
+	private static final String ADDED_TO_TEAM = "%s: added to the team.\n";
+	private static final String WAS_CREATED = "%s project was created.\n";
 	private static final String ARTEFACT_ADDED_PROJECT = "%s: added to the project.\n";
 	private static final String ARTEFACT_MSG = "Latest project artefacts:";
 	private static final String ALL_PROJECTS = "All projects:";
@@ -37,13 +37,14 @@ public class Main {
 	private static final String REV_DETAILS = "revision %d %s %s %s\n";
 	private static final String DATE_FORMAT = "dd-MM-yyyy";
 	private static final String REVISION_DONE  = "Revision %d of artefact %s was submitted.\n";
+	private static final String LATEST_MEMBERS = "Latest team members:";
 	
 	private enum Command{
 		
 		REGISTER("register","adds a new user"), USERS("users","lists all registered users"), CREATE("create","creates a new project"),
 		PROJECTS("projects","lists all projects"), TEAM("team","adds team members to a project"),
 		ARTEFACTS("artefacts","adds artefacts to a project"), PROJECT("project","shows detailed project information"),
-		REVISION("revision","revises an artefact"), MANAGED("managed","lists developers of a manager"),
+		REVISION("revision","revises an artefact"), MANAGES("manages","lists developers of a manager"),
 		KEYWORD("keyword","filters projects by keyword"), CONFIDENTIALITY("confidentiality","filters projects by confidentiality level"),
 		WORKAHOLICS("workaholics","top 3 employees with more artefacts updates"), COMMON("common","employees with more projects in common"),
 		HELP("help","shows the available commands"), EXIT("exit","terminates the execution of the program"), UNKNOWN("","");
@@ -80,7 +81,7 @@ public class Main {
 		case ARTEFACTS:       addArtefact(vc, in);            break;
 		case PROJECT:         getInHouseDetails(vc, in);      break;
 		case REVISION:        reviseArtefact(vc, in);         break;
-		case MANAGED:         getAllManaged(vc, in);          break;//TODO
+		case MANAGES:         getAllManaged(vc, in);          break;//TODO
 		case KEYWORD:         filterByKeyword(vc, in);        break;
 		case CONFIDENTIALITY: filterByConfidentiality(vc, in);break;//TODO
 		case WORKAHOLICS:     getWorkaholics(vc, in);         break;//TODO
@@ -180,10 +181,10 @@ public class Main {
 				User u = it.next();
 				if(u instanceof Manager) {
 					System.out.printf(MNG_REG, u.getName(), ((Manager) u).getNumManagedDevs(), 
-							                 u.getNumProjs(), ((Manager) u).getNumProjsAsDev() );
+							                 ((Manager) u).getNumManagedProjs(), u.getNumProjsAsDev());
 				}
 				else {
-					System.out.printf(DEV_REG, u.getName(), ((Developer) u).getManager(), ((Developer) u).getNumProjs());
+					System.out.printf(DEV_REG, u.getName(), ((Developer) u).getManager(), u.getNumProjsAsDev());
 				}
 			}
 		}
@@ -216,11 +217,9 @@ public class Main {
 			}
 		}
 		catch(UnknownProjectTypeException e){
+			in.nextLine();
 			System.out.println(e.getMessage());
 		}
-		finally {
-			in.nextLine();
-		}	
 	}
 	
 	/**
@@ -244,7 +243,7 @@ public class Main {
 			vc.createNewOutSourcedProj(projMng, projName, keyWords, companyName);
 			System.out.printf(WAS_CREATED, projName);
 		}
-		catch(ManagerDoesNotExistException e) {
+		catch(ManagerDoesNotExistException | ProjectNameAlreadyExistsException e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -270,9 +269,11 @@ public class Main {
 			vc.createNewInHouseProj(projMng, projName, keyWords, confLvl);
 			System.out.printf(WAS_CREATED, projName);
 		}
-		catch(ManagerDoesNotExistException | ManagerInsufficientClearanceLevelException e) {
+		catch(ManagerDoesNotExistException | ManagerInsufficientClearanceLevelException |
+				ProjectNameAlreadyExistsException e) {
 			System.out.println(e.getMessage());
 		}
+		in.nextLine();
 	}
 
 	/**
@@ -286,7 +287,8 @@ public class Main {
 		Iterator<Projects> it = vc.getAllProjects();
 		if(!it.hasNext()) {
 			System.out.println(NO_PROJECTS);
-		}else {
+		}
+		else {
 			System.out.println(ALL_PROJECTS);
 			while(it.hasNext()) {
 				Projects u = it.next();
@@ -294,7 +296,8 @@ public class Main {
 					System.out.printf(INHOUSE_REG, u.getProjName(), u.getManager().getName(), ((InHouse) u).getConfLvl(),
 												   ((InHouse) u).getNumDevs(), ((InHouse) u).getNumArtefacts(),
 												   ((InHouse) u).getNumRevisions());
-				}else {
+				}
+				else {
 					System.out.printf(OUTSOURCED_REG, u.getProjName(), u.getManager().getName(), ((OutSourced)u).getCompany());
 				}
 			}
@@ -320,13 +323,14 @@ public class Main {
 		}
 		try {
 			vc.checkProjAndMng(mngName, projectName);
+			System.out.println(LATEST_MEMBERS);
 			for(int j = 0; j < numUsers; j++) {
 				try {
 					vc.addUserToProj(projectName, names.get(j));
 					System.out.printf(ADDED_TO_TEAM, names.get(j));
 				}
 				catch (UsernameDoesNotExistException | AlreadyTeamMemberException | InsufficientClearanceLevelException e) {
-					System.out.printf(e.getMessage(), names.get(j));
+					System.out.println(e.getMessage());
 				}
 			}
 		}
@@ -366,7 +370,7 @@ public class Main {
 		}
 		
 		try {
-			vc.checkUserBelongsToTeam(userName, projectName);
+			vc.checkUserAndProj(userName, projectName);
 			System.out.println(ARTEFACT_MSG);
 			for(int i = 0; i < num; i++) {
 				try {

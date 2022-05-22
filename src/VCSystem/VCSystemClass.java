@@ -34,7 +34,7 @@ public class VCSystemClass implements VCSystem {
 	
 	public VCSystemClass() {
 		users = new TreeMap<>();
-		projects = new HashMap<>();
+		projects = new LinkedHashMap<>(); //TODO DUVIDA
 		managers = new HashMap<>();
 		inHouseProjs = new HashMap<>();
 		projsByKeyWord = new HashMap<>();
@@ -42,7 +42,7 @@ public class VCSystemClass implements VCSystem {
 
 	@Override
 	public void addManager(String name, int clearanceLvl) throws UserAlreadyExistsException {
-		if(managers.containsKey(name)) {
+		if(users.containsKey(name)) {
 			throw new UserAlreadyExistsException(name);
 		}
 		else {
@@ -94,8 +94,10 @@ public class VCSystemClass implements VCSystem {
 		if(u == null) {
 			throw new UsernameDoesNotExistException(userName);
 		}
-		p.addUser(u);
-		u.addProj(p);
+		else {
+			p.addUser(u);
+			u.addProj(p);
+		}
 	}
 
 	@Override
@@ -108,11 +110,14 @@ public class VCSystemClass implements VCSystem {
 
 	@Override
 	public void createNewInHouseProj(String projMng, String projName, List<String> keyWords, int confLvl) 
-			throws ManagerDoesNotExistException,ManagerInsufficientClearanceLevelException {
+			throws ManagerDoesNotExistException,ManagerInsufficientClearanceLevelException, ProjectNameAlreadyExistsException {
 		
 		Manager mng = managers.get(projMng);
 		if(mng == null) {
 			throw new ManagerDoesNotExistException(projMng);
+		}
+		else if(projects.containsKey(projName)) {
+			throw new ProjectNameAlreadyExistsException(projName);
 		}
 		else if(mng.getClearanceLvl() < confLvl){
 			throw new ManagerInsufficientClearanceLevelException(mng.getName(), mng.getClearanceLvl());
@@ -137,11 +142,14 @@ public class VCSystemClass implements VCSystem {
 
 	@Override
 	public void createNewOutSourcedProj(String projMng, String projName, List<String> keyWords, String companyName) 
-			throws ManagerDoesNotExistException {
+			throws ManagerDoesNotExistException, ProjectNameAlreadyExistsException {
 		
 		Manager mng = managers.get(projMng);
 		if(mng == null) {
 			throw new ManagerDoesNotExistException(projMng);
+		}
+		else if(projects.containsKey(projName)) {
+			throw new ProjectNameAlreadyExistsException(projName);
 		}
 		else {
 			Projects out = new OutSourcedClass(mng, projName, companyName, keyWords);
@@ -164,7 +172,7 @@ public class VCSystemClass implements VCSystem {
 	public void checkProjAndMng(String mngName, String projectName)
 			throws ManagerDoesNotExistException, ProjectNameDoesNotExistsException, ProjectNotManagedByUserException {
 		Manager mng = managers.get(mngName);
-		Projects p = projects.get(projectName);
+		InHouse p = inHouseProjs.get(projectName);
 		if(mng == null) {
 			throw new ManagerDoesNotExistException(mngName);
 		}
@@ -177,12 +185,19 @@ public class VCSystemClass implements VCSystem {
 	}
 
 	@Override
-	public void checkUserBelongsToTeam(String user, String project)// falta um else
-			throws UserDoesNotExistException, ProjectNameDoesNotExistsException, UserDoesNotBelongToTeamException {
+	public void checkUserAndProj(String user, String project)
+			throws UserDoesNotExistException, ProjectNameDoesNotExistsException, UserDoesNotBelongToTeamException{
 		if(!users.containsKey(user)) {
 			throw new UserDoesNotExistException(user);
-		}else if(!projects.containsKey(project)) {
+		}
+		else if(!inHouseProjs.containsKey(project)) {
 			throw new ProjectNameDoesNotExistsException(project);
+		}
+		else{
+			InHouse p = inHouseProjs.get(project);
+			if(!p.containsUser(user)) {
+				throw new UserDoesNotBelongToTeamException(user, project);
+			}
 		}
 		
 	}
@@ -193,9 +208,11 @@ public class VCSystemClass implements VCSystem {
 		InHouse tmp = inHouseProjs.get(projectName);
 		if(tmp.containsArtefact(e)) {// TODO objeto ou nome?
 			throw new ArtefactAlreadyInProjectException(e.getName());
-		}else if(tmp.getConfLvl() < e.getConfidentialityLevel()) {
+		}
+		else if(tmp.getConfLvl() < e.getConfidentialityLevel()) {
 			throw new ExceedsProjectConfidentialityLevelException(e.getName());
-		}else {
+		}
+		else {
 			tmp.addArtefact(e);
 		}
 		

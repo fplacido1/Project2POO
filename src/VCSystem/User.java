@@ -6,7 +6,7 @@ public interface User {
 
 	int getClearanceLvl();
 	
-	int getNumProjs();
+	int getNumProjsAsDev();
 
 	void addProj(InHouse p);
 

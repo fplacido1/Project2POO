@@ -2,8 +2,6 @@ package VCSystem;
 
 public interface Manager extends User {
 
-	int getNumProjsAsDev();
-
 	int getNumManagedDevs();
 	
 	int getNumManagedProjs();

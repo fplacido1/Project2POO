@@ -23,7 +23,7 @@ public abstract class AbstractUser implements User {
 		return clearanceLvl;
 	}
 	
-	public int getNumProjs() {
+	public int getNumProjsAsDev() {
 		return projects.size();
 	}
 	

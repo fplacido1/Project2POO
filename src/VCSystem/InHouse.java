@@ -29,4 +29,6 @@ public interface InHouse extends Projects {
 	Revision reviseArtefact(User u, String artefactName, LocalDate revisionDate, String comment) throws ArtefactDoesNotExistsException,
 																								    UserDoesNotBelongToTeamException;
 
+	boolean containsUser(String user);
+
 }
