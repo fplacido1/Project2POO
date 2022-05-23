@@ -3,12 +3,12 @@ import java.util.*;
 
 public class ManagerClass extends AbstractUser implements Manager {
 
-	private Map<String, Developer> managedUsers;
+	private Map<String, User> managedUsers;
 	private Map<String, Projects> managedProjs;
 	
 	public ManagerClass(String name, int clearanceLvl) {
 		super(name, clearanceLvl);
-		managedUsers = new HashMap<>();
+		managedUsers = new TreeMap<>();
 		managedProjs = new HashMap<>();
 	}
 
@@ -30,6 +30,11 @@ public class ManagerClass extends AbstractUser implements Manager {
 	@Override
 	public void addToManagedProjs(Projects proj) {
 		managedProjs.put(proj.getProjName(), proj);
+	}
+
+	@Override
+	public Iterator<User> getAllUsers() {
+		return managedUsers.values().iterator();
 	}
 
 }

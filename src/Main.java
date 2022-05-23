@@ -38,6 +38,8 @@ public class Main {
 	private static final String DATE_FORMAT = "dd-MM-yyyy";
 	private static final String REVISION_DONE  = "Revision %d of artefact %s was submitted.\n";
 	private static final String LATEST_MEMBERS = "Latest team members:";
+	private static final String MANAGER = "Manager %s:\n";
+	private static final String REVISION_DETAILS = "%s, %s, %d, %s, %s\n";
 	
 	private enum Command{
 		
@@ -81,7 +83,7 @@ public class Main {
 		case ARTEFACTS:       addArtefact(vc, in);            break;
 		case PROJECT:         getInHouseDetails(vc, in);      break;
 		case REVISION:        reviseArtefact(vc, in);         break;
-		case MANAGES:         getAllManaged(vc, in);          break;//TODO
+		case MANAGES:         getAllManaged(vc, in);          break;
 		case KEYWORD:         filterByKeyword(vc, in);        break;
 		case CONFIDENTIALITY: filterByConfidentiality(vc, in);break;//TODO
 		case WORKAHOLICS:     getWorkaholics(vc, in);         break;//TODO
@@ -448,7 +450,7 @@ public class Main {
 		String userName = in.next();
 		String projectName = in.nextLine().trim();
 		String artefactName = in.next();
-		String date = in.nextLine();
+		String date = in.next();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern(DATE_FORMAT);
 		LocalDate revisionDate = LocalDate.parse(date, format);
 		String comment = in.nextLine().trim();
@@ -474,8 +476,28 @@ public class Main {
 	 * user inputs
 	 */
 	private static void getAllManaged(VCSystem vc, Scanner in) {
-		// TODO Auto-generated method stub
+			String managerName = in.nextLine().trim();
+			try {
+				Iterator<User> it = vc.getAllManagerUsers(managerName);
+				System.out.printf(MANAGER);
+				while(it.hasNext()) {
+					User u = it.next();
+					System.out.println(u.getName());
+					Iterator<Revision> itRev = u.getAllRevisions();
+					printUserRevisions(itRev);
+				}
+			}
+			catch (ManagerDoesNotExistException e) {
+				System.out.println(e.getMessage());
+			}
 		
+	}
+	
+	private static void printUserRevisions(Iterator<Revision> itRev) {
+		while(itRev.hasNext()) {
+			Revision r = itRev.next();
+			System.out.printf(REVISION_DETAILS, r.getProjName(), r.getArtefact().getName(), r.getNum(), r.getDate(), r.getComment());
+		}
 	}
 
 	/**

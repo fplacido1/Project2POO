@@ -13,4 +13,6 @@ public interface Revision {
 	String getComment();
 
 	Artefacts getArtefact();
+
+	String getProjName();
 }

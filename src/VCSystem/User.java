@@ -1,5 +1,7 @@
 package VCSystem;
 
+import java.util.Iterator;
+
 public interface User {
 
 	String getName();
@@ -10,6 +12,8 @@ public interface User {
 
 	void addProj(InHouse p);
 
-	void incArtefactsRevised();
+	void addArtefactRevised(Revision r);
+
+	Iterator<Revision> getAllRevisions();
 
 }

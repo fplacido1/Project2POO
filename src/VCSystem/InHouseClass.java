@@ -18,7 +18,7 @@ public class InHouseClass extends AbstractProject implements InHouse{
 		this.confLvl = confLvl;
 		artefacts = new TreeMap<>();
 		numRevisions = 0;
-		this.devs = new HashMap<>();
+		this.devs = new LinkedHashMap<>();
 	}
 
 	@Override
@@ -86,12 +86,12 @@ public class InHouseClass extends AbstractProject implements InHouse{
 		if(a == null) {
 			throw new ArtefactDoesNotExistsException();
 		}
-		else if(!devs.containsValue(u)) {
+		else if(!devs.containsValue(u) && !u.getName().equals(mng.getName())) {
 			throw new UserDoesNotBelongToTeamException(u.getName(), projName);
 		}
 		else {
 			numRevisions++;
-			Revision r = new RevisionClass(u, a, revisionDate, comment, numRevisions);
+			Revision r = new RevisionClass(u, a, revisionDate, comment, numRevisions, projName);
 			a.revise(r);
 			return r;
 		}

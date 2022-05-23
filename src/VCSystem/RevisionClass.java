@@ -8,14 +8,16 @@ public class RevisionClass implements Revision {
 	private Artefacts artefact;
 	private LocalDate revisionDate;
 	private String comment;
+	private String projName;
 	private int revisionNum;
 
-	public RevisionClass(User u, Artefacts a, LocalDate revisionDate, String comment, int numRevisions) {
+	public RevisionClass(User u, Artefacts a, LocalDate revisionDate, String comment, int numRevisions, String projName) {
 		author = u;
 		artefact = a;
 		this.revisionDate = revisionDate;
 		this.comment = comment;
 		revisionNum = numRevisions;
+		this.projName = projName;
 	}
 
 	@Override
@@ -41,5 +43,10 @@ public class RevisionClass implements Revision {
 	@Override
 	public Artefacts getArtefact() {
 		return artefact;
+	}
+
+	@Override
+	public String getProjName() {
+		return projName;
 	}
 }

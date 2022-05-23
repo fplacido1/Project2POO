@@ -57,5 +57,7 @@ public interface VCSystem {
 																							    ProjectNameDoesNotExistsException,
 																							    ArtefactDoesNotExistsException,
 																							    UserDoesNotBelongToTeamException;
+
+	Iterator<User> getAllManagerUsers(String managerName) throws ManagerDoesNotExistException;
 	
 }

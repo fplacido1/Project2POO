@@ -266,8 +266,20 @@ public class VCSystemClass implements VCSystem {
 			throw new ProjectNameDoesNotExistsException(projectName);
 		}
 		else {
-			u.incArtefactsRevised();
-			return p.reviseArtefact(u, artefactName, revisionDate, comment);
+			Revision r = p.reviseArtefact(u, artefactName, revisionDate, comment);
+			u.addArtefactRevised(r);
+			return r;
+		}
+	}
+
+	@Override
+	public Iterator<User> getAllManagerUsers(String managerName) throws ManagerDoesNotExistException {
+		Manager mng = managers.get(managerName);
+		if(mng == null) {
+			throw new ManagerDoesNotExistException(managerName);
+		}
+		else {
+			return mng.getAllUsers();
 		}
 	}
 }
