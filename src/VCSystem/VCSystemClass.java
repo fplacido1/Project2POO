@@ -11,6 +11,7 @@ public class VCSystemClass implements VCSystem {
 	private Map<String, Projects> projects;
 	private Map<String, InHouse> inHouseProjs;
 	private Map<String, List<Projects>> projsByKeyWord;
+	private List<User> workaholics;
 	
 	private enum JobType{
 		MNG("manager"), DEV("developer");
@@ -34,10 +35,11 @@ public class VCSystemClass implements VCSystem {
 	
 	public VCSystemClass() {
 		users = new TreeMap<>();
-		projects = new LinkedHashMap<>(); //TODO DUVIDA
+		projects = new LinkedHashMap<>();
 		managers = new HashMap<>();
-		inHouseProjs = new HashMap<>();
+		inHouseProjs = new TreeMap<>();
 		projsByKeyWord = new HashMap<>();
+		workaholics = new ArrayList<>(3);
 	}
 
 	@Override
@@ -53,7 +55,7 @@ public class VCSystemClass implements VCSystem {
 	}
 
 	@Override
-	public User addDeveloper(String name, String mng, int clearanceLvl) throws UserAlreadyExistsException, ManagerDoesNotExistException {
+	public void addDeveloper(String name, String mng, int clearanceLvl) throws UserAlreadyExistsException, ManagerDoesNotExistException {
 		Manager m = managers.get(mng);
 		if(users.containsKey(name)) {
 			throw new UserAlreadyExistsException(name);
@@ -65,7 +67,6 @@ public class VCSystemClass implements VCSystem {
 			Developer d = new DeveloperClass(name, m, clearanceLvl);
 			users.put(name, d);
 			m.addManagedDev(name, d);
-			return d;
 		}
 	}
 
@@ -145,10 +146,11 @@ public class VCSystemClass implements VCSystem {
 			throws ManagerDoesNotExistException, ProjectNameAlreadyExistsException {
 		
 		Manager mng = managers.get(projMng);
+		Projects p = projects.get(projName);
 		if(mng == null) {
 			throw new ManagerDoesNotExistException(projMng);
 		}
-		else if(projects.containsKey(projName)) {
+		else if(p instanceof OutSourced && p != null) {
 			throw new ProjectNameAlreadyExistsException(projName);
 		}
 		else {
@@ -268,7 +270,26 @@ public class VCSystemClass implements VCSystem {
 		else {
 			Revision r = p.reviseArtefact(u, artefactName, revisionDate, comment);
 			u.addArtefactRevised(r);
+			checkWorkaholics(u);
 			return r;
+		}
+	}
+	
+	private void checkWorkaholics(User u) {
+		if(workaholics.isEmpty()) {
+			workaholics.add(u);
+		}
+		else {
+			int indexToAdd = -1;
+			for(int i = workaholics.size(); i >= 0; i--) {
+				if(u.compareTo(workaholics.get(i)) > 0) {
+					indexToAdd = i;
+				}
+			}
+			if(indexToAdd != -1) {
+				workaholics.remove(2);
+				workaholics.add(indexToAdd, u);
+			}
 		}
 	}
 
@@ -281,5 +302,27 @@ public class VCSystemClass implements VCSystem {
 		else {
 			return mng.getAllUsers();
 		}
+	}
+
+	@Override
+	public Iterator<InHouse> getProjsWithIn(int lowerLimit, int upperLimit) {
+		List<InHouse> temp = new ArrayList<>();
+		for(InHouse proj : inHouseProjs.values()) {
+			if(proj.getConfLvl() <= upperLimit || proj.getConfLvl() >= lowerLimit) {
+				temp.add(proj);
+			}
+		}
+		return temp.iterator();
+	}
+
+	@Override
+	public Iterator<User> getWorkaholics() {
+		return workaholics.iterator();
+	}
+
+	@Override
+	public Iterator<Common> getCommonUsers() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

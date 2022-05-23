@@ -4,13 +4,18 @@ import VCSystem.exceptions.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * 
+ * @author Joao Norberto (62685) & Francisco Placido()
+ *
+ */
 public class Main {
 	
 	private static final String BYE = "Bye!";
 	private static final String UNKNOWN_COMMAND = "Unknown command. Type help to see available commands.";
 	private static final String FORMAT_HELP = "%s - %s\n";
-	private static final String ADDED_DEV = "User %s was registered as software developer with clearance level %d.\n";
-	private static final String ADDED_MNG = "User %s was registered as project manager with clearance level %d.\n";
+	private static final String ADDED_DEV = "User %s was registered as developer with clearance level %d.\n";
+	private static final String ADDED_MNG = "User %s was registered as manager with clearance level %d.\n";
 	private static final String DEV = "developer";
 	private static final String MNG = "manager";
 	private static final String NO_USERS = "No users registered.";
@@ -40,7 +45,19 @@ public class Main {
 	private static final String LATEST_MEMBERS = "Latest team members:";
 	private static final String MANAGER = "Manager %s:\n";
 	private static final String REVISION_DETAILS = "%s, %s, %d, %s, %s\n";
+	private static final String NO_PROJS_WITHIN = "No projects within levels %d and %d.\n";
+	private static final String PROJ_INFO = "%s [%d] is managed by %s and has keywords ";
+	private static final String NO_WORKAHOLICS = "There are no workaholics.";
+	private static final String WORKAHOLICS = "%s: %d updates, %d projects, last update on %s\n";
+	private static final String SEPARATOR = ", ";
+	private static final String TERMINATOR = ".";
+	private static final String NO_COMMON_PROJS = "Cannot determine employees with common projects.";
 	
+	/**
+	 * 
+	 * @author Joao Norberto (62685) & Francisco Placido ()
+	 *
+	 */
 	private enum Command{
 		
 		REGISTER("register","adds a new user"), USERS("users","lists all registered users"), CREATE("create","creates a new project"),
@@ -72,7 +89,20 @@ public class Main {
 		in.close();
 	}
 
-
+	/**
+	 * This method executes one of the commands
+	 * in the enum Command, based on the user
+	 * input
+	 * @param command, command wrote by the
+	 * user. <code>Unknown</code> if the
+	 * command wrote is not on the enum
+	 * @param in, allows the method to
+	 * use the scanner so it can read the
+	 * user inputs
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 */
 	private static void chooseCommand(Command command, Scanner in, VCSystem vc) {
 		switch(command) {
 		case REGISTER:        registerUser(vc, in);           break;
@@ -85,9 +115,9 @@ public class Main {
 		case REVISION:        reviseArtefact(vc, in);         break;
 		case MANAGES:         getAllManaged(vc, in);          break;
 		case KEYWORD:         filterByKeyword(vc, in);        break;
-		case CONFIDENTIALITY: filterByConfidentiality(vc, in);break;//TODO
-		case WORKAHOLICS:     getWorkaholics(vc, in);         break;//TODO
-		case COMMON:          moreProjectsInCommon(vc, in);   break;//TODO
+		case CONFIDENTIALITY: filterByConfidentiality(vc, in);break;
+		case WORKAHOLICS:     getWorkaholics(vc);             break;
+		case COMMON:          moreProjectsInCommon(vc);       break;//TODO
 		case HELP:            help();                         break;
 		default:                                              break;
 		}
@@ -155,10 +185,10 @@ public class Main {
 	 * the class VCSystemClass so it can
 	 * execute the commands
 	 */
-	private static void addDeveloper(String name, String mng, int clearanceLvl,VCSystem vc) {
+	private static void addDeveloper(String name, String mng, int clearanceLvl, VCSystem vc) {
 		try {
-			User u = vc.addDeveloper(name, mng, clearanceLvl);
-			System.out.printf(ADDED_DEV, u.getName(), u.getClearanceLvl());
+			vc.addDeveloper(name, mng, clearanceLvl);
+			System.out.printf(ADDED_DEV, name, clearanceLvl);
 		}
 		catch(UserAlreadyExistsException | ManagerDoesNotExistException e) {
 			System.out.println(e.getMessage());
@@ -493,6 +523,13 @@ public class Main {
 		
 	}
 	
+	/**
+	 * This method prints all the
+	 * revisions done by a user
+	 * @param itRev, iterator of
+	 * all the revisions done by
+	 * a user
+	 */
 	private static void printUserRevisions(Iterator<Revision> itRev) {
 		while(itRev.hasNext()) {
 			Revision r = itRev.next();
@@ -544,8 +581,42 @@ public class Main {
 	 * user inputs
 	 */
 	private static void filterByConfidentiality(VCSystem vc, Scanner in) {
-		// TODO Auto-generated method stub
-		
+		int lowerLimit = in.nextInt();
+		int upperLimit = in.nextInt();
+		Iterator<InHouse> it = vc.getProjsWithIn(lowerLimit, upperLimit);
+		if(!it.hasNext()) {
+			System.out.printf(NO_PROJS_WITHIN, lowerLimit, upperLimit);
+		}
+		else {
+			while(it.hasNext()) {
+				InHouse p = it.next();
+				System.out.printf(PROJ_INFO, p.getProjName(), p.getConfLvl(), p.getManager().getName());
+				Iterator<String> itKW = p.getKeyWords();
+				printProjectKeywords(itKW);
+			}
+		}
+	}
+	
+	/**
+	 * This method prints all the
+	 * keywords of a project
+	 * @param itKW, iterator of
+	 * all the keywords from a
+	 * project
+	 */
+	private static final void printProjectKeywords(Iterator<String> itKW) {
+		String answer = "";
+		int i = 0;
+		while(itKW.hasNext()) {
+			if(i < 1) {
+				answer += itKW.next();
+				i++;
+			}
+			else {
+				answer += SEPARATOR + itKW.next();
+			}
+		}
+		System.out.println(answer + TERMINATOR);
 	}
 
     /**
@@ -559,8 +630,17 @@ public class Main {
 	 * use the scanner so it can read the
 	 * user inputs
      */
-	private static void getWorkaholics(VCSystem vc, Scanner in) {
-		// TODO Auto-generated method stub
+	private static void getWorkaholics(VCSystem vc) {
+		Iterator<User> it = vc.getWorkaholics();
+		if(!it.hasNext()) {
+			System.out.println(NO_WORKAHOLICS);
+		}
+		else {
+			while(it.hasNext()) {
+				User u = it.next();
+				System.out.printf(WORKAHOLICS, u.getName(), u.getNumUpdates() ,u.getNumProjsAsDev(), u.getLastUpdateDone());
+			}
+		}
 		
 	}
 	
@@ -574,9 +654,16 @@ public class Main {
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
-	private static void moreProjectsInCommon(VCSystem vc, Scanner in) {
-		// TODO Auto-generated method stub
-		
+	private static void moreProjectsInCommon(VCSystem vc) {
+		Iterator<Common> it = vc.getCommonUsers();
+		if(!it.hasNext()) {
+			System.out.println(NO_COMMON_PROJS);
+		}
+		else {
+			while(it.hasNext()) {
+				
+			}
+		}
 	}
 	
 	/**

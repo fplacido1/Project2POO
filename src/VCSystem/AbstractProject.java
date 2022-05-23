@@ -20,4 +20,8 @@ public abstract class AbstractProject implements Projects {
 	public Manager getManager() {
 		return mng;
 	}
+	
+	public Iterator<String> getKeyWords(){
+		return keyWords.iterator();
+	}
 }

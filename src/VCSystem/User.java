@@ -1,8 +1,9 @@
 package VCSystem;
 
+import java.time.LocalDate;
 import java.util.Iterator;
 
-public interface User {
+public interface User extends Comparable<User> {
 
 	String getName();
 
@@ -15,5 +16,9 @@ public interface User {
 	void addArtefactRevised(Revision r);
 
 	Iterator<Revision> getAllRevisions();
+	
+	int getNumUpdates();
+	
+	LocalDate getLastUpdateDone();
 
 }
