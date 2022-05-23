@@ -206,7 +206,7 @@ public class VCSystemClass implements VCSystem {
 	public void addArtefact(Artefacts e, String projectName) 
 			throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException {
 		InHouse tmp = inHouseProjs.get(projectName);
-		if(tmp.containsArtefact(e)) {// TODO objeto ou nome?
+		if(tmp.containsArtefact(e)) {
 			throw new ArtefactAlreadyInProjectException(e.getName());
 		}
 		else if(tmp.getConfLvl() < e.getConfidentialityLevel()) {

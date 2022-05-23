@@ -33,7 +33,7 @@ public class InHouseClass extends AbstractProject implements InHouse{
 
 	@Override
 	public boolean containsArtefact(Artefacts e) {
-		return artefacts.containsValue(e);
+		return artefacts.containsKey(e.getName());
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class InHouseClass extends AbstractProject implements InHouse{
 
 	@Override
 	public boolean containsUser(String user) {
-		return devs.containsKey(user);
+		return devs.containsKey(user) || user.equals(mng.getName());
 	}
 		
 	
