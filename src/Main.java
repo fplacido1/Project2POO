@@ -38,7 +38,7 @@ public class Main {
 	private static final String INHOUSE_BY_KW = "in-house %s is managed by %s [%d, %d, %d, %d, %s]\n";
 	private static final String IN_HOUSE_DETAILS = "%s [%d] managed by %s [%d]:\n";
 	private static final String USER_DETAILS = "%s [%d]\n";
-	private static final String ART_DETAILS = "%s [%d]: %s\n";
+	private static final String ART_DETAILS = "%s [%d]\n";
 	private static final String REV_DETAILS = "revision %d %s %s %s\n";
 	private static final String DATE_FORMAT = "dd-MM-yyyy";
 	private static final String REVISION_DONE  = "Revision %d of artefact %s was submitted.\n";
@@ -52,6 +52,7 @@ public class Main {
 	private static final String SEPARATOR = ", ";
 	private static final String TERMINATOR = ".";
 	private static final String NO_COMMON_PROJS = "Cannot determine employees with common projects.";
+	private static final String AVAILABLE_COMM = "Available commands:";
 	
 	/**
 	 * 
@@ -442,7 +443,7 @@ public class Main {
 			}
 			while(itArtefacts.hasNext()) {
 				Artefacts a = itArtefacts.next();
-				System.out.printf(ART_DETAILS, a.getName(), a.getConfidentialityLevel(), a.getDescription());
+				System.out.printf(ART_DETAILS, a.getName(), a.getConfidentialityLevel());
 				Iterator<Revision> itRev = a.getAllRevision();
 				printRevisions(itRev);
 			}
@@ -670,6 +671,7 @@ public class Main {
 	 * This method shows the available commands
 	 */
 	private static void help() {
+		System.out.println(AVAILABLE_COMM);
 		for(Command c: Command.values()) {
 			if(c != Command.UNKNOWN) {
 				System.out.printf(FORMAT_HELP, c.comm, c.desc);

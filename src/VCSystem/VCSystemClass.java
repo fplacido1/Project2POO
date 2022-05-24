@@ -281,13 +281,14 @@ public class VCSystemClass implements VCSystem {
 		}
 		else {
 			int indexToAdd = -1;
-			for(int i = workaholics.size(); i >= 0; i--) {
+			for(int i = 0; i < workaholics.size(); i++) {
 				if(u.compareTo(workaholics.get(i)) > 0) {
 					indexToAdd = i;
+					break;
 				}
 			}
 			if(indexToAdd != -1) {
-				workaholics.remove(2);
+				//workaholics.remove(2);
 				workaholics.add(indexToAdd, u);
 			}
 		}

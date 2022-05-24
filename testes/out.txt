@@ -1,15 +1,15 @@
-User peralta was registered as project manager with clearance level 3.
-User santiago was registered as project manager with clearance level 4.
-User holt was registered as project manager with clearance level 5.
-User diaz was registered as project manager with clearance level 4.
-User boyle was registered as software developer with clearance level 3.
-User bob was registered as software developer with clearance level 2.
-User linetti was registered as software developer with clearance level 4.
-User pimento was registered as software developer with clearance level 2.
-User wells was registered as software developer with clearance level 2.
-User john was registered as software developer with clearance level 4.
-User mary was registered as software developer with clearance level 3.
-User jeffords was registered as software developer with clearance level 5.
+User peralta was registered as manager with clearance level 3.
+User santiago was registered as manager with clearance level 4.
+User holt was registered as manager with clearance level 5.
+User diaz was registered as manager with clearance level 4.
+User boyle was registered as developer with clearance level 3.
+User bob was registered as developer with clearance level 2.
+User linetti was registered as developer with clearance level 4.
+User pimento was registered as developer with clearance level 2.
+User wells was registered as developer with clearance level 2.
+User john was registered as developer with clearance level 4.
+User mary was registered as developer with clearance level 3.
+User jeffords was registered as developer with clearance level 5.
 All registered users:
 developer bob is managed by holt [0]
 developer boyle is managed by peralta [0]
@@ -113,27 +113,38 @@ in-house My fabulous app is managed by diaz [3, 2, 1, 0]
 in-house Sell stuff online app is managed by peralta [3, 2, 0, 0]
 outsourced Accounting service is managed by peralta and developed by Mendix
 Online occurrence reporting [2] managed by santiago [4]:
-class_diagram.jpg [1]: jpg image
-file1.py [2]: python
-file2.py [2]: python
+class_diagram.jpg [1]
+false
+file1.py [2]
+false
+file2.py [2]
+false
 Yet another online app [4] managed by diaz [4]:
 linetti [4]
 jeffords [5]
 john [4]
 santiago [4]
-diagram.jpg [4]: jpg image
-main.java [3]: java
-todo.txt [3]: text file
+diagram.jpg [4]
+false
+main.java [3]
+false
+todo.txt [3]
+false
 Wordle [2] managed by holt [5]:
 wells [2]
 pimento [2]
 santiago [4]
 Top secret [5] managed by holt [5]:
-class_diagram.jpg [5]: entities
-file1.erl [5]: erlang file
-file2.erl [4]: erlang file
-file3.erl [5]: erlang file
-file4.erl [5]: erlang file
+class_diagram.jpg [5]
+false
+file1.erl [5]
+false
+file2.erl [4]
+false
+file3.erl [5]
+false
+file4.erl [5]
+false
 Top secrets project does not exist.
 Online occurrence reporting UI is an outsourced project.
 Latest project artefacts:
@@ -147,9 +158,11 @@ Wordle [2] managed by holt [5]:
 wells [2]
 pimento [2]
 santiago [4]
-readme [0]: compiling instructions
+readme [0]
+true
 revision 2 pimento 2021-03-14 added more detail
-wordle.cpp [2]: c++ file
+wordle.cpp [2]
+true
 revision 3 santiago 2021-03-18 updated comments
 revision 1 wells 2021-03-15 minor fix
 Latest team members:
@@ -163,9 +176,11 @@ Wordle [2] managed by holt [5]:
 wells [2]
 pimento [2]
 santiago [4]
-readme [0]: compiling instructions
+readme [0]
+true
 revision 2 pimento 2021-03-14 added more detail
-wordle.cpp [2]: c++ file
+wordle.cpp [2]
+true
 revision 3 santiago 2021-03-18 updated comments
 revision 1 wells 2021-03-15 minor fix
 Revision 4 of artefact readme was submitted.
@@ -173,10 +188,12 @@ Wordle [2] managed by holt [5]:
 wells [2]
 pimento [2]
 santiago [4]
-readme [0]: compiling instructions
+readme [0]
+true
 revision 4 santiago 2021-03-18 minor fix
 revision 2 pimento 2021-03-14 added more detail
-wordle.cpp [2]: c++ file
+wordle.cpp [2]
+true
 revision 3 santiago 2021-03-18 updated comments
 revision 1 wells 2021-03-15 minor fix
 Revision 1 of artefact main.java was submitted.
@@ -185,10 +202,13 @@ linetti [4]
 jeffords [5]
 john [4]
 santiago [4]
-diagram.jpg [4]: jpg image
-main.java [3]: java
+diagram.jpg [4]
+false
+main.java [3]
+true
 revision 1 linetti 2022-03-25 add new commands
-todo.txt [3]: text file
+todo.txt [3]
+false
 Revision 2 of artefact diagram.jpg was submitted.
 User alice does not exist.
 Some app project does not exist.
@@ -200,11 +220,14 @@ linetti [4]
 jeffords [5]
 john [4]
 santiago [4]
-diagram.jpg [4]: jpg image
+diagram.jpg [4]
+true
 revision 2 jeffords 2022-03-25 updated diagram
-main.java [3]: java
+main.java [3]
+true
 revision 1 linetti 2022-03-25 add new commands
-todo.txt [3]: text file
+todo.txt [3]
+false
 Some app project does not exist.
 Online occurrence reporting UI is an outsourced project.
 All projects:
