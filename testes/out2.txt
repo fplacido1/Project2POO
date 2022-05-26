@@ -147,11 +147,11 @@ Wordle [2] managed by holt [5]:
 wells [2]
 pimento [2]
 santiago [4]
+readme [0]
+revision 2 pimento 2021-03-14 added more detail
 wordle.cpp [2]
 revision 3 santiago 2021-03-18 updated comments
 revision 1 wells 2021-03-15 minor fix
-readme [0]
-revision 2 pimento 2021-03-14 added more detail
 Latest team members:
 mary: added to the team.
 Revision 1 of artefact class_diagram.jpg was submitted.
@@ -163,11 +163,11 @@ Wordle [2] managed by holt [5]:
 wells [2]
 pimento [2]
 santiago [4]
+readme [0]
+revision 2 pimento 2021-03-14 added more detail
 wordle.cpp [2]
 revision 3 santiago 2021-03-18 updated comments
 revision 1 wells 2021-03-15 minor fix
-readme [0]
-revision 2 pimento 2021-03-14 added more detail
 Revision 4 of artefact readme was submitted.
 Wordle [2] managed by holt [5]:
 wells [2]

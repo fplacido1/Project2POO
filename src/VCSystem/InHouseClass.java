@@ -28,7 +28,7 @@ public class InHouseClass extends AbstractProject implements InHouse{
 
 	@Override
 	public void addArtefact(Artefacts e) throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException{
-		if(artefacts.containsValue(e)) {
+		if(artefacts.containsKey(e.getName())) {
 			throw new ArtefactAlreadyInProjectException(e.getName());
 		}
 		else if(confLvl < e.getConfidentialityLevel()) {

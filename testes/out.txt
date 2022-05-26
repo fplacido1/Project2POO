@@ -86,8 +86,8 @@ diagram.jpg: added to the project.
 passwords.xlsx: exceeds project confidentiality level.
 Latest project artefacts:
 todo.txt: added to the project.
-main.java: added to the project.
-diagram.jpg: added to the project.
+main.java: already in the project.
+diagram.jpg: already in the project.
 Latest project artefacts:
 file2.py: added to the project.
 class_diagram.jpg: added to the project.
@@ -98,7 +98,7 @@ class_diagram.jpg: added to the project.
 file1.erl: added to the project.
 Latest project artefacts:
 file4.erl: added to the project.
-class_diagram.jpg: added to the project.
+class_diagram.jpg: already in the project.
 file3.erl: added to the project.
 Latest project artefacts:
 file1.erl: added to the project.
@@ -107,8 +107,8 @@ All projects:
 in-house Online occurrence reporting is managed by santiago [2, 0, 3, 0]
 outsourced Online occurrence reporting UI is managed by diaz and developed by UI4All
 in-house Wordle is managed by holt [2, 3, 0, 0]
-in-house Top secret is managed by holt [5, 0, 6, 0]
-in-house Yet another online app is managed by diaz [4, 4, 5, 0]
+in-house Top secret is managed by holt [5, 0, 5, 0]
+in-house Yet another online app is managed by diaz [4, 4, 3, 0]
 in-house My fabulous app is managed by diaz [3, 2, 1, 0]
 in-house Sell stuff online app is managed by peralta [3, 2, 0, 0]
 outsourced Accounting service is managed by peralta and developed by Mendix
@@ -121,93 +121,4 @@ linetti [4]
 jeffords [5]
 john [4]
 santiago [4]
-diagram.jpg [4]
-main.java [3]
-diagram.jpg [4]
-main.java [3]
 todo.txt [3]
-Wordle [2] managed by holt [5]:
-wells [2]
-pimento [2]
-santiago [4]
-Top secret [5] managed by holt [5]:
-class_diagram.jpg [5]
-class_diagram.jpg [5]
-file1.erl [5]
-file2.erl [4]
-file3.erl [5]
-file4.erl [5]
-Top secrets project does not exist.
-Online occurrence reporting UI is an outsourced project.
-Latest project artefacts:
-wordle.cpp: added to the project.
-Latest project artefacts:
-readme: added to the project.
-Artefact does not exist in the project.
-Artefact does not exist in the project.
-Artefact does not exist in the project.
-Wordle [2] managed by holt [5]:
-wells [2]
-pimento [2]
-santiago [4]
-wordle.cpp [2]
-readme [0]
-Latest team members:
-mary: added to the team.
-Artefact does not exist in the project.
-User alice does not exist.
-Some app project does not exist.
-Online occurrence reporting UI project does not exist.
-Artefact does not exist in the project.
-Wordle [2] managed by holt [5]:
-wells [2]
-pimento [2]
-santiago [4]
-wordle.cpp [2]
-readme [0]
-Artefact does not exist in the project.
-Wordle [2] managed by holt [5]:
-wells [2]
-pimento [2]
-santiago [4]
-wordle.cpp [2]
-readme [0]
-Artefact does not exist in the project.
-Yet another online app [4] managed by diaz [4]:
-linetti [4]
-jeffords [5]
-john [4]
-santiago [4]
-diagram.jpg [4]
-main.java [3]
-diagram.jpg [4]
-main.java [3]
-todo.txt [3]
-Artefact does not exist in the project.
-User alice does not exist.
-Some app project does not exist.
-Online occurrence reporting UI project does not exist.
-Artefact does not exist in the project.
-Artefact does not exist in the project.
-Yet another online app [4] managed by diaz [4]:
-linetti [4]
-jeffords [5]
-john [4]
-santiago [4]
-diagram.jpg [4]
-main.java [3]
-diagram.jpg [4]
-main.java [3]
-todo.txt [3]
-Some app project does not exist.
-Online occurrence reporting UI is an outsourced project.
-All projects:
-in-house Online occurrence reporting is managed by santiago [2, 1, 3, 0]
-outsourced Online occurrence reporting UI is managed by diaz and developed by UI4All
-in-house Wordle is managed by holt [2, 3, 2, 0]
-in-house Top secret is managed by holt [5, 0, 6, 0]
-in-house Yet another online app is managed by diaz [4, 4, 5, 0]
-in-house My fabulous app is managed by diaz [3, 2, 1, 0]
-in-house Sell stuff online app is managed by peralta [3, 2, 0, 0]
-outsourced Accounting service is managed by peralta and developed by Mendix
-Bye!
