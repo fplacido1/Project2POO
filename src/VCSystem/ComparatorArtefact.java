@@ -1,12 +1,13 @@
 package VCSystem;
 
-import java.util.Comparator;
+import java.util.*;
+import java.time.temporal.ChronoUnit;
 
 public class ComparatorArtefact implements Comparator<Artefacts> {
 
 	@Override
 	public int compare(Artefacts o1, Artefacts o2) {
-		int result = o1.getLastRevDate().compareTo(o2.getLastRevDate());
+		int result =(int)ChronoUnit.DAYS.between(o1.getLastRevDate(), o2.getLastRevDate());
 		if(result != 0) {
 			return result;
 		}

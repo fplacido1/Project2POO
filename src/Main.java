@@ -2,11 +2,11 @@ import java.util.*;
 import VCSystem.*;
 import VCSystem.exceptions.*;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatter;//TODO duvida
 
 /**
  * 
- * @author Joao Norberto (62685) & Francisco Placido()
+ * @author Joao Norberto (62685) & Francisco Placido(62764)
  *
  */
 public class Main {
