@@ -7,7 +7,7 @@ import VCSystem.exceptions.*;
 
 public class InHouseClass extends AbstractProject implements InHouse{
 	
-	private List<Artefacts> artefacts;
+	private Map<String, Artefacts> artefacts;
 	private int confLvl;
 	private int numRevisions;
     private Map<String, User> devs;
@@ -16,7 +16,7 @@ public class InHouseClass extends AbstractProject implements InHouse{
 	public InHouseClass(Manager mng, String projName, int confLvl, List<String> keywords) {
 		super(mng, projName, keywords);
 		this.confLvl = confLvl;
-		artefacts = new ArrayList<>();
+		artefacts = new HashMap<>();
 		numRevisions = 0;
 		this.devs = new LinkedHashMap<>();
 	}
@@ -28,20 +28,15 @@ public class InHouseClass extends AbstractProject implements InHouse{
 
 	@Override
 	public void addArtefact(Artefacts e) throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException{
-		if(getArtefactIndex(e.getName()) != -1) {
+		if(artefacts.containsValue(e)) {
 			throw new ArtefactAlreadyInProjectException(e.getName());
 		}
 		else if(confLvl < e.getConfidentialityLevel()) {
 			throw new ExceedsProjectConfidentialityLevelException(e.getName());
 		}
 		else {
-			artefacts.add(e);
+			artefacts.put(e.getName(), e);
 		}
-	}
-
-	@Override
-	public boolean containsArtefact(Artefacts e) {
-		return artefacts.contains(e);
 	}
 
 	@Override
@@ -85,15 +80,18 @@ public class InHouseClass extends AbstractProject implements InHouse{
 	@Override
 	public Iterator<Artefacts> getAllArtefacts() {
 		ComparatorArtefact c1 = new ComparatorArtefact();
-		artefacts.sort(c1);
-		return artefacts.iterator();
+		SortedSet<Artefacts> sortedArts = new TreeSet<>(c1);
+		for(Artefacts a : artefacts.values()) {
+			sortedArts.add(a);
+		}
+		return sortedArts.iterator();
 	}
 
 	@Override
 	public Revision reviseArtefact(User u, String artefactName, LocalDate revisionDate, String comment)
 			throws ArtefactDoesNotExistsException, UserDoesNotBelongToTeamException {
-		int artefactIndex = getArtefactIndex(artefactName);
-		if(artefactIndex == -1) {
+		Artefacts a = artefacts.get(artefactName);
+		if(a == null) {
 			throw new ArtefactDoesNotExistsException();
 		}
 		else if(!devs.containsValue(u) && !u.getName().equals(mng.getName())) {
@@ -101,21 +99,10 @@ public class InHouseClass extends AbstractProject implements InHouse{
 		}
 		else {
 			numRevisions++;
-			Artefacts a = artefacts.get(artefactIndex);
 			Revision r = new RevisionClass(u, a, revisionDate, comment, numRevisions, projName);
 			a.revise(r);
 			return r;
 		}
-	}
-
-	private int getArtefactIndex(String artefactName) {
-		int index = -1;
-		for(int i = 0; i < artefacts.size() && index != -1; i++) {
-			if(artefacts.get(i).getName().equals(artefactName)) {
-				index = i;
-			}
-		}
-		return index;
 	}
 
 	@Override

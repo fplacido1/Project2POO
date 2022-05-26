@@ -9,9 +9,7 @@ public interface InHouse extends Projects {
 	int getConfLvl();
 	
 	void addArtefact(Artefacts e) throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException;
-	
-	boolean containsArtefact(Artefacts e);
-	
+		
 	int getNumArtefacts();
 	
 	int getNumRevisions();
