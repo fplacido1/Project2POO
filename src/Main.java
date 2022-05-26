@@ -510,7 +510,7 @@ public class Main {
 			String managerName = in.nextLine().trim();
 			try {
 				Iterator<User> it = vc.getAllManagerUsers(managerName);
-				System.out.printf(MANAGER);
+				System.out.printf(MANAGER, managerName);
 				while(it.hasNext()) {
 					User u = it.next();
 					System.out.println(u.getName());

@@ -6,6 +6,8 @@ import VCSystem.exceptions.*;
 
 public class VCSystemClass implements VCSystem {
 	
+	private static final int WAHOLICS_SIZE = 3;
+	
 	private Map<String, User> users;
 	private Map<String, Manager> managers;
 	private Map<String, Projects> projects;
@@ -39,7 +41,7 @@ public class VCSystemClass implements VCSystem {
 		managers = new HashMap<>();
 		inHouseProjs = new TreeMap<>();
 		projsByKeyWord = new HashMap<>();
-		workaholics = new ArrayList<>(3);
+		workaholics = new ArrayList<>(WAHOLICS_SIZE);
 	}
 
 	@Override
@@ -208,16 +210,7 @@ public class VCSystemClass implements VCSystem {
 	public void addArtefact(Artefacts e, String projectName) 
 			throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException {
 		InHouse tmp = inHouseProjs.get(projectName);
-		if(tmp.containsArtefact(e)) {
-			throw new ArtefactAlreadyInProjectException(e.getName());
-		}
-		else if(tmp.getConfLvl() < e.getConfidentialityLevel()) {
-			throw new ExceedsProjectConfidentialityLevelException(e.getName());
-		}
-		else {
-			tmp.addArtefact(e);
-		}
-		
+	    tmp.addArtefact(e);
 	}
 
 	@Override
@@ -288,7 +281,9 @@ public class VCSystemClass implements VCSystem {
 				}
 			}
 			if(indexToAdd != -1) {
-				//workaholics.remove(2);
+				if(workaholics.size() == WAHOLICS_SIZE) {
+					workaholics.remove(2);
+				}
 				workaholics.add(indexToAdd, u);
 			}
 		}

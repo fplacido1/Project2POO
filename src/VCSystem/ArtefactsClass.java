@@ -43,18 +43,6 @@ public class ArtefactsClass implements Artefacts {
 	public LocalDate getLastRevDate() {
 		return revisionDate;
 	}
-	
-	@Override
-	public int compareTo(Artefacts o) {
-		int result = revisionDate.compareTo(o.getLastRevDate());
-		if(result != 0) {
-			return result;
-		}
-		else {
-			result = name.compareTo(o.getName());
-		}
-		return result;
-	}
 
 	@Override
 	public void revise(Revision r) {

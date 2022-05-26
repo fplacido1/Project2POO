@@ -3,7 +3,7 @@ package VCSystem;
 import java.time.LocalDate;
 import java.util.Iterator;
 
-public interface Artefacts extends Comparable<Artefacts> {
+public interface Artefacts {
 	
 	String getName();
 	
