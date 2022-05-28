@@ -14,7 +14,7 @@ public interface InHouse extends Projects {
 	
 	int getNumRevisions();
 
-	LocalTime getLastRevisionDate();
+	LocalDate getLastRevisionDate();
 	
 	int getNumDevs();
 

@@ -1,7 +1,6 @@
 package VCSystem;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 import VCSystem.exceptions.*;
 
@@ -11,6 +10,7 @@ public class InHouseClass extends AbstractProject implements InHouse{
 	private int confLvl;
 	private int numRevisions;
     private Map<String, User> devs;
+    private LocalDate lastRevisionDate;
 
 	
 	public InHouseClass(Manager mng, String projName, int confLvl, List<String> keywords) {
@@ -50,8 +50,8 @@ public class InHouseClass extends AbstractProject implements InHouse{
 	}
 
 	@Override
-	public LocalTime getLastRevisionDate() {
-		return null;
+	public LocalDate getLastRevisionDate() {
+		return lastRevisionDate;
 	}
 	
 	@Override
@@ -93,11 +93,10 @@ public class InHouseClass extends AbstractProject implements InHouse{
 		if(a.getNumRevised() > 0) {
 			numRevisions++;
 		}
-		
 		int numArtRev = a.getNumRevised() + 1;
 		Revision r = new RevisionClass(u, a, revisionDate, comment, numArtRev, projName);
 		a.revise(r);
-		
+		lastRevisionDate = revisionDate;
 		return r;
 	}
 

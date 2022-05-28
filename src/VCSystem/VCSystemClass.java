@@ -228,7 +228,10 @@ public class VCSystemClass implements VCSystem {
 
 	@Override
 	public Iterator<Projects> getProjsByKeyword(String keyWord) {
-		return projsByKeyWord.get(keyWord).iterator();
+		if(projsByKeyWord.containsKey(keyWord)) {
+			return projsByKeyWord.get(keyWord).iterator();
+		}
+		return null;
 	}
 
 	@Override

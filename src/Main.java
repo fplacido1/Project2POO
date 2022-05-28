@@ -562,17 +562,19 @@ public class Main {
 	private static void filterByKeyword(VCSystem vc, Scanner in) {
 		String keyWord = in.next();
 		Iterator<Projects> it = vc.getProjsByKeyword(keyWord);
-		if(!it.hasNext()) {
+		if(it == null) {
 			System.out.printf(NO_PROJS_KW, keyWord);
 		}
 		else {
-			System.out.println(ALL_PROJS_WITH_KW);
+			System.out.printf(ALL_PROJS_WITH_KW, keyWord);
 			while(it.hasNext()) {
 				Projects p = it.next();
 				if(p instanceof InHouse) {
+					DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern(DATE_FORMAT);
+					String date = formatterDate.format(((InHouse) p).getLastRevisionDate());
 					System.out.printf(INHOUSE_BY_KW, p.getProjName(), p.getManager().getName(), ((InHouse) p).getConfLvl(),
 													 ((InHouse) p).getNumDevs(), ((InHouse) p).getNumArtefacts(),
-													 ((InHouse) p).getNumRevisions(), ((InHouse) p).getLastRevisionDate());
+													 ((InHouse) p).getNumRevisions(), date);
 				}
 				else {
 					System.out.printf(OUTSRC_BY_KW, p.getProjName(), p.getManager().getName(), ((OutSourced) p).getCompany() );
