@@ -1,17 +1,18 @@
 package VCSystem;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 
 public class ComparatorRevision implements Comparator<Revision> {
 
 	@Override
 	public int compare(Revision o1, Revision o2) {
-		int result = o1.getDate().compareTo(o2.getDate());
+		int result = (int)ChronoUnit.DAYS.between(o1.getDate(), o2.getDate());
 		if(result != 0) {
 			return result;
 		}
 		else {
-			result = o1.getNum() - o2.getNum();
+			result = o2.getNum() - o1.getNum();
 			if(result != 0) {
 				return result;
 			}

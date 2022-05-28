@@ -17,4 +17,6 @@ public interface Artefacts {
 
 	void revise(Revision r);
 
+	int getNumRevised();
+
 }

@@ -207,10 +207,18 @@ public class VCSystemClass implements VCSystem {
 	}
 
 	@Override
-	public void addArtefact(Artefacts e, String projectName) 
+	public void addArtefact(String artefactName, int confidentialityLevel, String description, LocalDate date, String projectName, String userName) 
 			throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException {
+		Artefacts e = new ArtefactsClass(artefactName, confidentialityLevel, description, date);
+		
 		InHouse tmp = inHouseProjs.get(projectName);
 	    tmp.addArtefact(e);
+	    
+	    User u = users.get(userName);
+	    Revision r = tmp.reviseArtefact(u, artefactName, date, description);
+	    u.addArtefactRevised(r);
+	    checkWorkaholics(u);
+	    
 	}
 
 	@Override
@@ -259,6 +267,12 @@ public class VCSystemClass implements VCSystem {
 		}
 		else if(p == null) {
 			throw new ProjectNameDoesNotExistsException(projectName);
+		}
+		else if(!p.containsArtefact(artefactName)) {
+			throw new ArtefactDoesNotExistsException(artefactName);
+		}
+		else if(!p.containsUser(userName)) {
+			throw new UserDoesNotBelongToTeamException(userName, projectName);
 		}
 		else {
 			Revision r = p.reviseArtefact(u, artefactName, revisionDate, comment);

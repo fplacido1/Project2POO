@@ -159,7 +159,7 @@ public interface VCSystem {
 	void checkUserAndProj(String user, String project)
 			throws UserDoesNotExistException, ProjectNameDoesNotExistsException, UserDoesNotBelongToTeamException;
 	
-	void addArtefact(Artefacts e, String projectName)
+	void addArtefact(String artefactName, int confidentialityLevel, String description, LocalDate date, String projectName, String userName)
 			throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException, UserDoesNotBelongToTeamException;
 
 	Iterator<Projects> getProjsByKeyword(String keyWord);

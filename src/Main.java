@@ -44,7 +44,7 @@ public class Main {
 	private static final String REVISION_DONE  = "Revision %d of artefact %s was submitted.\n";
 	private static final String LATEST_MEMBERS = "Latest team members:";
 	private static final String MANAGER = "Manager %s:\n";
-	private static final String REVISION_DETAILS = "%s, %s, %d, %s, %s\n";
+	private static final String REVISION_DETAILS = "%s, %s, revision %d, %s, %s\n";
 	private static final String NO_PROJS_WITHIN = "No projects within levels %d and %d.\n";
 	private static final String PROJ_INFO = "%s [%d] is managed by %s and has keywords ";
 	private static final String NO_WORKAHOLICS = "There are no workaholics.";
@@ -393,22 +393,31 @@ public class Main {
 		LocalDate artefactDate = LocalDate.parse(date, format);
 		int num = in.nextInt();
 		in.nextLine();
-		List<Artefacts> artefactsToAdd = new ArrayList<>();
+		List<String> name = new ArrayList<>(num);
+		List<Integer> level = new ArrayList<>(num);
+		List<String> desc = new ArrayList<>(num);
 		
 		for(int i = 0; i < num; i++) {
 			String artefactName = in.next();
 			int confidentialityLevel = in.nextInt();
 			String description = in.nextLine().trim();
-			artefactsToAdd.add(new ArtefactsClass(artefactName, confidentialityLevel, description, artefactDate));//TODO duvida
+			
+			name.add(artefactName);
+			level.add(confidentialityLevel);
+			desc.add(description);
 		}
-		
+		addArtefacts(vc, name, level, desc, userName, projectName, artefactDate, num);
+	}
+	
+	private static void addArtefacts(VCSystem vc, List<String> name, List<Integer> level, List<String> desc, String userName,
+			String projectName, LocalDate artefactDate, int num) {
 		try {
 			vc.checkUserAndProj(userName, projectName);
 			System.out.println(ARTEFACT_MSG);
 			for(int i = 0; i < num; i++) {
 				try {
-					vc.addArtefact(artefactsToAdd.get(i), projectName);
-					System.out.printf(ARTEFACT_ADDED_PROJECT, artefactsToAdd.get(i).getName());
+					vc.addArtefact(name.get(i), level.get(i), desc.get(i), artefactDate , projectName, userName);
+					System.out.printf(ARTEFACT_ADDED_PROJECT, name.get(i));
 				}catch(ArtefactAlreadyInProjectException | ExceedsProjectConfidentialityLevelException e) {
 					System.out.println(e.getMessage());
 				}
@@ -463,7 +472,8 @@ public class Main {
 	private static void printRevisions(Iterator<Revision> itRev) {
 		while(itRev.hasNext()) {
 			Revision rev = itRev.next();
-			System.out.printf(REV_DETAILS, rev.getNum(), rev.getAuthor(), rev.getDate(), rev.getComment());
+			DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern(DATE_FORMAT);
+			System.out.printf(REV_DETAILS, rev.getNum(), rev.getAuthor(), formatterDate.format(rev.getDate()), rev.getComment());
 		}
 	}
 
@@ -534,7 +544,8 @@ public class Main {
 	private static void printUserRevisions(Iterator<Revision> itRev) {
 		while(itRev.hasNext()) {
 			Revision r = itRev.next();
-			System.out.printf(REVISION_DETAILS, r.getProjName(), r.getArtefact().getName(), r.getNum(), r.getDate(), r.getComment());
+			DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern(DATE_FORMAT);
+			System.out.printf(REVISION_DETAILS, r.getProjName(), r.getArtefact().getName(), r.getNum(), formatterDate.format(r.getDate()), r.getComment());
 		}
 	}
 

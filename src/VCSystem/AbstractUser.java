@@ -5,7 +5,7 @@ import java.util.*;
 public abstract class AbstractUser implements User {
 
 	protected Map<String, InHouse> projects;
-	private SortedSet<Revision> revisions;
+	private List<Revision> revisions;
 	private int numArtRevised;
 	private int clearanceLvl;
 	private String name;
@@ -14,8 +14,7 @@ public abstract class AbstractUser implements User {
 		this.name = name;
 		this.clearanceLvl = clearanceLvl;
 		projects = new HashMap<>();
-		ComparatorRevision c1 = new ComparatorRevision();
-		revisions = new TreeSet<>(c1);
+		revisions = new ArrayList<>();
 		numArtRevised = 0;
 	}
 	
@@ -47,7 +46,12 @@ public abstract class AbstractUser implements User {
 	
 	@Override
 	public Iterator<Revision> getAllRevisions() {
-		return revisions.iterator();
+		ComparatorRevision c1 = new ComparatorRevision();
+		SortedSet<Revision> rev = new TreeSet<>(c1);
+		for(int i = 0; i < revisions.size(); i++) {
+			rev.add(revisions.get(i));
+		}
+		return rev.iterator();
 	}
 	
 	@Override
@@ -57,7 +61,7 @@ public abstract class AbstractUser implements User {
 	
 	@Override
 	public LocalDate getLastUpdateDone() {
-		Revision r = revisions.first();
+		Revision r = revisions.get(0);
 		return r.getDate();
 	}
 	

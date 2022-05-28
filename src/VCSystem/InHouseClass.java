@@ -88,26 +88,27 @@ public class InHouseClass extends AbstractProject implements InHouse{
 	}
 
 	@Override
-	public Revision reviseArtefact(User u, String artefactName, LocalDate revisionDate, String comment)
-			throws ArtefactDoesNotExistsException, UserDoesNotBelongToTeamException {
+	public Revision reviseArtefact(User u, String artefactName, LocalDate revisionDate, String comment){
 		Artefacts a = artefacts.get(artefactName);
-		if(a == null) {
-			throw new ArtefactDoesNotExistsException();
-		}
-		else if(!devs.containsValue(u) && !u.getName().equals(mng.getName())) {
-			throw new UserDoesNotBelongToTeamException(u.getName(), projName);
-		}
-		else {
+		if(a.getNumRevised() > 0) {
 			numRevisions++;
-			Revision r = new RevisionClass(u, a, revisionDate, comment, numRevisions, projName);
-			a.revise(r);
-			return r;
 		}
+		
+		int numArtRev = a.getNumRevised() + 1;
+		Revision r = new RevisionClass(u, a, revisionDate, comment, numArtRev, projName);
+		a.revise(r);
+		
+		return r;
 	}
 
 	@Override
 	public boolean containsUser(String user) {
 		return devs.containsKey(user) || user.equals(mng.getName());
+	}
+
+	@Override
+	public boolean containsArtefact(String artefactName) {
+		return artefacts.containsKey(artefactName);
 	}
 		
 	

@@ -10,6 +10,7 @@ public class ArtefactsClass implements Artefacts {
 	private int confidentialityLevel;
 	private String description;
 	private LocalDate revisionDate;
+	private int numRevisions;
 	
 	public ArtefactsClass(String name, int confidentialityLevel, String description, LocalDate date) {
 		this.name = name;
@@ -17,6 +18,7 @@ public class ArtefactsClass implements Artefacts {
 		this.description = description;
 		revisionDate = date;
 		revisions = new LinkedList<>();
+		numRevisions = 0;
 	}
 
 	@Override
@@ -48,5 +50,11 @@ public class ArtefactsClass implements Artefacts {
 	public void revise(Revision r) {
 		revisions.add(0, r);
 		revisionDate = r.getDate();
+		numRevisions++;
+	}
+
+	@Override
+	public int getNumRevised() {
+		return numRevisions;
 	}
 }
