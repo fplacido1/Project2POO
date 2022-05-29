@@ -46,13 +46,14 @@ public class Main {
 	private static final String MANAGER = "Manager %s:\n";
 	private static final String REVISION_DETAILS = "%s, %s, revision %d, %s, %s\n";
 	private static final String NO_PROJS_WITHIN = "No projects within levels %d and %d.\n";
-	private static final String PROJ_INFO = "%s [%d] is managed by %s and has keywords ";
+	private static final String PROJ_INFO = "%s is managed by %s and has keywords ";
 	private static final String NO_WORKAHOLICS = "There are no workaholics.";
 	private static final String WORKAHOLICS = "%s: %d updates, %d projects, last update on %s\n";
 	private static final String SEPARATOR = ", ";
 	private static final String TERMINATOR = ".";
 	private static final String NO_COMMON_PROJS = "Cannot determine employees with common projects.";
 	private static final String AVAILABLE_COMM = "Available commands:";
+	private static final String BETWEEN_CONFLVL = "All projects within levels %d and %d:\n";
 	
 	/**
 	 * 
@@ -561,27 +562,44 @@ public class Main {
 	 */
 	private static void filterByKeyword(VCSystem vc, Scanner in) {
 		String keyWord = in.next();
-		Iterator<Projects> it = vc.getProjsByKeyword(keyWord);
-		if(it == null) {
+		Iterator<InHouse> itIn = vc.getInHouseByKeyword(keyWord);
+		Iterator<OutSourced> itOut = vc.getOutSourcedByKeyword(keyWord);
+		if(itIn == null && itOut == null) {
 			System.out.printf(NO_PROJS_KW, keyWord);
+		}
+		else if(itIn != null && itOut == null) {
+			System.out.printf(ALL_PROJS_WITH_KW, keyWord);
+			printInHouseByKeyword(itIn);
+		}
+		else if(itIn == null && itOut != null) {
+			System.out.printf(ALL_PROJS_WITH_KW, keyWord);
+			printOutSourcedByKeyword(itOut);
 		}
 		else {
 			System.out.printf(ALL_PROJS_WITH_KW, keyWord);
-			while(it.hasNext()) {
-				Projects p = it.next();
-				if(p instanceof InHouse) {
-					DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern(DATE_FORMAT);
-					String date = formatterDate.format(((InHouse) p).getLastRevisionDate());
-					System.out.printf(INHOUSE_BY_KW, p.getProjName(), p.getManager().getName(), ((InHouse) p).getConfLvl(),
-													 ((InHouse) p).getNumDevs(), ((InHouse) p).getNumArtefacts(),
-													 ((InHouse) p).getNumRevisions(), date);
-				}
-				else {
-					System.out.printf(OUTSRC_BY_KW, p.getProjName(), p.getManager().getName(), ((OutSourced) p).getCompany() );
-				}
-			}
+			printInHouseByKeyword(itIn);
+			printOutSourcedByKeyword(itOut);
+
 		}
+	}
 		
+
+
+	private static void printOutSourcedByKeyword(Iterator<OutSourced> itOut) {
+		while(itOut.hasNext()) {
+			OutSourced p = itOut.next();
+			System.out.printf(OUTSRC_BY_KW, p.getProjName(), p.getManager().getName(), ((OutSourced) p).getCompany() );
+		}		
+	}
+
+	private static void printInHouseByKeyword(Iterator<InHouse> itIn) {
+		while(itIn.hasNext()) {
+			InHouse p = itIn.next();
+			DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern(DATE_FORMAT);
+			String date = formatterDate.format(p.getLastRevisionDate());
+			System.out.printf(INHOUSE_BY_KW, p.getProjName(), p.getManager().getName(), p.getConfLvl(),  p.getNumDevs(),
+					                         p.getNumArtefacts(), p.getNumRevisions(), date);
+		}		
 	}
 
 	/**
@@ -595,16 +613,27 @@ public class Main {
 	 * user inputs
 	 */
 	private static void filterByConfidentiality(VCSystem vc, Scanner in) {
-		int lowerLimit = in.nextInt();
-		int upperLimit = in.nextInt();
+		int lowerLimit = 0;
+		int upperLimit = 0;
+		int limit1 = in.nextInt();
+		int limit2 = in.nextInt();
+		if(limit1 > limit2) {
+			lowerLimit = limit2;
+			upperLimit = limit1;
+		}
+		else {
+			lowerLimit = limit1;
+			upperLimit = limit2;
+		}
 		Iterator<InHouse> it = vc.getProjsWithIn(lowerLimit, upperLimit);
 		if(!it.hasNext()) {
 			System.out.printf(NO_PROJS_WITHIN, lowerLimit, upperLimit);
 		}
 		else {
+			System.out.printf(BETWEEN_CONFLVL, lowerLimit, upperLimit);
 			while(it.hasNext()) {
 				InHouse p = it.next();
-				System.out.printf(PROJ_INFO, p.getProjName(), p.getConfLvl(), p.getManager().getName());
+				System.out.printf(PROJ_INFO, p.getProjName(), p.getManager().getName());
 				Iterator<String> itKW = p.getKeyWords();
 				printProjectKeywords(itKW);
 			}
@@ -652,7 +681,9 @@ public class Main {
 		else {
 			while(it.hasNext()) {
 				User u = it.next();
-				System.out.printf(WORKAHOLICS, u.getName(), u.getNumUpdates() ,u.getNumProjsAsDev(), u.getLastUpdateDone());
+				DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern(DATE_FORMAT);
+				String date = formatterDate.format(u.getLastUpdateDone());
+				System.out.printf(WORKAHOLICS, u.getName(), u.getNumUpdates() ,u.getNumProjsAsDev(), date);
 			}
 		}
 		

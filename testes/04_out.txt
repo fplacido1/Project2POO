@@ -88,14 +88,14 @@ outsourced Accounting service is managed by peralta and developed by Mendix
 All registered users:
 developer bob is managed by holt [1]
 developer boyle is managed by peralta [2]
-manager diaz [2, 3, 0]
-manager holt [4, 2, 0]
+manager diaz [2, 3, 3]
+manager holt [4, 2, 2]
 developer jeffords is managed by holt [2]
 developer john is managed by diaz [1]
 developer linetti is managed by holt [2]
 developer mary is managed by holt [1]
-manager peralta [2, 2, 1]
+manager peralta [2, 2, 3]
 developer pimento is managed by peralta [1]
-manager santiago [0, 1, 2]
+manager santiago [0, 1, 3]
 developer wells is managed by diaz [1]
 Bye!

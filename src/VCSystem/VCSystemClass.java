@@ -12,7 +12,8 @@ public class VCSystemClass implements VCSystem {
 	private Map<String, Manager> managers;
 	private Map<String, Projects> projects;
 	private Map<String, InHouse> inHouseProjs;
-	private Map<String, List<Projects>> projsByKeyWord;
+	private Map<String, List<InHouse>> inHouseByKeyWord;
+	private Map<String, List<OutSourced>> outSourcedByKeyWord;
 	private List<User> workaholics;
 	
 	private enum JobType{
@@ -40,7 +41,8 @@ public class VCSystemClass implements VCSystem {
 		projects = new LinkedHashMap<>();
 		managers = new HashMap<>();
 		inHouseProjs = new TreeMap<>();
-		projsByKeyWord = new HashMap<>();
+		inHouseByKeyWord = new HashMap<>();
+		outSourcedByKeyWord = new HashMap<>();
 		workaholics = new ArrayList<>(WAHOLICS_SIZE);
 	}
 
@@ -131,13 +133,13 @@ public class VCSystemClass implements VCSystem {
 			inHouseProjs.put(projName, inHouse);
 			mng.addToManagedProjs(inHouse);
 			for(int i = 0; i < keyWords.size(); i++) {
-				if(!projsByKeyWord.containsKey(keyWords.get(i))) {
-					List<Projects> projs = new ArrayList<>();
+				if(!inHouseByKeyWord.containsKey(keyWords.get(i))) {
+					List<InHouse> projs = new ArrayList<>();
 					projs.add(inHouse);
-					projsByKeyWord.put(keyWords.get(i), projs);
+					inHouseByKeyWord.put(keyWords.get(i), projs);
 				}
 				else {
-					projsByKeyWord.get(keyWords.get(i)).add(inHouse);
+					inHouseByKeyWord.get(keyWords.get(i)).add(inHouse);
 				}
 			}
 		}
@@ -156,17 +158,17 @@ public class VCSystemClass implements VCSystem {
 			throw new ProjectNameAlreadyExistsException(projName);
 		}
 		else {
-			Projects out = new OutSourcedClass(mng, projName, companyName, keyWords);
+			OutSourced out = new OutSourcedClass(mng, projName, companyName, keyWords);
 			projects.put(projName, out);
 			mng.addToManagedProjs(out);
 			for(int i = 0; i < keyWords.size(); i++) {
-				if(!projsByKeyWord.containsKey(keyWords.get(i))) {
-					List<Projects> projs = new ArrayList<>();
+				if(!outSourcedByKeyWord.containsKey(keyWords.get(i))) {
+					List<OutSourced> projs = new ArrayList<>();
 					projs.add(out);
-					projsByKeyWord.put(keyWords.get(i), projs);
+					outSourcedByKeyWord.put(keyWords.get(i), projs);
 				}
 				else {
-					projsByKeyWord.get(keyWords.get(i)).add(out);
+					outSourcedByKeyWord.get(keyWords.get(i)).add(out);
 				}
 			}
 		}
@@ -218,7 +220,6 @@ public class VCSystemClass implements VCSystem {
 	    Revision r = tmp.reviseArtefact(u, artefactName, date, description);
 	    u.addArtefactRevised(r);
 	    checkWorkaholics(u);
-	    
 	}
 
 	@Override
@@ -227,13 +228,32 @@ public class VCSystemClass implements VCSystem {
 	}
 
 	@Override
-	public Iterator<Projects> getProjsByKeyword(String keyWord) {
-		if(projsByKeyWord.containsKey(keyWord)) {
-			return projsByKeyWord.get(keyWord).iterator();
+	public Iterator<InHouse> getInHouseByKeyword(String keyWord) {
+		if(inHouseByKeyWord.containsKey(keyWord)) {
+			List<InHouse> byKeyWord = inHouseByKeyWord.get(keyWord);
+			ComparatorProjectInHouse c1 = new ComparatorProjectInHouse();
+			SortedSet<InHouse> projsKeyWord = new TreeSet<>(c1);
+			for(int i = 0; i < byKeyWord.size(); i++) {
+				projsKeyWord.add(byKeyWord.get(i));
+			}
+			return projsKeyWord.iterator();
 		}
 		return null;
 	}
 
+	@Override
+	public Iterator<OutSourced> getOutSourcedByKeyword(String keyWord) {
+		if(outSourcedByKeyWord.containsKey(keyWord)) {
+			List<OutSourced> byKeyWord = outSourcedByKeyWord.get(keyWord);
+			SortedMap<String, OutSourced> projsKeyWord = new TreeMap<>();
+			for(int i = 0; i < byKeyWord.size(); i++) {
+				projsKeyWord.put(byKeyWord.get(i).getProjName() ,byKeyWord.get(i));
+			}
+			return projsKeyWord.values().iterator();
+		}
+		return null;
+	}
+	
 	@Override
 	public Iterator<User> getAllProjUsers(InHouse proj) {
 		return proj.getAllUsers();
@@ -289,21 +309,52 @@ public class VCSystemClass implements VCSystem {
 		if(workaholics.isEmpty()) {
 			workaholics.add(u);
 		}
+		else if(!workaholics.contains(u)) {
+			updateWorkaholics(u);
+		}
 		else {
-			int indexToAdd = -1;
-			for(int i = 0; i < workaholics.size(); i++) {
-				if(u.compareTo(workaholics.get(i)) > 0) {
-					indexToAdd = i;
-					break;
-				}
-			}
-			if(indexToAdd != -1) {
-				if(workaholics.size() == WAHOLICS_SIZE) {
-					workaholics.remove(2);
-				}
-				workaholics.add(indexToAdd, u);
+			workaholics(u);
+		}
+	}
+			
+	private void workaholics(User u) {
+		int userIndex = getWorkIndex(u.getName());
+		workaholics.remove(userIndex);
+		int indexToAdd = userIndex;
+		for(int i = 0 ; i < workaholics.size(); i++) {
+			if(u.compareTo(workaholics.get(i)) > 0) {
+				indexToAdd = i;
+				break;
 			}
 		}
+		workaholics.add(indexToAdd, u);
+	}
+
+	private void updateWorkaholics(User u) {
+		int indexToAdd = -1;
+		for(int i = 0; i < workaholics.size(); i++) {
+			if(u.compareTo(workaholics.get(i)) > 0) {
+				indexToAdd = i;
+				break;
+			}
+		}
+		if(indexToAdd != -1) {
+			if(workaholics.size() == WAHOLICS_SIZE) {
+				workaholics.remove(2);
+			}
+			workaholics.add(indexToAdd, u);
+		}
+	}
+
+	private int getWorkIndex(String name) {
+		int index = 0;
+		for(int i = 0; i < workaholics.size(); i++) {
+			if(workaholics.get(i).getName().equals(name)) {
+				index = i;
+				break;
+			}
+		}
+		return index;
 	}
 
 	@Override
@@ -321,7 +372,7 @@ public class VCSystemClass implements VCSystem {
 	public Iterator<InHouse> getProjsWithIn(int lowerLimit, int upperLimit) {
 		List<InHouse> temp = new ArrayList<>();
 		for(InHouse proj : inHouseProjs.values()) {
-			if(proj.getConfLvl() <= upperLimit || proj.getConfLvl() >= lowerLimit) {
+			if(proj.getConfLvl() <= upperLimit && proj.getConfLvl() >= lowerLimit) {
 				temp.add(proj);
 			}
 		}
@@ -338,4 +389,6 @@ public class VCSystemClass implements VCSystem {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 }

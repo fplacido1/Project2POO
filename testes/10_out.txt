@@ -3,7 +3,7 @@ User peralta was registered as manager with clearance level 3.
 This is peralta app level_3 project was created.
 Latest project artefacts:
 file1: added to the project.
-peralta: 1 updates, 0 projects, last update on 01-03-2022
+peralta: 1 updates, 1 projects, last update on 01-03-2022
 User santiago was registered as manager with clearance level 4.
 User holt was registered as manager with clearance level 5.
 User diaz was registered as manager with clearance level 4.

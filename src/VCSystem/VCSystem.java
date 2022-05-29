@@ -162,7 +162,9 @@ public interface VCSystem {
 	void addArtefact(String artefactName, int confidentialityLevel, String description, LocalDate date, String projectName, String userName)
 			throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException, UserDoesNotBelongToTeamException;
 
-	Iterator<Projects> getProjsByKeyword(String keyWord);
+	Iterator<InHouse> getInHouseByKeyword(String keyWord);
+	
+	Iterator<OutSourced> getOutSourcedByKeyword(String keyWord);
 
 	Iterator<User> getAllProjUsers(InHouse proj);
 

@@ -96,7 +96,12 @@ public class InHouseClass extends AbstractProject implements InHouse{
 		int numArtRev = a.getNumRevised() + 1;
 		Revision r = new RevisionClass(u, a, revisionDate, comment, numArtRev, projName);
 		a.revise(r);
+		if(lastRevisionDate == null) {
 		lastRevisionDate = revisionDate;
+		}
+		else if(revisionDate.compareTo(lastRevisionDate) > 0) {
+			lastRevisionDate = revisionDate;
+		}
 		return r;
 	}
 

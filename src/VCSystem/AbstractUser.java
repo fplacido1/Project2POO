@@ -1,11 +1,13 @@
 package VCSystem;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public abstract class AbstractUser implements User {
 
 	protected Map<String, InHouse> projects;
 	private List<Revision> revisions;
+	private LocalDate lastUpdateDone;
 	private int numArtRevised;
 	private int clearanceLvl;
 	private String name;
@@ -41,6 +43,12 @@ public abstract class AbstractUser implements User {
 	@Override
 	public void addArtefactRevised(Revision r) {
 		revisions.add(r);
+		if(lastUpdateDone == null) {
+			lastUpdateDone = r.getDate();
+		}
+		else if(r.getDate().compareTo(lastUpdateDone) > 0) {
+			lastUpdateDone = r.getDate();
+		}
 		numArtRevised++;
 	}
 	
@@ -61,18 +69,28 @@ public abstract class AbstractUser implements User {
 	
 	@Override
 	public LocalDate getLastUpdateDone() {
-		Revision r = revisions.get(0);
-		return r.getDate();
+		return lastUpdateDone;
 	}
 	
 	@Override
 	public int compareTo(User other) {
-		int result = getNumProjsAsDev() - other.getNumProjsAsDev(); //TODO DUVIDA
+//		int result = 0;
+//		if(other instanceof Manager && !(this instanceof Manager)) {
+//			result = getNumProjsAsDev() - (other.getNumProjsAsDev() + ((Manager) other).getNumManagedProjs());
+//		}
+//		else if(other instanceof Manager && this instanceof Manager) {
+//			result = (getNumProjsAsDev() + ((Manager) this).getNumManagedProjs()) -(other.getNumProjsAsDev() + ((Manager) other).getNumManagedProjs());
+//		}
+//		else if(!(other instanceof Manager) && this instanceof Manager) {
+//			result = (getNumProjsAsDev() + ((Manager) this).getNumManagedProjs()) - other.getNumProjsAsDev();
+//		}
+//		else {
+		int result = getNumProjsAsDev() - other.getNumProjsAsDev();
 		if(result != 0) {
 			return result;
 		}
 		else {
-			result = getLastUpdateDone().compareTo(other.getLastUpdateDone());
+			result = (int)ChronoUnit.DAYS.between(lastUpdateDone, other.getLastUpdateDone());
 			if(result != 0) {
 				return result;
 			}
