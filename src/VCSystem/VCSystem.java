@@ -223,13 +223,59 @@ public interface VCSystem {
 	 */
 	Iterator<Artefacts> getAllProjArtefacts(InHouse proj);
 
+	/**
+	 * This method returns a InHouse
+	 * project
+	 * @param projName , name of the
+	 * project
+	 * @return corresponding object
+	 * @throws ProjectNameDoesNotExistsException
+	 * if the project is not registered
+	 * @throws ProjectIsOutsourcedException
+	 * if the project is OutSourced
+	 */
 	InHouse getInHouseProj(String projName)
 			throws ProjectNameDoesNotExistsException, ProjectIsOutsourcedException;
 
+	/**
+	 * This method returns a revision,
+	 * done to an artefact
+	 * @param userName , name of the user
+	 * that revised the artefact
+	 * @param projectName , name of the
+	 * project
+	 * @param artefactName , name of the
+	 * artefact
+	 * @param revisionDate , date of the
+	 * revision
+	 * @param comment , comment of the
+	 * revision
+	 * @return Object revision representing
+	 * the revision that was done
+	 * @throws UserDoesNotExistException
+	 * if the user is not registered
+	 * @throws ProjectNameDoesNotExistsException
+	 * if the project is not registered
+	 * @throws ArtefactDoesNotExistsException
+	 * if the artefact does not exist
+	 * @throws UserDoesNotBelongToTeamException
+	 * if the user does not belong to the team
+	 */
 	Revision reviseArtefact(String userName, String projectName, String artefactName, LocalDate revisionDate, String comment)
 			throws UserDoesNotExistException, ProjectNameDoesNotExistsException, ArtefactDoesNotExistsException, 
 			       UserDoesNotBelongToTeamException;
 
+	/**
+	 * This method returns gives detailed
+	 * information about the developers
+	 * managed by a given manager
+	 * @param managerName , name of the
+	 * manager
+	 * @return iterator of all the users
+	 * managed by the given manager
+	 * @throws ManagerDoesNotExistException
+	 * if the manager is not registered in the system
+	 */
 	Iterator<User> getAllManagerUsers(String managerName)
 			throws ManagerDoesNotExistException;
 

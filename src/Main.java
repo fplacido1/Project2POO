@@ -100,13 +100,13 @@ public class Main {
 	 * This method executes one of the commands
 	 * in the enum Command, based on the user
 	 * input
-	 * @param command, command wrote by the
+	 * @param command , command wrote by the
 	 * user. <code>Unknown</code> if the
 	 * command wrote is not on the enum
-	 * @param in, allows the method to
+	 * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
 	 */
@@ -134,10 +134,10 @@ public class Main {
 	/**
 	 * This method registers a user
 	 * in the system.
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-	 * @param in, allows the method to
+	 * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
@@ -164,10 +164,10 @@ public class Main {
 	/**
 	 * This method registers a manager
 	 * to the system
-	 * @param name, name of the manager
+	 * @param name , name of the manager
 	 * @param clearanceLvl, clearance
 	 * level of the manager
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
 	 */
@@ -184,11 +184,11 @@ public class Main {
 	/**
 	 * This method registers a developer
 	 * to the system
-	 * @param name, name of the developer
-	 * @param mng, name of the manager
-	 * @param clearanceLvl, clearance
+	 * @param name , name of the developer
+	 * @param mng , name of the manager
+	 * @param clearanceLvl , clearance
 	 * level of the manager
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
 	 */
@@ -503,10 +503,10 @@ public class Main {
 	/**
 	 * This method revises an
 	 * artefact
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-	 * @param in, allows the method to
+	 * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
