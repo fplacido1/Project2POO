@@ -137,6 +137,9 @@ public abstract class AbstractUser implements User {
 	@Override
 	public int getProjsInCommon(User u2) {
 		int projsInCommon = 0;
+		if(this instanceof Manager) {
+			projsInCommon += ((Manager) this).getManagedProjsCommon(u2);
+		}
 		Iterator<InHouse> projs1 = projects.values().iterator();
 		while(projs1.hasNext()) {
 			String name = projs1.next().getProjName();

@@ -40,4 +40,6 @@ public interface Manager extends User {
 	 */
 	Iterator<User> getAllUsers();
 
+	int getManagedProjsCommon(User u2);
+
 }

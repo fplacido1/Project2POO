@@ -50,4 +50,21 @@ public class ManagerClass extends AbstractUser implements Manager {
 		return managedUsers.values().iterator();
 	}
 
+	@Override
+	public int getManagedProjsCommon(User u2) {
+		int projsCommon = 0;
+		Iterator<Projects> it = managedProjs.values().iterator();
+		while(it.hasNext()) {
+			String name = it.next().getProjName();
+			Iterator<InHouse> projs2 = u2.getAllProjs();
+			while(projs2.hasNext()) {
+				String name2 = projs2.next().getProjName();
+				if(name.equals(name2)) {
+					projsCommon++;
+				}
+			}
+		}
+		return projsCommon;
+	}
+
 }
