@@ -12,7 +12,7 @@ public abstract class AbstractProject implements Projects {
 	/**
 	 * Manager of the project
 	 */
-	protected Manager mng;
+	private Manager mng;
 	
 	/**
 	 * Name of the project

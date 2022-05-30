@@ -86,7 +86,7 @@ public class InHouseClass extends AbstractProject implements InHouse{
 	
 	@Override
 	public void addUser(User u) throws AlreadyTeamMemberException, InsufficientClearanceLevelException {
-		if(devs.containsKey(u.getName()) || u.getName().equals(mng.getName())) {
+		if(devs.containsKey(u.getName()) || u.getName().equals(getManager().getName())) {
 			throw new AlreadyTeamMemberException(u.getName());
 		}
 		else if(u.getClearanceLvl() < confLvl) {
@@ -132,7 +132,7 @@ public class InHouseClass extends AbstractProject implements InHouse{
 
 	@Override
 	public boolean containsUser(String user) {
-		return devs.containsKey(user) || user.equals(mng.getName());
+		return devs.containsKey(user) || user.equals(getManager().getName());
 	}
 
 	@Override
