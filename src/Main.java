@@ -215,10 +215,10 @@ public class Main {
 				User u = it.next();
 				if(u instanceof Manager) {
 					System.out.printf(MNG_REG, u.getName(), ((Manager) u).getNumManagedDevs(), 
-							                 ((Manager) u).getNumManagedProjs(), u.getNumProjsAsDev());
+							                 ((Manager) u).getNumManagedProjs(), u.getNumProjs());
 				}
 				else {
-					System.out.printf(DEV_REG, u.getName(), ((Developer) u).getManager(), u.getNumProjsAsDev());
+					System.out.printf(DEV_REG, u.getName(), ((Developer) u).getManager(), u.getNumProjs());
 				}
 			}
 		}
@@ -683,7 +683,7 @@ public class Main {
 				User u = it.next();
 				DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern(DATE_FORMAT);
 				String date = formatterDate.format(u.getLastUpdateDone());
-				System.out.printf(WORKAHOLICS, u.getName(), u.getNumUpdates() ,u.getNumProjsAsDev(), date);
+				System.out.printf(WORKAHOLICS, u.getName(), u.getNumUpdates() ,u.getNumProjs(), date);
 			}
 		}
 		

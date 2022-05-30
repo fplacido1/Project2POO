@@ -9,7 +9,7 @@ public interface User extends Comparable<User> {
 
 	int getClearanceLvl();
 	
-	int getNumProjsAsDev();
+	int getNumProjs();
 
 	void addProj(InHouse p);
 

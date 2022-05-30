@@ -31,7 +31,10 @@ public abstract class AbstractUser implements User {
 	}
 	
 	@Override
-	public int getNumProjsAsDev() {
+	public int getNumProjs() {
+		if(this instanceof Manager) {
+			return projects.size() + ((Manager) this).getNumManagedProjs();
+		}
 		return projects.size();
 	}
 	
@@ -74,28 +77,23 @@ public abstract class AbstractUser implements User {
 	
 	@Override
 	public int compareTo(User other) {
-//		int result = 0;
-//		if(other instanceof Manager && !(this instanceof Manager)) {
-//			result = getNumProjsAsDev() - (other.getNumProjsAsDev() + ((Manager) other).getNumManagedProjs());
-//		}
-//		else if(other instanceof Manager && this instanceof Manager) {
-//			result = (getNumProjsAsDev() + ((Manager) this).getNumManagedProjs()) -(other.getNumProjsAsDev() + ((Manager) other).getNumManagedProjs());
-//		}
-//		else if(!(other instanceof Manager) && this instanceof Manager) {
-//			result = (getNumProjsAsDev() + ((Manager) this).getNumManagedProjs()) - other.getNumProjsAsDev();
-//		}
-//		else {
-		int result = getNumProjsAsDev() - other.getNumProjsAsDev();
+		int result = numArtRevised - other.getNumUpdates();
 		if(result != 0) {
 			return result;
 		}
 		else {
-			result = (int)ChronoUnit.DAYS.between(lastUpdateDone, other.getLastUpdateDone());
+			result = getNumProjs() - other.getNumProjs();
 			if(result != 0) {
 				return result;
 			}
 			else {
-				result = name.compareTo(other.getName());
+				result = (int)ChronoUnit.DAYS.between(other.getLastUpdateDone(), lastUpdateDone);
+				if(result != 0) {
+					return result;
+				}
+				else {
+					result = name.compareTo(other.getName());
+				}
 			}
 		}
 		return result;
