@@ -393,10 +393,10 @@ public class VCSystemClass implements VCSystem {
 		User[] temp = users.values().toArray(new User[users.size()]);
 		for(int i = 0; i < temp.length; i++) {
 			User u1 = temp[i];
-			if(u1.getNumProjs() > common.getNumProjsInCommon()) {
+			if(u1.getNumProjs() >= common.getNumProjsInCommon()) {
 				for(int j = i + 1; j < temp.length; j++) {
 					User u2 = temp[j];
-					if(u2.getNumProjs() > common.getNumProjsInCommon()) {
+					if(u2.getNumProjs() >= common.getNumProjsInCommon()) {
 						int projsInCommon = u1.getProjsInCommon(u2);
 						if(projsInCommon > common.getNumProjsInCommon() || common.getFirstUser() == null) {
 							common = createCommon(u1, u2, projsInCommon);
