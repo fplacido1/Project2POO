@@ -26,4 +26,10 @@ public class CommonClass implements Common {
 	public User getSecondUser() {
 		return secondUser;
 	}
+
+	@Override
+	public int compareTo(Common o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

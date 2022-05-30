@@ -390,6 +390,20 @@ public class VCSystemClass implements VCSystem {
 		Iterator<User> it = getAllUsers();
 		while(it.hasNext()) {
 			User u1 = it.next();
+			Iterator<User> it2 = getAllUsers();
+			while(it2.hasNext()) {
+				User u2 = it.next();
+				int projsInCommon = u1.getProjsInCommon(u2);
+				if(projsInCommon > common.getNumProjsInCommon()) {
+					common = new CommonClass(u1, u2, projsInCommon);
+				}
+				else if(projsInCommon == common.getNumProjsInCommon()) {
+					Common tmp = new CommonClass(u1, u2, projsInCommon);
+					if(tmp.compareTo(common) > 0) {
+						common = tmp;
+					}
+				}
+			}
 		}
 		return null;
 	}

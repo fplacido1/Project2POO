@@ -100,5 +100,10 @@ public abstract class AbstractUser implements User {
 		}
 		return result;
 	}
+	
+	public int getProjsInCommon(User u2) {
+		
+		return 0;
+	}
 
 }

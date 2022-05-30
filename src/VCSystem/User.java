@@ -21,4 +21,6 @@ public interface User extends Comparable<User> {
 	
 	LocalDate getLastUpdateDone();
 
+	int getProjsInCommon(User u2);
+
 }

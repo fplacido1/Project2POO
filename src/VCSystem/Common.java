@@ -1,6 +1,6 @@
 package VCSystem;
 
-public interface Common {
+public interface Common extends Comparable<Common> {
 
 	int getNumProjsInCommon();
 	
