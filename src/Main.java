@@ -223,7 +223,7 @@ public class Main {
 							                 ((Manager) u).getNumManagedProjs(), u.getNumProjs());
 				}
 				else {
-					System.out.printf(DEV_REG, u.getName(), ((Developer) u).getManager(), u.getNumProjs());
+					System.out.printf(DEV_REG, u.getName(), ((Developer) u).getManager().getName(), u.getNumProjs());
 				}
 			}
 		}
@@ -496,7 +496,7 @@ public class Main {
 		while(itRev.hasNext()) {
 			Revision rev = itRev.next();
 			DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern(DATE_FORMAT);
-			System.out.printf(REV_DETAILS, rev.getNum(), rev.getAuthor(), formatterDate.format(rev.getDate()), rev.getComment());
+			System.out.printf(REV_DETAILS, rev.getNum(), rev.getAuthor().getName(), formatterDate.format(rev.getDate()), rev.getComment());
 		}
 	}
 

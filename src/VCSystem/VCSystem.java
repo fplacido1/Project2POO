@@ -3,7 +3,12 @@ import java.time.LocalDate;
 import java.util.*;
 import VCSystem.exceptions.*;
 
-
+/**
+ * 
+ * @author João Norberto (62685) & Francisco Plácido (62674)
+ * 
+ * Date of last update: 30 of may of 2022
+ */
 public interface VCSystem {
 
 	/**
@@ -279,10 +284,32 @@ public interface VCSystem {
 	Iterator<User> getAllManagerUsers(String managerName)
 			throws ManagerDoesNotExistException;
 
+	/**
+	 * This method gets all the projects by
+	 * confidentiality level within two given limits
+	 * @param lowerLimit , minimum limit
+	 * @param upperLimit , maximum limit
+	 * @return iterator of all the projects between
+	 * the two limits
+	 */
 	Iterator<InHouse> getProjsWithIn(int lowerLimit, int upperLimit);
 
+	/**
+	 * This method returns the three
+	 * users that have more artefact
+	 * updates
+	 * @return an iterator of the three
+	 * workaholic users
+	 */
 	Iterator<User> getWorkaholics();
 
+	/**
+	 * This method determines the two
+	 * employees that have more projects
+	 * in common
+	 * @return object Common with the
+	 * two employees
+	 */
 	Common getCommonUsers();
 	
 }

@@ -4,12 +4,37 @@ import java.time.LocalDate;
 import java.util.*;
 import VCSystem.exceptions.*;
 
+/**
+ * 
+ * @author João Norberto (62685) & Francisco Plácido (62674)
+ * 
+ * Date of last update: 30 of may of 2022
+ */
 public class InHouseClass extends AbstractProject implements InHouse{
 	
+	/**
+	 * HashMap of all the artefacts from the project
+	 */
 	private Map<String, Artefacts> artefacts;
+	
+	/**
+	 * Confidentiality level of the project
+	 */
 	private int confLvl;
+	
+	/**
+	 * Number of revisions done to the project artefact
+	 */
 	private int numRevisions;
+	
+	/**
+	 * LinkedHashMap of all the developers from the project
+	 */
     private Map<String, User> devs;
+    
+    /**
+     * Date of the last revision done to an artefact from the project
+     */
     private LocalDate lastRevisionDate;
 
 	
@@ -94,7 +119,7 @@ public class InHouseClass extends AbstractProject implements InHouse{
 			numRevisions++;
 		}
 		int numArtRev = a.getNumRevised() + 1;
-		Revision r = new RevisionClass(u, a, revisionDate, comment, numArtRev, projName);
+		Revision r = new RevisionClass(u, a, revisionDate, comment, numArtRev, getProjName());
 		a.revise(r);
 		if(lastRevisionDate == null) {
 		lastRevisionDate = revisionDate;

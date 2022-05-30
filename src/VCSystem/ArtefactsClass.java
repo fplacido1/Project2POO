@@ -3,14 +3,38 @@ package VCSystem;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * 
+ * @author João Norberto (62685) & Francisco Plácido (62674)
+ * 
+ * Date of last update: 30 of may of 2022
+ */
 public class ArtefactsClass implements Artefacts {
 	
+	/**
+	 * Array of all the revisions done to the artefact
+	 */
 	private List<Revision> revisions;
+	
+	/**
+	 * Name of the artefact
+	 */
 	private String name;
+	
+	/**
+	 * Confidentiality level of the artefact
+	 */
 	private int confidentialityLevel;
+	
+	/**
+	 * Description of the artefact
+	 */
 	private String description;
+	
+	/**
+	 * Date of the last update done to the artefact
+	 */
 	private LocalDate revisionDate;
-	private int numRevisions;
 	
 	public ArtefactsClass(String name, int confidentialityLevel, String description, LocalDate date) {
 		this.name = name;
@@ -18,7 +42,6 @@ public class ArtefactsClass implements Artefacts {
 		this.description = description;
 		revisionDate = date;
 		revisions = new LinkedList<>();
-		numRevisions = 0;
 	}
 
 	@Override
@@ -50,11 +73,10 @@ public class ArtefactsClass implements Artefacts {
 	public void revise(Revision r) {
 		revisions.add(0, r);
 		revisionDate = r.getDate();
-		numRevisions++;
 	}
 
 	@Override
 	public int getNumRevised() {
-		return numRevisions;
+		return revisions.size();
 	}
 }

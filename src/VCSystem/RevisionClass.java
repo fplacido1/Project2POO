@@ -2,13 +2,43 @@ package VCSystem;
 
 import java.time.LocalDate;
 
+/**
+ * 
+ * @author João Norberto (62685) & Francisco Plácido (62674)
+ * 
+ * Date of last update: 30 of may of 2022
+ */
 public class RevisionClass implements Revision {
 	
+	/**
+	 * Author of the revision
+	 */
 	private User author;
+	
+	/**
+	 * Artefact of the revision
+	 */
 	private Artefacts artefact;
+	
+	/**
+	 * Date of the revision
+	 */
 	private LocalDate revisionDate;
+	
+	/**
+	 * Comment of the revision
+	 */
 	private String comment;
+	
+	/**
+	 * Name of the project were the revision
+	 * was done
+	 */
 	private String projName;
+	
+	/**
+	 * Number of the revision
+	 */
 	private int revisionNum;
 
 	public RevisionClass(User u, Artefacts a, LocalDate revisionDate, String comment, int numRevisions, String projName) {
@@ -26,8 +56,8 @@ public class RevisionClass implements Revision {
 	}
 
 	@Override
-	public String getAuthor() {
-		return author.getName();
+	public User getAuthor() {
+		return author;
 	}
 
 	@Override

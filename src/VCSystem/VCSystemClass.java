@@ -4,18 +4,60 @@ import java.time.LocalDate;
 import java.util.*;
 import VCSystem.exceptions.*;
 
+/**
+ * 
+ * @author João Norberto (62685) & Francisco Plácido (62674)
+ * 
+ * Date of last update: 30 of may of 2022
+ */
 public class VCSystemClass implements VCSystem {
 	
 	private static final int WAHOLICS_SIZE = 3;
 	
+	/**
+	 * TreeMap of all the users registered in the system
+	 */
 	private Map<String, User> users;
+	
+	/**
+	 * HashMap of all the managers registered in the system
+	 */
 	private Map<String, Manager> managers;
+	
+	/**
+	 * LinkedHashMap of all the projects
+	 */
 	private Map<String, Projects> projects;
+	
+	/**
+	 * TreeMap of all the In-House projects
+	 */
 	private Map<String, InHouse> inHouseProjs;
+	
+	/**
+	 * HashMap of all the In-House projects by keyword
+	 */
 	private Map<String, List<InHouse>> inHouseByKeyWord;
+	
+	/**
+	 * HashMap of all the In-House projects by keyword
+	 */
 	private Map<String, List<OutSourced>> outSourcedByKeyWord;
+	
+	/**
+	 * Array of the top 3 workaholics in the system
+	 */
 	private List<User> workaholics;
 	
+	/**
+	 * 
+	 * @author João Norberto (62685) & Francisco Plácido (62674)
+	 * 
+	 * This enum has all the valid job types
+	 * 
+	 * Date of last update: 23 of may of 2022
+	 *
+	 */
 	private enum JobType{
 		MNG("manager"), DEV("developer");
 		
@@ -26,6 +68,15 @@ public class VCSystemClass implements VCSystem {
 		}
 	}
 	
+	/**
+	 * 
+	 * @author João Norberto (62685) & Francisco Plácido (62674)
+	 * 
+	 * This enum has all the valid project types
+	 * 
+	 * Date of last update: 23 of may of 2022
+	 *
+	 */
 	private enum ProjType{
 		IN("inhouse"), OUT("outsourced");
 		
@@ -70,7 +121,7 @@ public class VCSystemClass implements VCSystem {
 		else {
 			Developer d = new DeveloperClass(name, m, clearanceLvl);
 			users.put(name, d);
-			m.addManagedDev(name, d);
+			m.addManagedDev(d);
 		}
 	}
 
@@ -308,6 +359,14 @@ public class VCSystemClass implements VCSystem {
 		}
 	}
 	
+	/**
+	 * This method selects what update
+	 * should be done to the array
+	 * workaholics, based on a given 
+	 * user
+	 * @param u , given user, to update
+	 * the workaholics array
+	 */
 	private void checkWorkaholics(User u) {
 		if(workaholics.isEmpty()) {
 			workaholics.add(u);
@@ -319,7 +378,13 @@ public class VCSystemClass implements VCSystem {
 			workaholics(u);
 		}
 	}
-			
+	
+	/**
+	 * This method updates the array 
+	 * workaholics if the user is already
+	 * in the array
+	 * @param u , user to update
+	 */
 	private void workaholics(User u) {
 		int userIndex = getWorkIndex(u.getName());
 		workaholics.remove(userIndex);
@@ -333,6 +398,12 @@ public class VCSystemClass implements VCSystem {
 		workaholics.add(indexToAdd, u);
 	}
 
+	/**
+	 * This method updates the array
+	 * workaholics if the user is not
+	 * in the array
+	 * @param u , user to update
+	 */
 	private void updateWorkaholics(User u) {
 		int indexToAdd = -1;
 		for(int i = 0; i < workaholics.size(); i++) {
@@ -349,6 +420,15 @@ public class VCSystemClass implements VCSystem {
 		}
 	}
 
+	/**
+	 * This method retuns the index
+	 * of a user in the workaholics
+	 * array
+	 * @param name , name of the user
+	 * to search
+	 * @return index of the user. Index = -1
+	 * if the user is not in the array
+	 */
 	private int getWorkIndex(String name) {
 		int index = 0;
 		for(int i = 0; i < workaholics.size(); i++) {
@@ -414,6 +494,18 @@ public class VCSystemClass implements VCSystem {
 		return common;
 	}	
 	
+	/**
+	 * This method creates a object
+	 * of the type common and returns
+	 * it
+	 * @param u1 , user to add
+	 * @param u2 , user to add
+	 * @param projsInCommon , number
+	 * of projects in common between
+	 * the wtwo users
+	 * @return object of the type
+	 * common
+	 */
 	private Common createCommon(User u1, User u2, int projsInCommon) {
 		Common common;
 		if(u2.getName().compareTo(u1.getName()) > 0) {

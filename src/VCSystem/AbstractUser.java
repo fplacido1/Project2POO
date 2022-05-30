@@ -3,13 +3,43 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+/**
+ * 
+ * @author João Norberto (62685) & Francisco Plácido (62674)
+ * 
+ * Date of last update: 30 of may of 2022
+ */
 public abstract class AbstractUser implements User {
 
+	/**
+	 * HashMap of all the projects the user participates
+	 * as a developer
+	 */
 	private Map<String, InHouse> projects;
+	
+	/**
+	 * Array of the revisions done by the user
+	 */
 	private List<Revision> revisions;
+	
+	/**
+	 * Date of the last update done by the user
+	 */
 	private LocalDate lastUpdateDone;
+	
+	/**
+	 * Number of artefacts revised by the user
+	 */
 	private int numArtRevised;
+	
+	/**
+	 * Clearance level of the user
+	 */
 	private int clearanceLvl;
+	
+	/**
+	 * Name of the user
+	 */
 	private String name;
 	
 	public AbstractUser(String name, int clearanceLvl) {
@@ -99,10 +129,12 @@ public abstract class AbstractUser implements User {
 		return result;
 	}
 	
+	@Override
 	public Iterator<InHouse> getAllProjs(){
 		return projects.values().iterator();
 	}
 	
+	@Override
 	public int getProjsInCommon(User u2) {
 		int projsInCommon = 0;
 		Iterator<InHouse> projs1 = projects.values().iterator();

@@ -1,9 +1,26 @@
 package VCSystem;
 
+/**
+ * 
+ * @author João Norberto (62685) & Francisco Plácido (62674)
+ * 
+ * Date of last update: 30 of may of 2022
+ */
 public class CommonClass implements Common {
 
+	/**
+	 * First user
+	 */
 	private User firstUser;
+	
+	/**
+	 * Second user
+	 */
 	private User secondUser;
+	
+	/**
+	 * Number of projects in common between the users
+	 */
 	private int numProjsInCommon;
 	
 	public CommonClass(User u1, User u2, int numProjsInCommon) {
