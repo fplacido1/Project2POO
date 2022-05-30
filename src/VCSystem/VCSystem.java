@@ -9,8 +9,8 @@ public interface VCSystem {
 	/**
 	 * This method adds a manager to the
 	 * system
-	 * @param name, name of the manager
-	 * @param clearanceLvl, clearance level
+	 * @param name , name of the manager
+	 * @param clearanceLvl , clearance level
 	 * of the manager
 	 * @throws UserAlreadyExistsException 
 	 * if the user is already registered
@@ -21,10 +21,10 @@ public interface VCSystem {
 	/**
 	 * This method adds a developer to the
 	 * system
-	 * @param name, name of the developer
-	 * @param mng, name of the manager, in
+	 * @param name , name of the developer
+	 * @param mng , name of the manager, in
 	 * charge of this developer
-	 * @param clearanceLvl, clearance level
+	 * @param clearanceLvl , clearance level
 	 * of the developer
 	 * @throws UserAlreadyExistsException
 	 * if the user is already registered
@@ -60,8 +60,8 @@ public interface VCSystem {
 	/**
 	 * This method adds a existing user to
 	 * a project team
-	 * @param projectName, name of the project
-	 * @param userName, name of the user to add
+	 * @param projectName , name of the project
+	 * @param userName , name of the user to add
 	 * @throws UsernameDoesNotExistException
 	 * if the user is not registered
 	 * @throws AlreadyTeamMemberException
@@ -76,7 +76,7 @@ public interface VCSystem {
 	/**
 	 * This method checks if the type
 	 * wrote by the user is valid or not
-	 * @param type, type of the project
+	 * @param type , type of the project
 	 * @throws UnknownProjectTypeException
 	 * if the project type is not valid
 	 */
@@ -85,12 +85,12 @@ public interface VCSystem {
 
 	/**
 	 * This method creates a new in-house project
-	 * @param projMng, name of the project
+	 * @param projMng , name of the project
 	 * manager
-	 * @param projName, name of the project
-	 * @param keyWords, key words related
+	 * @param projName , name of the project
+	 * @param keyWords , key words related
 	 * to the project
-	 * @param confLvl, confidentiality level of
+	 * @param confLvl , confidentiality level of
 	 * the project
 	 * @throws ManagerDoesNotExistException
 	 * if the manager is not registered
@@ -105,12 +105,12 @@ public interface VCSystem {
 
 	/**
 	 * This method creates a new outsourced project
-	 * @param projMng, name of the project
+	 * @param projMng , name of the project
 	 * manager
-	 * @param projName, name of the project
-	 * @param keyWords, key words related
+	 * @param projName , name of the project
+	 * @param keyWords , key words related
 	 * to the project
-	 * @param companyName, name of the company
+	 * @param companyName , name of the company
 	 * responsible for the project
 	 * @throws ManagerDoesNotExistException
 	 * if the manager is not registered
@@ -123,8 +123,8 @@ public interface VCSystem {
 	/**
 	 * This method checks if the manager name
 	 * and the project name are valid
-	 * @param mngName, manager name
-	 * @param projectName, project name
+	 * @param mngName , manager name
+	 * @param projectName , project name
 	 * @throws ManagerDoesNotExistException
 	 * if the manager is not registered
 	 * @throws ProjectNameDoesNotExistsException
@@ -138,7 +138,7 @@ public interface VCSystem {
 	/**
 	 * This method checks if a job position
 	 * is valid or not
-	 * @param jobPosition, name of the job
+	 * @param jobPosition , name of the job
 	 * position
 	 * @throws UnknowJobPositionException
 	 * if the position does not exist
@@ -149,25 +149,78 @@ public interface VCSystem {
 	/**
 	 * This method checks if the user
 	 * and project are valid or not
-	 * @param user, name of the user
-	 * @param project, name of the project
+	 * @param user , name of the user
+	 * @param project , name of the project
 	 * @throws UserDoesNotExistException
-	 * 
+	 * if the user is not registered
 	 * @throws ProjectNameDoesNotExistsException
+	 * if the project is not registered
 	 * @throws UserDoesNotBelongToTeamException
+	 * if the user does not belong to the team
 	 */
 	void checkUserAndProj(String user, String project)
 			throws UserDoesNotExistException, ProjectNameDoesNotExistsException, UserDoesNotBelongToTeamException;
 	
-	void addArtefact(String artefactName, int confidentialityLevel, String description, LocalDate date, String projectName, String userName)
+	/**
+	 * This method adds an artefact to
+	 * a project
+	 * @param artefactName , name of the artefact
+	 * @param confidentialityLevel , confidentiality
+	 * level of the artefact
+	 * @param description , description of the artefact
+	 * @param date , date of the artefact
+	 * @param projectName , name of the project
+	 * @param userName , name of the user that
+	 * created the artefact
+	 * @throws ArtefactAlreadyInProjectException
+	 * if the artefact is already in the project
+	 * @throws ExceedsProjectConfidentialityLevelException
+	 * if the artefact confidentiality level is superior than the projects level
+	 * @throws UserDoesNotBelongToTeamException
+	 * if the user does not belong to the team
+	 */
+	void addArtefact(String artefactName, int confidentialityLevel, String description, LocalDate date,
+			         String projectName, String userName)
 			throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException, UserDoesNotBelongToTeamException;
-
+	
+	/**
+	 * This method returns all the InHouse projects
+	 * with the keyword <code>keyWord</code>
+	 * @param keyWord , a keyword given by
+	 * the user
+	 * @return an iterator of all the InHouse
+	 * projects
+	 */
 	Iterator<InHouse> getInHouseByKeyword(String keyWord);
 	
+	/**
+	 * This method returns all the OutSourced projects
+	 * with the keyword <code>keyWord</code>
+	 * @param keyWord , a keyword given by
+	 * the user
+	 * @return an iterator of all the InHouse
+	 * projects
+	 */
 	Iterator<OutSourced> getOutSourcedByKeyword(String keyWord);
 
+	/**
+	 * This method returns all the users of
+	 * a InHouse project
+	 * @param proj , InHouse project to get
+	 * all the users from
+	 * @return iterator of all the users
+	 * from the project
+	 */
 	Iterator<User> getAllProjUsers(InHouse proj);
 
+	/**
+	 * This method returns all the artefacts of
+	 * a InHouse project
+	 * @param proj , InHouse project to get
+	 * all the users from
+	 * @return iterator of all the users
+	 * from the project
+	 */
 	Iterator<Artefacts> getAllProjArtefacts(InHouse proj);
 
 	InHouse getInHouseProj(String projName)
@@ -184,6 +237,6 @@ public interface VCSystem {
 
 	Iterator<User> getWorkaholics();
 
-	Iterator<Common> getCommonUsers();
+	Common getCommonUsers();
 	
 }

@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;//TODO duvida
  * 
  * @author Joao Norberto (62685) & Francisco Placido(62764)
  *
+ * Date of last update: 30 of may of 2022
  */
 public class Main {
 	
@@ -54,11 +55,15 @@ public class Main {
 	private static final String NO_COMMON_PROJS = "Cannot determine employees with common projects.";
 	private static final String AVAILABLE_COMM = "Available commands:";
 	private static final String BETWEEN_CONFLVL = "All projects within levels %d and %d:\n";
+	private static final String COMMON_FORMAT = "%s %s have %d projects in common.\n";
 	
 	/**
 	 * 
 	 * @author Joao Norberto (62685) & Francisco Placido ()
 	 *
+	 * This enum has all the commands, and their respective description
+	 * 
+	 * Date of last update: 23 of may of 2022
 	 */
 	private enum Command{
 		
@@ -119,7 +124,7 @@ public class Main {
 		case KEYWORD:         filterByKeyword(vc, in);        break;
 		case CONFIDENTIALITY: filterByConfidentiality(vc, in);break;
 		case WORKAHOLICS:     getWorkaholics(vc);             break;
-		case COMMON:          moreProjectsInCommon(vc);       break;//TODO
+		case COMMON:          moreProjectsInCommon(vc);       break;
 		case HELP:            help();                         break;
 		default:                                              break;
 		}
@@ -376,7 +381,7 @@ public class Main {
 
 	/**
 	 * This method adds artefacts
-	 * to a project
+	 * to a project, using <code>addArtefacts</code>
 	 * @param vc, allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
@@ -384,7 +389,6 @@ public class Main {
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
-	//TODO REVER COMANDO
 	private static void addArtefact(VCSystem vc, Scanner in) {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern(DATE_FORMAT);
 		
@@ -410,6 +414,24 @@ public class Main {
 		addArtefacts(vc, name, level, desc, userName, projectName, artefactDate, num);
 	}
 	
+	/**
+	 * This method adds an artefact
+	 * to the system
+	 * @param vc, allows the method to access
+	 * the class VCSystemClass so it can
+	 * execute the commands
+	 * @param name, list of the names of the artefacts
+	 * @param level, list of the confidentiality
+	 * level of the artefacts
+	 * @param desc, list of the descriptions
+	 * of the artefacts
+	 * @param userName, name of the user that
+	 * created the artefacts
+	 * @param projectName, name of the project
+	 * @param artefactDate, date of the creation
+	 * of the artefacts
+	 * @param num, number de artefacts to add
+	 */
 	private static void addArtefacts(VCSystem vc, List<String> name, List<Integer> level, List<String> desc, String userName,
 			String projectName, LocalDate artefactDate, int num) {
 		try {
@@ -584,7 +606,13 @@ public class Main {
 	}
 		
 
-
+	/**
+	 * This method prints all the OutSourced
+	 * projects with a specific keyword,
+	 * given by the user
+	 * @param itIn, iterator of all the
+	 * projects
+	 */
 	private static void printOutSourcedByKeyword(Iterator<OutSourced> itOut) {
 		while(itOut.hasNext()) {
 			OutSourced p = itOut.next();
@@ -592,6 +620,13 @@ public class Main {
 		}		
 	}
 
+	/**
+	 * This method prints all the InHouse
+	 * projects with a specific keyword,
+	 * given by the user
+	 * @param itIn, iterator of all the
+	 * projects
+	 */
 	private static void printInHouseByKeyword(Iterator<InHouse> itIn) {
 		while(itIn.hasNext()) {
 			InHouse p = itIn.next();
@@ -700,14 +735,12 @@ public class Main {
 	 * user inputs
 	 */
 	private static void moreProjectsInCommon(VCSystem vc) {
-		Iterator<Common> it = vc.getCommonUsers();
-		if(!it.hasNext()) {
+		Common it = vc.getCommonUsers();
+		if(it.getFirstUser() == null || it.getNumProjsInCommon() == 0) {
 			System.out.println(NO_COMMON_PROJS);
 		}
 		else {
-			while(it.hasNext()) {
-				
-			}
+			System.out.printf(COMMON_FORMAT, it.getFirstUser().getName(), it.getSecondUser().getName(), it.getNumProjsInCommon());
 		}
 	}
 	

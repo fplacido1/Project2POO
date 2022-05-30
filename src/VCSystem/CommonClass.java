@@ -29,7 +29,13 @@ public class CommonClass implements Common {
 
 	@Override
 	public int compareTo(Common o) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = o.getFirstUser().getName().compareTo(firstUser.getName());
+		if(result != 0) {
+			return result;
+		}
+		else {
+			result = o.getSecondUser().getName().compareTo(secondUser.getName());
+		}
+		return result;
 	}
 }

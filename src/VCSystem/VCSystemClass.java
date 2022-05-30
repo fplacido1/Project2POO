@@ -102,6 +102,9 @@ public class VCSystemClass implements VCSystem {
 		else {
 			p.addUser(u);
 			u.addProj(p);
+			if(u.getLastUpdateDone() != null) {
+				checkWorkaholics(u);
+			}
 		}
 	}
 
@@ -385,28 +388,40 @@ public class VCSystemClass implements VCSystem {
 	}
 
 	@Override
-	public Iterator<Common> getCommonUsers() {
-		Common common = new CommonClass(null,null,0);
-		Iterator<User> it = getAllUsers();
-		while(it.hasNext()) {
-			User u1 = it.next();
-			Iterator<User> it2 = getAllUsers();
-			while(it2.hasNext()) {
-				User u2 = it.next();
-				int projsInCommon = u1.getProjsInCommon(u2);
-				if(projsInCommon > common.getNumProjsInCommon()) {
-					common = new CommonClass(u1, u2, projsInCommon);
-				}
-				else if(projsInCommon == common.getNumProjsInCommon()) {
-					Common tmp = new CommonClass(u1, u2, projsInCommon);
-					if(tmp.compareTo(common) > 0) {
-						common = tmp;
+	public Common getCommonUsers() {
+		Common common  = new CommonClass(null,null,0);
+		User[] temp = users.values().toArray(new User[users.size()]);
+		for(int i = 0; i < temp.length; i++) {
+			User u1 = temp[i];
+			if(u1.getNumProjs() > common.getNumProjsInCommon()) {
+				for(int j = i + 1; j < temp.length; j++) {
+					User u2 = temp[j];
+					if(u2.getNumProjs() > common.getNumProjsInCommon()) {
+						int projsInCommon = u1.getProjsInCommon(u2);
+						if(projsInCommon > common.getNumProjsInCommon() || common.getFirstUser() == null) {
+							common = createCommon(u1, u2, projsInCommon);
+						}
+						else if(projsInCommon == common.getNumProjsInCommon()) {
+							Common tmp = createCommon(u1, u2, projsInCommon);
+							if(tmp.compareTo(common) > 0) {
+								common = tmp;						
+							}
+						}
 					}
 				}
 			}
 		}
-		return null;
-	}
-
+		return common;
+	}	
 	
+	private Common createCommon(User u1, User u2, int projsInCommon) {
+		Common common;
+		if(u2.getName().compareTo(u1.getName()) > 0) {
+			common = new CommonClass(u1, u2, projsInCommon);
+		}
+		else {
+			common = new CommonClass(u2, u1, projsInCommon);
+		}
+		return common;
+	}
 }

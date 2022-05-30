@@ -5,7 +5,7 @@ import java.util.*;
 
 public abstract class AbstractUser implements User {
 
-	protected Map<String, InHouse> projects;
+	private Map<String, InHouse> projects;
 	private List<Revision> revisions;
 	private LocalDate lastUpdateDone;
 	private int numArtRevised;
@@ -92,16 +92,31 @@ public abstract class AbstractUser implements User {
 					return result;
 				}
 				else {
-					result = name.compareTo(other.getName());
+					result = other.getName().compareTo(name);
 				}
 			}
 		}
 		return result;
 	}
 	
+	public Iterator<InHouse> getAllProjs(){
+		return projects.values().iterator();
+	}
+	
 	public int getProjsInCommon(User u2) {
-		
-		return 0;
+		int projsInCommon = 0;
+		Iterator<InHouse> projs1 = projects.values().iterator();
+		while(projs1.hasNext()) {
+			String name = projs1.next().getProjName();
+			Iterator<InHouse> projs2 = u2.getAllProjs();
+			while(projs2.hasNext()) {
+				String name2 = projs2.next().getProjName();
+				if(name.equals(name2)) {
+					projsInCommon++;
+				}
+			}
+		}
+		return projsInCommon;
 	}
 
 }

@@ -23,4 +23,6 @@ public interface User extends Comparable<User> {
 
 	int getProjsInCommon(User u2);
 
+	Iterator<InHouse> getAllProjs();
+
 }
