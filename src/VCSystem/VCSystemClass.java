@@ -386,7 +386,11 @@ public class VCSystemClass implements VCSystem {
 
 	@Override
 	public Iterator<Common> getCommonUsers() {
-		// TODO Auto-generated method stub
+		Common common = new CommonClass(null,null,0);
+		Iterator<User> it = getAllUsers();
+		while(it.hasNext()) {
+			User u1 = it.next();
+		}
 		return null;
 	}
 
