@@ -2,7 +2,7 @@ import java.util.*;
 import VCSystem.*;
 import VCSystem.exceptions.*;
 import java.time.*;
-import java.time.format.DateTimeFormatter;//TODO duvida
+import java.time.format.DateTimeFormatter;
 
 /**
  * 
@@ -59,7 +59,7 @@ public class Main {
 	
 	/**
 	 * 
-	 * @author Joao Norberto (62685) & Francisco Placido ()
+	 * @author Joao Norberto (62685) & Francisco Placido (62764)
 	 *
 	 * This enum has all the commands, and their respective description
 	 * 
@@ -205,7 +205,7 @@ public class Main {
 	/**
 	 * This method lists all registered
 	 * users
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
 	 */
@@ -231,10 +231,10 @@ public class Main {
 
 	/**
 	 * This method creates a new project
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-	 * @param in, allows the method to
+	 * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
@@ -264,15 +264,15 @@ public class Main {
 	/**
 	 * This method creates a new OutSourced
 	 * project
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-	 * @param projMng, name of the project
+	 * @param projMng , name of the project
 	 * manager
-	 * @param projName, name of the project
-	 * @param keyWords, keywords of the
+	 * @param projName , name of the project
+	 * @param keyWords , keywords of the
 	 * project
-	 * @param in, allows the method to
+	 * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
@@ -290,15 +290,15 @@ public class Main {
 	/**
 	 * This method creates a new InHouse
 	 * project
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-	 * @param projMng, name of the project
+	 * @param projMng , name of the project
 	 * manager
-	 * @param projName, name of the project
-	 * @param keyWords, keywords of the
+	 * @param projName , name of the project
+	 * @param keyWords , keywords of the
 	 * project
-	 * @param in, allows the method to
+	 * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
@@ -318,7 +318,7 @@ public class Main {
 	/**
 	 * This method lists all
 	 * projects
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
 	 */
@@ -345,10 +345,10 @@ public class Main {
 
 	/**
 	 * This method creates a new project
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-	 * @param in, allows the method to
+	 * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
@@ -382,10 +382,10 @@ public class Main {
 	/**
 	 * This method adds artefacts
 	 * to a project, using <code>addArtefacts</code>
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-	 * @param in, allows the method to
+	 * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
@@ -417,20 +417,20 @@ public class Main {
 	/**
 	 * This method adds an artefact
 	 * to the system
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-	 * @param name, list of the names of the artefacts
-	 * @param level, list of the confidentiality
+	 * @param name , list of the names of the artefacts
+	 * @param level , list of the confidentiality
 	 * level of the artefacts
-	 * @param desc, list of the descriptions
+	 * @param desc , list of the descriptions
 	 * of the artefacts
-	 * @param userName, name of the user that
+	 * @param userName , name of the user that
 	 * created the artefacts
-	 * @param projectName, name of the project
-	 * @param artefactDate, date of the creation
+	 * @param projectName , name of the project
+	 * @param artefactDate , date of the creation
 	 * of the artefacts
-	 * @param num, number de artefacts to add
+	 * @param num , number de artefacts to add
 	 */
 	private static void addArtefacts(VCSystem vc, List<String> name, List<Integer> level, List<String> desc, String userName,
 			String projectName, LocalDate artefactDate, int num) {
@@ -454,10 +454,10 @@ public class Main {
 	 * This method shows the detailed
 	 * information of an in-house
 	 * project
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-	 * @param in, allows the method to
+	 * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
@@ -488,7 +488,7 @@ public class Main {
 	/**
 	 * This method prints all the
 	 * revisions of an artefact
-	 * @param itRev, iterator of
+	 * @param itRev , iterator of
 	 * all the revisions from an
 	 * artefact
 	 */
@@ -532,10 +532,10 @@ public class Main {
 	 * This method shows the detailed
 	 * information about the developers
 	 * supervised by a given manager
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-	 * @param in, allows the method to
+	 * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
@@ -560,7 +560,7 @@ public class Main {
 	/**
 	 * This method prints all the
 	 * revisions done by a user
-	 * @param itRev, iterator of
+	 * @param itRev , iterator of
 	 * all the revisions done by
 	 * a user
 	 */
@@ -575,10 +575,10 @@ public class Main {
 	/**
 	 * This method filters projects
 	 * by keywords
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-	 * @param in, allows the method to
+	 * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
@@ -610,7 +610,7 @@ public class Main {
 	 * This method prints all the OutSourced
 	 * projects with a specific keyword,
 	 * given by the user
-	 * @param itIn, iterator of all the
+	 * @param itIn , iterator of all the
 	 * projects
 	 */
 	private static void printOutSourcedByKeyword(Iterator<OutSourced> itOut) {
@@ -624,7 +624,7 @@ public class Main {
 	 * This method prints all the InHouse
 	 * projects with a specific keyword,
 	 * given by the user
-	 * @param itIn, iterator of all the
+	 * @param itIn , iterator of all the
 	 * projects
 	 */
 	private static void printInHouseByKeyword(Iterator<InHouse> itIn) {
@@ -640,10 +640,10 @@ public class Main {
 	/**
 	 * This method filters in-house
 	 * projects by confidentiality level
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-	 * @param in, allows the method to
+	 * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
@@ -678,7 +678,7 @@ public class Main {
 	/**
 	 * This method prints all the
 	 * keywords of a project
-	 * @param itKW, iterator of
+	 * @param itKW , iterator of
 	 * all the keywords from a
 	 * project
 	 */
@@ -701,10 +701,10 @@ public class Main {
      * This method determines the 3
      * employees with more artefacts
      * updates
-     * @param vc, allows the method to access
+     * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-     * @param in, allows the method to
+     * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
      */
@@ -727,10 +727,10 @@ public class Main {
 	/**
 	 * This method determines the two employees
 	 * that have more projects in common
-	 * @param vc, allows the method to access
+	 * @param vc , allows the method to access
 	 * the class VCSystemClass so it can
 	 * execute the commands
-     * @param in, allows the method to
+     * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
 	 */
@@ -775,7 +775,7 @@ public class Main {
 	/**
 	 * This method reads the commands,
 	 * wrote by the user
-	 * @param in, allows the method to
+	 * @param in , allows the method to
 	 * use the scanner so it can read the
 	 * user inputs
 	 * @return the command, if it

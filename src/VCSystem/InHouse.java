@@ -6,7 +6,7 @@ import VCSystem.exceptions.*;
 
 /**
  * 
- * @author João Norberto (62685) & Francisco Plácido (62674)
+ * @author Joao Norberto (62685) & Francisco Placido (62674)
  * 
  * Date of last update: 30 of may of 2022
  */
@@ -68,6 +68,7 @@ public interface InHouse extends Projects {
 	 * if the user has a clearance level smaller than
 	 * the project's clearance level
 	 */
+	// pre: u != null
 	void addUser(User u) throws AlreadyTeamMemberException, InsufficientClearanceLevelException;
 
 	/**
@@ -93,6 +94,7 @@ public interface InHouse extends Projects {
 	 * @param comment , comment of the revision
 	 * @return the revision that was done
 	 */
+	// pre: u != null && artefactName != null && revisionDate != null && comment != null
 	Revision reviseArtefact(User u, String artefactName, LocalDate revisionDate, String comment);
 
 	/**
@@ -104,6 +106,7 @@ public interface InHouse extends Projects {
 	 * <code>True</code> when the project
 	 * contains the user
 	 */
+	// pre: user != null
 	boolean containsUser(String user);
 	
 	/**
@@ -115,6 +118,7 @@ public interface InHouse extends Projects {
 	 * <code>True</code> when the project
 	 * contains the artefact
 	 */
+	// pre: artefactName != null
 	boolean containsArtefact(String artefactName);
 
 }

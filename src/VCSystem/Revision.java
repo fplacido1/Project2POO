@@ -2,12 +2,18 @@ package VCSystem;
 
 import java.time.LocalDate;
 
+/**
+ * 
+ * @author Joao Norberto (62685) & Francisco Placido (62674)
+ * 
+ * Date of last update: 1 of june of 2022
+ */
 public interface Revision {
 
 	/**
 	 * This method returns the number of
 	 * the revision
-	 * @return
+	 * @return the number of the revision
 	 */
 	int getNum();
 

@@ -6,7 +6,7 @@ import VCSystem.exceptions.*;
 
 /**
  * 
- * @author João Norberto (62685) & Francisco Plácido (62674)
+ * @author Joao Norberto (62685) & Francisco Placido (62674)
  * 
  * Date of last update: 30 of may of 2022
  */
@@ -51,7 +51,7 @@ public class VCSystemClass implements VCSystem {
 	
 	/**
 	 * 
-	 * @author João Norberto (62685) & Francisco Plácido (62674)
+	 * @author Joao Norberto (62685) & Francisco Placido (62674)
 	 * 
 	 * This enum has all the valid job types
 	 * 
@@ -70,7 +70,7 @@ public class VCSystemClass implements VCSystem {
 	
 	/**
 	 * 
-	 * @author João Norberto (62685) & Francisco Plácido (62674)
+	 * @author Joao Norberto (62685) & Francisco Placido (62674)
 	 * 
 	 * This enum has all the valid project types
 	 * 
@@ -367,6 +367,7 @@ public class VCSystemClass implements VCSystem {
 	 * @param u , given user, to update
 	 * the workaholics array
 	 */
+	// pre u != null
 	private void checkWorkaholics(User u) {
 		if(workaholics.isEmpty()) {
 			workaholics.add(u);
@@ -385,6 +386,7 @@ public class VCSystemClass implements VCSystem {
 	 * in the array
 	 * @param u , user to update
 	 */
+	// pre: u != null
 	private void workaholics(User u) {
 		int userIndex = getWorkIndex(u.getName());
 		workaholics.remove(userIndex);
@@ -404,6 +406,7 @@ public class VCSystemClass implements VCSystem {
 	 * in the array
 	 * @param u , user to update
 	 */
+	// pre: u != null
 	private void updateWorkaholics(User u) {
 		int indexToAdd = -1;
 		for(int i = 0; i < workaholics.size(); i++) {
@@ -429,6 +432,7 @@ public class VCSystemClass implements VCSystem {
 	 * @return index of the user. Index = -1
 	 * if the user is not in the array
 	 */
+	// pre: name != null
 	private int getWorkIndex(String name) {
 		int index = 0;
 		for(int i = 0; i < workaholics.size(); i++) {
@@ -506,6 +510,7 @@ public class VCSystemClass implements VCSystem {
 	 * @return object of the type
 	 * common
 	 */
+	// pre: u1 != null && u2 != null && projsInCommon != null
 	private Common createCommon(User u1, User u2, int projsInCommon) {
 		Common common;
 		if(u2.getName().compareTo(u1.getName()) > 0) {
