@@ -20,7 +20,6 @@ public interface VCSystem {
 	 * @throws UserAlreadyExistsException 
 	 * if the user is already registered
 	 */
-	// pre: name != null && clearanceLvl != null
 	void addManager(String name, int clearanceLvl)
 			throws UserAlreadyExistsException;
 	
@@ -37,7 +36,6 @@ public interface VCSystem {
 	 * @throws ManagerDoesNotExistException
 	 * if the manager is not registered in the system
 	 */
-	// pre: name != null && mng != null && clearanceLvl != null
 	void addDeveloper(String name, String mng, int clearanceLvl)
 			throws UserAlreadyExistsException, ManagerDoesNotExistException;
 	
@@ -77,7 +75,6 @@ public interface VCSystem {
 	 * if the user has a clearance level smaller than
 	 * the project's clearance level
 	 */
-	// pre: projectName != null && userName != null
 	void addUserToProj(String projectName, String userName)
 			throws UsernameDoesNotExistException, AlreadyTeamMemberException, InsufficientClearanceLevelException;
 
@@ -88,7 +85,6 @@ public interface VCSystem {
 	 * @throws UnknownProjectTypeException
 	 * if the project type is not valid
 	 */
-	// pre: type != null
 	void checkProjType(String type)
 			throws UnknownProjectTypeException;
 
@@ -109,7 +105,6 @@ public interface VCSystem {
 	 * @throws ProjectNameAlreadyExistsException
 	 * if the project is already registered
 	 */
-	// pre: projMng != null && projName != null && keyWords != null && keyWords.size() != 0 && confLvl != 0
 	void createNewInHouseProj(String projMng, String projName, List<String> keyWords, int confLvl)
 			throws ManagerDoesNotExistException, ManagerInsufficientClearanceLevelException, ProjectNameAlreadyExistsException;
 
@@ -127,7 +122,6 @@ public interface VCSystem {
 	 * @throws ProjectNameAlreadyExistsException
 	 * if the project is already registered
 	 */
-	// pre: projMng != null && projName != null && keyWords != null && keyWords.size() != 0 && companyName != 0
 	void createNewOutSourcedProj(String projMng, String projName, List<String> keyWords, String companyName)
 			throws ManagerDoesNotExistException, ProjectNameAlreadyExistsException;
 
@@ -143,7 +137,6 @@ public interface VCSystem {
 	 * @throws ProjectNotManagedByUserException
 	 * if the project is not managed by the given manager
 	 */
-	// pre: mngName != null && projectName != null
 	void checkProjAndMng(String mngName, String projectName)
 			throws ManagerDoesNotExistException, ProjectNameDoesNotExistsException, ProjectNotManagedByUserException;
 
@@ -155,7 +148,6 @@ public interface VCSystem {
 	 * @throws UnknowJobPositionException
 	 * if the position does not exist
 	 */
-	// pre: jobPosition != null
 	void checkJobPos(String jobPosition)
 			throws UnknowJobPositionException;
 	
@@ -171,7 +163,6 @@ public interface VCSystem {
 	 * @throws UserDoesNotBelongToTeamException
 	 * if the user does not belong to the team
 	 */
-	// pre: user != null && project != null
 	void checkUserAndProj(String user, String project)
 			throws UserDoesNotExistException, ProjectNameDoesNotExistsException, UserDoesNotBelongToTeamException;
 	
@@ -193,8 +184,6 @@ public interface VCSystem {
 	 * @throws UserDoesNotBelongToTeamException
 	 * if the user does not belong to the team
 	 */
-	// pre: artefactName != null && confidentialityLevel != null && description != null &&
-	// 		date != null && projectName != null && userName != null
 	void addArtefact(String artefactName, int confidentialityLevel, String description, LocalDate date,
 			         String projectName, String userName)
 			throws ArtefactAlreadyInProjectException, ExceedsProjectConfidentialityLevelException, UserDoesNotBelongToTeamException;
@@ -254,7 +243,6 @@ public interface VCSystem {
 	 * @throws ProjectIsOutsourcedException
 	 * if the project is OutSourced
 	 */
-	// pre: projName != null
 	InHouse getInHouseProj(String projName)
 			throws ProjectNameDoesNotExistsException, ProjectIsOutsourcedException;
 
@@ -282,7 +270,6 @@ public interface VCSystem {
 	 * @throws UserDoesNotBelongToTeamException
 	 * if the user does not belong to the team
 	 */
-	// pre: userName != null && projectName != null && artefactName != null && revisionDate != null && comment != null
 	Revision reviseArtefact(String userName, String projectName, String artefactName, LocalDate revisionDate, String comment)
 			throws UserDoesNotExistException, ProjectNameDoesNotExistsException, ArtefactDoesNotExistsException, 
 			       UserDoesNotBelongToTeamException;
@@ -298,7 +285,6 @@ public interface VCSystem {
 	 * @throws ManagerDoesNotExistException
 	 * if the manager is not registered in the system
 	 */
-	// pre: managerName != null
 	Iterator<User> getAllManagerUsers(String managerName)
 			throws ManagerDoesNotExistException;
 

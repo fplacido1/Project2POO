@@ -68,7 +68,6 @@ public interface InHouse extends Projects {
 	 * if the user has a clearance level smaller than
 	 * the project's clearance level
 	 */
-	// pre: u != null
 	void addUser(User u) throws AlreadyTeamMemberException, InsufficientClearanceLevelException;
 
 	/**
@@ -94,7 +93,6 @@ public interface InHouse extends Projects {
 	 * @param comment , comment of the revision
 	 * @return the revision that was done
 	 */
-	// pre: u != null && artefactName != null && revisionDate != null && comment != null
 	Revision reviseArtefact(User u, String artefactName, LocalDate revisionDate, String comment);
 
 	/**
